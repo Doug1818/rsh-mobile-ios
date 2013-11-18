@@ -1,0 +1,354 @@
+<?xml version='1.0'?>
+<signatures version='1.0'>
+<enum name='MMCloseDrawerGestureModeAll' value='254'/>
+<enum name='MMCloseDrawerGestureModeBezelPanningCenterView' value='8'/>
+<enum name='MMCloseDrawerGestureModeCustom' value='128'/>
+<enum name='MMCloseDrawerGestureModeNone' value='0'/>
+<enum name='MMCloseDrawerGestureModePanningCenterView' value='4'/>
+<enum name='MMCloseDrawerGestureModePanningDrawerView' value='64'/>
+<enum name='MMCloseDrawerGestureModePanningNavigationBar' value='2'/>
+<enum name='MMCloseDrawerGestureModeTapCenterView' value='32'/>
+<enum name='MMCloseDrawerGestureModeTapNavigationBar' value='16'/>
+<enum name='MMDrawerOpenCenterInteractionModeFull' value='1'/>
+<enum name='MMDrawerOpenCenterInteractionModeNavigationBarOnly' value='2'/>
+<enum name='MMDrawerOpenCenterInteractionModeNone' value='0'/>
+<enum name='MMDrawerSideLeft' value='1'/>
+<enum name='MMDrawerSideNone' value='0'/>
+<enum name='MMDrawerSideRight' value='2'/>
+<enum name='MMOpenDrawerGestureModeAll' value='30'/>
+<enum name='MMOpenDrawerGestureModeBezelPanningCenterView' value='8'/>
+<enum name='MMOpenDrawerGestureModeCustom' value='16'/>
+<enum name='MMOpenDrawerGestureModeNone' value='0'/>
+<enum name='MMOpenDrawerGestureModePanningCenterView' value='4'/>
+<enum name='MMOpenDrawerGestureModePanningNavigationBar' value='2'/>
+<class name='MMDrawerBarButtonItem'>
+<method selector='initWithTarget:action:'>
+<arg declared_type='id' index='0' name='target' type='@'/>
+<arg declared_type='SEL' index='1' name='action' type=':'/>
+<retval declared_type='id' type='@'/>
+</method>
+<method selector='menuButtonColorForState:'>
+<arg declared_type='UIControlState' index='0' name='state' type='I' type64='Q'/>
+<retval declared_type='UIColor*' type='@'/>
+</method>
+<method selector='setMenuButtonColor:forState:'>
+<arg declared_type='UIColor*' index='0' name='color' type='@'/>
+<arg declared_type='UIControlState' index='1' name='state' type='I' type64='Q'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setShadowColor:forState:'>
+<arg declared_type='UIColor*' index='0' name='color' type='@'/>
+<arg declared_type='UIControlState' index='1' name='state' type='I' type64='Q'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='shadowColorForState:'>
+<arg declared_type='UIControlState' index='0' name='state' type='I' type64='Q'/>
+<retval declared_type='UIColor*' type='@'/>
+</method>
+</class>
+<class name='MMDrawerController'>
+<method selector='animationVelocity'>
+<retval declared_type='CGFloat' type='f' type64='d'/>
+</method>
+<method selector='bouncePreviewForDrawerSide:completion:'>
+<arg declared_type='MMDrawerSide' index='0' name='drawerSide' type='i' type64='q'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='1' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='bouncePreviewForDrawerSide:distance:completion:'>
+<arg declared_type='MMDrawerSide' index='0' name='drawerSide' type='i' type64='q'/>
+<arg declared_type='CGFloat' index='1' name='distance' type='f' type64='d'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='2' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='centerHiddenInteractionMode'>
+<retval declared_type='MMDrawerOpenCenterInteractionMode' type='i' type64='q'/>
+</method>
+<method selector='centerViewController'>
+<retval declared_type='UIViewController*' type='@'/>
+</method>
+<method selector='closeDrawerAnimated:completion:'>
+<arg declared_type='BOOL' index='0' name='animated' type='B'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='1' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='closeDrawerAnimated:velocity:animationOptions:completion:'>
+<arg declared_type='BOOL' index='0' name='animated' type='B'/>
+<arg declared_type='CGFloat' index='1' name='velocity' type='f' type64='d'/>
+<arg declared_type='UIViewAnimationOptions' index='2' name='options' type='I' type64='Q'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='3' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='closeDrawerGestureModeMask'>
+<retval declared_type='MMCloseDrawerGestureMode' type='i' type64='q'/>
+</method>
+<method selector='gestureRecognizer:shouldReceiveTouch:'>
+<arg declared_type='UIGestureRecognizer*' index='0' name='gestureRecognizer' type='@'/>
+<arg declared_type='UITouch*' index='1' name='touch' type='@'/>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='initWithCenterViewController:leftDrawerViewController:'>
+<arg declared_type='UIViewController*' index='0' name='centerViewController' type='@'/>
+<arg declared_type='UIViewController*' index='1' name='leftDrawerViewController' type='@'/>
+<retval declared_type='id' type='@'/>
+</method>
+<method selector='initWithCenterViewController:leftDrawerViewController:rightDrawerViewController:'>
+<arg declared_type='UIViewController*' index='0' name='centerViewController' type='@'/>
+<arg declared_type='UIViewController*' index='1' name='leftDrawerViewController' type='@'/>
+<arg declared_type='UIViewController*' index='2' name='rightDrawerViewController' type='@'/>
+<retval declared_type='id' type='@'/>
+</method>
+<method selector='initWithCenterViewController:rightDrawerViewController:'>
+<arg declared_type='UIViewController*' index='0' name='centerViewController' type='@'/>
+<arg declared_type='UIViewController*' index='1' name='rightDrawerViewController' type='@'/>
+<retval declared_type='id' type='@'/>
+</method>
+<method selector='leftDrawerViewController'>
+<retval declared_type='UIViewController*' type='@'/>
+</method>
+<method selector='maximumLeftDrawerWidth'>
+<retval declared_type='CGFloat' type='f' type64='d'/>
+</method>
+<method selector='maximumRightDrawerWidth'>
+<retval declared_type='CGFloat' type='f' type64='d'/>
+</method>
+<method selector='openDrawerGestureModeMask'>
+<retval declared_type='MMOpenDrawerGestureMode' type='i' type64='q'/>
+</method>
+<method selector='openDrawerSide:animated:completion:'>
+<arg declared_type='MMDrawerSide' index='0' name='drawerSide' type='i' type64='q'/>
+<arg declared_type='BOOL' index='1' name='animated' type='B'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='2' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='openDrawerSide:animated:velocity:animationOptions:completion:'>
+<arg declared_type='MMDrawerSide' index='0' name='drawerSide' type='i' type64='q'/>
+<arg declared_type='BOOL' index='1' name='animated' type='B'/>
+<arg declared_type='CGFloat' index='2' name='velocity' type='f' type64='d'/>
+<arg declared_type='UIViewAnimationOptions' index='3' name='options' type='I' type64='Q'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='4' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='openSide'>
+<retval declared_type='MMDrawerSide' type='i' type64='q'/>
+</method>
+<method selector='panGestureCallback:'>
+<arg declared_type='UIPanGestureRecognizer*' index='0' name='panGesture' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='prepareToPresentDrawer:animated:'>
+<arg declared_type='MMDrawerSide' index='0' name='drawer' type='i' type64='q'/>
+<arg declared_type='BOOL' index='1' name='animated' type='B'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='rightDrawerViewController'>
+<retval declared_type='UIViewController*' type='@'/>
+</method>
+<method selector='setAnimationVelocity:'>
+<arg declared_type='CGFloat' index='0' name='animationVelocity' type='f' type64='d'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setCenterHiddenInteractionMode:'>
+<arg declared_type='MMDrawerOpenCenterInteractionMode' index='0' name='centerHiddenInteractionMode' type='i' type64='q'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setCenterViewController:'>
+<arg declared_type='UIViewController*' index='0' name='centerViewController' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setCenterViewController:withCloseAnimation:completion:'>
+<arg declared_type='UIViewController*' index='0' name='centerViewController' type='@'/>
+<arg declared_type='BOOL' index='1' name='closeAnimated' type='B'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='2' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setCenterViewController:withFullCloseAnimation:completion:'>
+<arg declared_type='UIViewController*' index='0' name='newCenterViewController' type='@'/>
+<arg declared_type='BOOL' index='1' name='fullCloseAnimated' type='B'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='2' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setCloseDrawerGestureModeMask:'>
+<arg declared_type='MMCloseDrawerGestureMode' index='0' name='closeDrawerGestureModeMask' type='i' type64='q'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setDrawerVisualStateBlock:'>
+<arg declared_type='void (^)(MMDrawerController *, MMDrawerSide, CGFloat)' function_pointer='true' index='0' name='drawerVisualStateBlock' type='@?'>
+<arg declared_type='MMDrawerController*' type='@'/>
+<arg declared_type='MMDrawerSide' type='i' type64='q'/>
+<arg declared_type='CGFloat' type='f' type64='d'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setGestureCompletionBlock:'>
+<arg declared_type='void (^)(MMDrawerController *, UIGestureRecognizer *)' function_pointer='true' index='0' name='gestureCompletionBlock' type='@?'>
+<arg declared_type='MMDrawerController*' type='@'/>
+<arg declared_type='UIGestureRecognizer*' type='@'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setGestureShouldRecognizeTouchBlock:'>
+<arg declared_type='BOOL (^)(MMDrawerController *, UIGestureRecognizer *, UITouch *)' function_pointer='true' index='0' name='gestureShouldRecognizeTouchBlock' type='@?'>
+<arg declared_type='MMDrawerController*' type='@'/>
+<arg declared_type='UIGestureRecognizer*' type='@'/>
+<arg declared_type='UITouch*' type='@'/>
+<retval declared_type='BOOL' type='B'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setLeftDrawerViewController:'>
+<arg declared_type='UIViewController*' index='0' name='leftDrawerViewController' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setMaximumLeftDrawerWidth:'>
+<arg declared_type='CGFloat' index='0' name='maximumLeftDrawerWidth' type='f' type64='d'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setMaximumLeftDrawerWidth:animated:completion:'>
+<arg declared_type='CGFloat' index='0' name='width' type='f' type64='d'/>
+<arg declared_type='BOOL' index='1' name='animated' type='B'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='2' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setMaximumRightDrawerWidth:'>
+<arg declared_type='CGFloat' index='0' name='maximumRightDrawerWidth' type='f' type64='d'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setMaximumRightDrawerWidth:animated:completion:'>
+<arg declared_type='CGFloat' index='0' name='width' type='f' type64='d'/>
+<arg declared_type='BOOL' index='1' name='animated' type='B'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='2' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setOpenDrawerGestureModeMask:'>
+<arg declared_type='MMOpenDrawerGestureMode' index='0' name='openDrawerGestureModeMask' type='i' type64='q'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setRightDrawerViewController:'>
+<arg declared_type='UIViewController*' index='0' name='rightDrawerViewController' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setShouldStretchDrawer:'>
+<arg declared_type='BOOL' index='0' name='shouldStretchDrawer' type='B'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setShowsShadow:'>
+<arg declared_type='BOOL' index='0' name='showsShadow' type='B'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='shouldStretchDrawer'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='showsShadow'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='tapGestureCallback:'>
+<arg declared_type='UITapGestureRecognizer*' index='0' name='tapGesture' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='toggleDrawerSide:animated:completion:'>
+<arg declared_type='MMDrawerSide' index='0' name='drawerSide' type='i' type64='q'/>
+<arg declared_type='BOOL' index='1' name='animated' type='B'/>
+<arg declared_type='void (^)(BOOL)' function_pointer='true' index='2' name='completion' type='@?'>
+<arg declared_type='BOOL' type='B'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='visibleLeftDrawerWidth'>
+<retval declared_type='CGFloat' type='f' type64='d'/>
+</method>
+<method selector='visibleRightDrawerWidth'>
+<retval declared_type='CGFloat' type='f' type64='d'/>
+</method>
+<method selector='willAnimateRotationToInterfaceOrientation:duration:'>
+<arg declared_type='UIInterfaceOrientation' index='0' name='toInterfaceOrientation' type='i' type64='q'/>
+<arg declared_type='NSTimeInterval' index='1' name='duration' type='d'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='willRotateToInterfaceOrientation:duration:'>
+<arg declared_type='UIInterfaceOrientation' index='0' name='toInterfaceOrientation' type='i' type64='q'/>
+<arg declared_type='NSTimeInterval' index='1' name='duration' type='d'/>
+<retval declared_type='void' type='v'/>
+</method>
+</class>
+<class name='MMDrawerVisualState'>
+<method class_method='true' selector='parallaxVisualStateBlockWithParallaxFactor:'>
+<arg declared_type='CGFloat' index='0' name='parallaxFactor' type='f' type64='d'/>
+<retval declared_type='MMDrawerControllerDrawerVisualStateBlock' function_pointer='true' type='@?'>
+<arg declared_type='MMDrawerController*' type='@'/>
+<arg declared_type='MMDrawerSide' type='i' type64='q'/>
+<arg declared_type='CGFloat' type='f' type64='d'/>
+<retval declared_type='void' type='v'/>
+</retval>
+</method>
+<method class_method='true' selector='slideAndScaleVisualStateBlock'>
+<retval declared_type='MMDrawerControllerDrawerVisualStateBlock' function_pointer='true' type='@?'>
+<arg declared_type='MMDrawerController*' type='@'/>
+<arg declared_type='MMDrawerSide' type='i' type64='q'/>
+<arg declared_type='CGFloat' type='f' type64='d'/>
+<retval declared_type='void' type='v'/>
+</retval>
+</method>
+<method class_method='true' selector='slideVisualStateBlock'>
+<retval declared_type='MMDrawerControllerDrawerVisualStateBlock' function_pointer='true' type='@?'>
+<arg declared_type='MMDrawerController*' type='@'/>
+<arg declared_type='MMDrawerSide' type='i' type64='q'/>
+<arg declared_type='CGFloat' type='f' type64='d'/>
+<retval declared_type='void' type='v'/>
+</retval>
+</method>
+<method class_method='true' selector='swingingDoorVisualStateBlock'>
+<retval declared_type='MMDrawerControllerDrawerVisualStateBlock' function_pointer='true' type='@?'>
+<arg declared_type='MMDrawerController*' type='@'/>
+<arg declared_type='MMDrawerSide' type='i' type64='q'/>
+<arg declared_type='CGFloat' type='f' type64='d'/>
+<retval declared_type='void' type='v'/>
+</retval>
+</method>
+</class>
+<class name='UIViewController'>
+<method selector='mm_drawerController'>
+<retval declared_type='MMDrawerController*' type='@'/>
+</method>
+<method selector='mm_visibleDrawerFrame'>
+<retval declared_type='CGRect' type='{CGRect={CGPoint=ff}{CGSize=ff}}' type64='{CGRect={CGPoint=dd}{CGSize=dd}}'/>
+</method>
+<method selector='setMm_drawerController:'>
+<arg declared_type='MMDrawerController*' index='0' name='mm_drawerController' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+</class>
+</signatures>

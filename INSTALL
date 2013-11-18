@@ -1,0 +1,11 @@
+motion create --template=git@github.com:jamonholmgren/promotion-template.git rsh-mobile-ios
+rvm --rvmrc --create ruby-2.0.0-p0@rsh-mobile
+
+Add gems:
+  gem 'ProMotion', '~> 1.0.4'
+  gem 'pro_motion_slide_menu'
+  gem 'bubble-wrap'
+  gem 'motion-cocoapods'
+
+$ pod setup
+$ rake pod:install
