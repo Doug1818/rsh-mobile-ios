@@ -6,7 +6,6 @@ require 'bundler'
 Bundler.require
 
 require 'bubble-wrap/http'
-require 'bubble-wrap/reactor'
 
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.

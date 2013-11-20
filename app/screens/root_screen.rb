@@ -21,7 +21,7 @@ class RootScreen < MMDrawerController
 
     self.leftDrawerViewController   = Screen::Menu.new(nav_bar: false)
     self.rightDrawerViewController  = nil
-    self.centerViewController       = week_view_screen
+    self.centerViewController = App::Persistence[:authentication_token] ? week_view_screen : login_screen
 
     leftDrawerButton = MMDrawerBarButtonItem.alloc.initWithTarget self, action:"show_menu:"
     navigationItem.setLeftBarButtonItem leftDrawerButton, animated:true
@@ -53,5 +53,13 @@ class RootScreen < MMDrawerController
 
   def signout_screen
     @signout_screen ||= Screen::Signout.new
+  end
+
+  def login_screen
+    @login_screen ||= Screen::Login.new
+  end
+
+  def help_screen
+    @help_screen ||= Screen::Help.new
   end
 end

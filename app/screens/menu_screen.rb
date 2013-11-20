@@ -3,7 +3,7 @@ module Screen
     stylesheet :menu_styles
 
     def table_data
-      [{
+      member_menu = [{
         cells: [
           { title: "Profile",   action: :show_screen, arguments: { screen_name: :profile_screen   }},
           { title: "To Dos",   action: :show_screen, arguments: { screen_name: :todos_screen   }},
@@ -12,6 +12,15 @@ module Screen
           { title: "Sign Out",   action: :show_screen, arguments: { screen_name: :signout_screen   }},
         ]
       }]
+
+      guest_menu = [{
+        cells: [
+          { title: "Login",   action: :show_screen, arguments: { screen_name: :login_screen   }},
+          { title: "Help",   action: :show_screen, arguments: { screen_name: :help_screen   }},
+        ]
+      }]
+
+      App::Persistence[:authentication_token] ? member_menu : guest_menu
     end
 
     def root_screen
