@@ -19,9 +19,11 @@ class RootScreen < MMDrawerController
   def on_create(args={})
     super
 
+    # App::Persistence.delete(:authentication_token)
+
     self.leftDrawerViewController   = Screen::Menu.new(nav_bar: false)
     self.rightDrawerViewController  = nil
-    self.centerViewController = App::Persistence[:authentication_token] ? week_view_screen : login_screen
+    self.centerViewController = App::Persistence[:authentication_token] ? week_screen : login_screen
 
     leftDrawerButton = MMDrawerBarButtonItem.alloc.initWithTarget self, action:"show_menu:"
     navigationItem.setLeftBarButtonItem leftDrawerButton, animated:true
@@ -35,8 +37,8 @@ class RootScreen < MMDrawerController
     toggleDrawerSide MMDrawerSideLeft, animated:true, completion: nil
   end
 
-  def week_view_screen
-    @week_view_screen ||= Screen::Week.new
+  def week_screen
+    @week_screen ||= Screen::Week.new
   end
 
   def profile_screen

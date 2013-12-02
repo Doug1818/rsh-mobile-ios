@@ -8,8 +8,10 @@ Bundler.require
 require 'bubble-wrap/http'
 
 Motion::Project::App.setup do |app|
-  # Use `rake config' to see complete project settings.
-  app.name = 'rsh-mobile-ios'
+  app.name = 'rshdevelopmen'
+  app.identifier = 'com.rsh.rshdevelopment'
+  app.codesign_certificate = 'iPhone Developer: Adam Rubin (59S96JTU24)'
+  app.provisioning_profile = 'provisioning/Barbershop_Labs_provisioning_profile.mobileprovision'
 
   app.interface_orientations = [:portrait]
   app.device_family = [:iphone]

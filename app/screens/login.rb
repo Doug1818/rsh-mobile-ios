@@ -3,10 +3,6 @@ module Screen
 
     title 'Welcome!'
 
-    def will_appear
-      mm_drawerController.title = title
-    end
-
     def viewWillAppear(animated)
       # move down for nav menu
       self.tableView.top = TOP_BELOW_MM_NAV
@@ -28,7 +24,6 @@ module Screen
         puts "INVITE CODE: #{data[:authentication_token]}"
 
         BW::HTTP.post("http://localhost:3000/api/v1/sessions", { payload: data }) do |response|
-
           if response.ok?
             response = BW::JSON.parse(response.body.to_str)
 

@@ -1,6 +1,7 @@
 Teacup::Stylesheet.new :menu_styles do
   style :main_view,
-    backgroundColor: UIColor.whiteColor
+    # backgroundColor: UIColor.whiteColor
+    backgroundColor: "#ffa721".to_color
 
   # style :Location,
   #   frame: [[HORIZ_MARGIN, VERTICAL_MARGIN], ["100%", 22]]
