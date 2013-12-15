@@ -6,9 +6,10 @@ require 'bundler'
 Bundler.require
 
 require 'bubble-wrap/http'
+require 'bubble-wrap/camera'
 
 Motion::Project::App.setup do |app|
-  app.name = 'rshdevelopmen'
+  app.name = 'rshdevelopment'
   app.identifier = 'com.rsh.rshdevelopment'
   app.codesign_certificate = 'iPhone Developer: Adam Rubin (59S96JTU24)'
   app.provisioning_profile = 'provisioning/Barbershop_Labs_provisioning_profile.mobileprovision'
