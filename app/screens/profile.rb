@@ -1,7 +1,9 @@
 module Screen
- class Profile < UIViewController
+ class Profile < PM::Screen
 
-    TAGS = {profile_image: 4, profile_email: 3}
+    title 'Profile'
+
+    TAGS = {profile_name: 2, profile_email: 3, profile_image: 4}
   
     def loadView
       views = NSBundle.mainBundle.loadNibNamed "profile", owner:self, options:nil
@@ -10,6 +12,7 @@ module Screen
 
     def viewDidLoad
       profile_email = view.viewWithTag TAGS[:profile_email]
+      profile_name = view.viewWithTag TAGS[:profile_name]
 
       data = {authentication_token: App::Persistence[:authentication_token]}
 
@@ -17,6 +20,7 @@ module Screen
         if response.ok?
           json_data = BW::JSON.parse(response.body.to_str)[:data]
           profile_email.text = json_data[:user][:email]
+          profile_name.text = "#{ json_data[:user][:first_name] } #{ json_data[:user][:last_name] }"
         elsif response.status_code.to_s =~ /40\d/
           App.alert("There was an error")
         else

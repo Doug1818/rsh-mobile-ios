@@ -1,10 +1,6 @@
 module Screen
-  class Week < UIViewController # Can also be < UIViewController
-    include ProMotion::ScreenModule # Not TableScreenModule since we're using Formotion for that
-
-
-    @@cell_identifier = nil
-
+  class Week < PM::Screen
+    
     title 'This Week'
 
     stylesheet :week_styles
@@ -48,21 +44,39 @@ module Screen
       @data.count
     end
 
+    # When the view is first loaded, the cells don't exist,
+    # so we create these cells and set their color to red.
+    # When scrolling, new cells are automatically created before
+    # this method is called; in this case we're setting the color to blue.
+    # At the end, regardless of how the cell was created, we set the text.
     def tableView(tableView, cellForRowAtIndexPath: indexPath)
       cell = tableView.dequeueReusableCellWithIdentifier(cell_identifier)
-      if !cell
+
+      unless cell
         puts "IN NOT CELL"
         cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleValue1, reuseIdentifier:cell_identifier)
-        puts "TXT LABEL: #{@data[indexPath.row]}"
-        cell.textLabel.text = @data[indexPath.row]
+        cell.textLabel.textColor = UIColor.redColor
       else
         puts "IS CELL"
+        cell.textLabel.textColor = UIColor.blueColor
       end
+      cell.textLabel.text = @data[indexPath.row]
+      
       cell
     end
 
+    # Example of tapping a cell
+    def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+      tableView.deselectRowAtIndexPath(indexPath, animated: true)
+      alert = UIAlertView.alloc.init
+      alert.message = "#{@data[indexPath.row]} tapped!"
+      alert.addButtonWithTitle "OK"
+      alert.show
+    end
+
+
     def cell_identifier
-      @@cell_identifier ||= 'CELL_IDENTIFIER'
+      @cell_identifier ||= 'CELL_IDENTIFIER'
     end
 
     # def viewDidLoad
