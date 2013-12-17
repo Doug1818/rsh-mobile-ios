@@ -56,9 +56,9 @@ module Screen
           week = json_data[:week]
 
           date_array = week[:start_date].split('-')
-          year = date_array[0]
-          month = date_array[1]
-          day = date_array[2]
+          year = date_array[0].to_i.to_s
+          month = date_array[1].to_i.to_s 
+          day = date_array[2].to_i.to_s
 
           date = NSDate.from_components(year: year, month: month, day: day)
           date_string = date.string_with_format('MMM d')
