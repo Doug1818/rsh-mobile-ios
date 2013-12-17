@@ -8,6 +8,7 @@ module Screen
           { title: "Profile",   action: :show_screen, arguments: { screen_name: :profile_screen   }},
           { title: "To Dos",   action: :show_screen, arguments: { screen_name: :todos_screen   }},
           { title: "Program",   action: :show_screen, arguments: { screen_name: :week_screen   }},
+          { title: "Day View",   action: :show_screen, arguments: { screen_name: :day_screen   }},
           { title: "Supporters",   action: :show_screen, arguments: { screen_name: :supporters_screen   }},
           { title: "Sign Out",   action: :show_screen, arguments: { screen_name: :signout_screen   }},
         ]

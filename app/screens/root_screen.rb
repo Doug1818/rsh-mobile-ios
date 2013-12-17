@@ -23,6 +23,7 @@ class RootScreen < MMDrawerController
 
     self.leftDrawerViewController   = Screen::Menu.new(nav_bar: false)
     self.rightDrawerViewController  = nil
+
     self.centerViewController = App::Persistence[:authentication_token] ? week_screen : login_screen
 
     leftDrawerButton = MMDrawerBarButtonItem.alloc.initWithTarget self, action:"show_menu:"
@@ -39,6 +40,10 @@ class RootScreen < MMDrawerController
 
   def week_screen
     @week_screen ||= Screen::Week.new
+  end
+
+  def day_screen
+    @day_screen ||= Screen::Day.new
   end
 
   def profile_screen
