@@ -23,7 +23,7 @@ module Screen
         data = self.form.render
         puts "INVITE CODE: #{data[:authentication_token]}"
 
-        BW::HTTP.post("http://localhost:3000/api/v1/sessions", { payload: data }) do |response|
+        BW::HTTP.post("#{Globals::API_ENDPOINT}/sessions", { payload: data }) do |response|
           if response.ok?
             response = BW::JSON.parse(response.body.to_str)
 

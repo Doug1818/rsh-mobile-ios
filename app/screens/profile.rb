@@ -4,7 +4,7 @@ module Screen
     title 'Profile'
 
     TAGS = {profile_name: 2, profile_email: 3, profile_image: 4}
-  
+
     def loadView
       views = NSBundle.mainBundle.loadNibNamed "profile", owner:self, options:nil
       self.view = views[0]
@@ -16,7 +16,7 @@ module Screen
 
       data = {authentication_token: App::Persistence[:authentication_token]}
 
-      BW::HTTP.get("http://localhost:3000/api/v1/users", { payload: data }) do |response|
+      BW::HTTP.get("#{Globals::API_ENDPOINT}/users", { payload: data }) do |response|
         if response.ok?
           json_data = BW::JSON.parse(response.body.to_str)[:data]
           profile_email.text = json_data[:user][:email]
