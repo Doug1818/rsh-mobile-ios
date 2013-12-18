@@ -44,7 +44,7 @@ module Screen
       p @weeks
 
       # Test with the first week
-      get_day(@weeks.first)
+      get_day(@weeks.first[:id])
     end
 
     def get_day(week)
@@ -53,19 +53,20 @@ module Screen
       BW::HTTP.get("http://localhost:3000/api/v1/weeks/#{ week }", { payload: data }) do |response|
         if response.ok?
           json_data = BW::JSON.parse(response.body.to_str)[:data]
-          week = json_data[:week]
+          @week = json_data[:week]
 
-          date_array = week[:start_date].split('-')
+          date_array = @week[:start_date].split('-')
           year = date_array[0].to_i.to_s
           month = date_array[1].to_i.to_s 
           day = date_array[2].to_i.to_s
 
-          date = NSDate.from_components(year: year, month: month, day: day)
-          date_string = date.string_with_format('MMM d')
+          @date = NSDate.from_components(year: year, month: month, day: day)
+          date_string = @date.string_with_format('MMM d')
           @day_label.text = date_string
 
           # Test with the first small step
-          small_step_name = week[:small_steps].first[:name]
+          @small_step = @week[:small_steps].first
+          small_step_name = @small_step[:name]
           @small_step_name_label.text = "Did you #{ small_step_name.downcase }?"
 
         elsif response.status_code.to_s =~ /40\d/
@@ -77,11 +78,56 @@ module Screen
     end
 
     def answer_no
-      puts "Answering NO"
+      if @small_step.has_key? :id
+        puts "Answering No for #{ @small_step[:id] }"
+
+        data = {
+          authentication_token: App::Persistence[:authentication_token],
+          small_step_id: @small_step[:id],
+          week_id: @week[:id],
+          date: @date,
+          status: 0
+        }
+        BW::HTTP.get("http://localhost:3000/api/v1/check_ins/new", { payload: data }) do |response|
+          if response.ok?
+            alert = UIAlertView.alloc.init
+            alert.message = "You answered No"
+            alert.addButtonWithTitle "OK"
+            alert.show
+           elsif response.status_code.to_s =~ /40\d/
+            App.alert("There was an error")
+          else
+            App.alert(response.error_message)
+          end
+        end
+      end
     end
 
     def answer_yes
-      puts "Answering YES"
+      if @small_step.has_key? :id
+        puts "Answering Yes for #{ @small_step[:id] }"
+
+        data = {
+          authentication_token: App::Persistence[:authentication_token],
+          small_step_id: @small_step[:id],
+          week_id: @week[:id],
+          date: @date,
+          status: 1
+        }
+
+        BW::HTTP.get("http://localhost:3000/api/v1/check_ins/new", { payload: data }) do |response|
+          if response.ok?
+            alert = UIAlertView.alloc.init
+            alert.message = "You answered Yep!"
+            alert.addButtonWithTitle "OK"
+            alert.show
+           elsif response.status_code.to_s =~ /40\d/
+            App.alert("There was an error")
+          else
+            App.alert(response.error_message)
+          end
+        end
+      end
     end
   end
 end
