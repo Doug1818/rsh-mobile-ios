@@ -42,7 +42,7 @@ module Screen
           json_data = BW::JSON.parse(response.body.to_str)[:data]
 
           @week = json_data[:week].first
-          @small_steps = json_data[:week].first[:small_steps]
+          @small_steps = @week[:small_steps]
 
           if @small_steps.count > 0
             small_step_name = @small_steps.first[:name]
