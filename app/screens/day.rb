@@ -1,7 +1,7 @@
 module Screen
  class Day < PM::Screen
 
-    title 'Day View'
+    title ''
 
     TAGS = {day_label: 2, small_step_name_label: 3, no_button: 4, yes_button: 5, not_sure_button: 6}
   
