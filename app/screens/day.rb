@@ -4,7 +4,7 @@ module Screen
     title ''
 
     TAGS = {day_label: 2, small_step_name_label: 3, no_button: 4, yes_button: 5, not_sure_button: 6}
-  
+
     def loadView
       views = NSBundle.mainBundle.loadNibNamed "day_view", owner:self, options:nil
       self.view = views[0]
@@ -37,7 +37,7 @@ module Screen
         authentication_token: App::Persistence[:authentication_token],
         date: date
       }
-      BW::HTTP.get("http://localhost:3000/api/v1/weeks", { payload: data }) do |response|
+      BW::HTTP.get("#{Globals::API_ENDPOINT}/weeks", { payload: data }) do |response|
         if response.ok?
           json_data = BW::JSON.parse(response.body.to_str)[:data]
 
@@ -87,7 +87,7 @@ module Screen
           date: @date,
           status: status
         }
-        BW::HTTP.post("http://localhost:3000/api/v1/check_ins", { payload: data }) do |response|
+        BW::HTTP.post("#{Globals::API_ENDPOINT}/check_ins", { payload: data }) do |response|
           if response.ok?
             load_next_small_step
            elsif response.status_code.to_s =~ /40\d/
