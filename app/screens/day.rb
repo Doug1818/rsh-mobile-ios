@@ -37,7 +37,7 @@ module Screen
         authentication_token: App::Persistence[:authentication_token],
         date: date
       }
-      BW::HTTP.get("http://localhost:3000/api/v1/small_steps", { payload: data }) do |response|
+      BW::HTTP.get("http://localhost:3000/api/v1/weeks", { payload: data }) do |response|
         if response.ok?
           json_data = BW::JSON.parse(response.body.to_str)[:data]
 
