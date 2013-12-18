@@ -67,47 +67,27 @@ module Screen
     end
 
     def answer_no
-
-      @small_step = @small_steps.first
-
-      if @small_step.has_key? :id
-        puts "Answering No for #{ @small_step[:id] }"
-
-        data = {
-          authentication_token: App::Persistence[:authentication_token],
-          small_step_id: @small_step[:id],
-          week_id: @week[:id],
-          date: @date,
-          status: 0
-        }
-        BW::HTTP.get("http://localhost:3000/api/v1/check_ins/new", { payload: data }) do |response|
-          if response.ok?
-            load_next_small_step
-           elsif response.status_code.to_s =~ /40\d/
-            App.alert("There was an error")
-          else
-            App.alert(response.error_message)
-          end
-        end
-      end
+      process_check_in(0)
     end
 
     def answer_yes
+      process_check_in(1)
+    end
 
+    def process_check_in(status)
       @small_step = @small_steps.first
 
       if @small_step.has_key? :id
-        puts "Answering Yes for #{ @small_step[:id] }"
+        puts "Answering #{ status == 0 ? "No" : "Yes" } for #{ @small_step[:id] }"
 
         data = {
           authentication_token: App::Persistence[:authentication_token],
           small_step_id: @small_step[:id],
           week_id: @week[:id],
           date: @date,
-          status: 1
+          status: status
         }
-
-        BW::HTTP.get("http://localhost:3000/api/v1/check_ins/new", { payload: data }) do |response|
+        BW::HTTP.post("http://localhost:3000/api/v1/check_ins", { payload: data }) do |response|
           if response.ok?
             load_next_small_step
            elsif response.status_code.to_s =~ /40\d/
