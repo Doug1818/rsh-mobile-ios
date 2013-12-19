@@ -1,6 +1,6 @@
 module Screen
   class Week < PM::Screen
-    
+
     title 'This Week'
 
     stylesheet :week_styles
@@ -9,23 +9,30 @@ module Screen
     def viewWillAppear(animated)
       super
 
-      view.subviews.each &:removeFromSuperview
+      mm_drawerController.title = title
+      # view.subviews.each &:removeFromSuperview
 
-      layout(view, :main_view) do
-        mm_drawerController.title = title
-
+      layout(self.view, :main_view) do
         week_table
-        bottom_nav
+        subview(UIView, :program_nav) do
+          @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
+          @week_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :week_btn)
+          @month_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :month_btn)
+        end
+
+        @day_btn.when_tapped do
+          puts "TAPPED DAY BUTTON"
+        end
+
+        @week_btn.when_tapped do
+          puts "TAPPED WEEK BUTTON"
+        end
+
+        @month_btn.when_tapped do
+          puts "TAPPED MONTH BUTTON"
+        end
+
       end
-    end
-
-    def bottom_nav
-      y = self.view.bounds.size.height - 30
-      label = UILabel.alloc.initWithFrame(CGRect.new([0, y], [self.view.bounds.size.width, 30]))
-      label.setAutoresizingMask(1)
-      label.backgroundColor = UIColor.blueColor
-
-      self.view.addSubview(label)
     end
 
     def week_table
@@ -40,7 +47,6 @@ module Screen
     end
 
     def tableView(tableView, numberOfRowsInSection: section)
-      puts "DATA COUNT: #{@data.count}"
       @data.count
     end
 
@@ -53,15 +59,13 @@ module Screen
       cell = tableView.dequeueReusableCellWithIdentifier(cell_identifier)
 
       unless cell
-        puts "IN NOT CELL"
         cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleValue1, reuseIdentifier:cell_identifier)
         cell.textLabel.textColor = UIColor.redColor
       else
-        puts "IS CELL"
         cell.textLabel.textColor = UIColor.blueColor
       end
       cell.textLabel.text = @data[indexPath.row]
-      
+
       cell
     end
 
@@ -78,17 +82,5 @@ module Screen
     def cell_identifier
       @cell_identifier ||= 'CELL_IDENTIFIER'
     end
-
-    # def viewDidLoad
-    # end
-
-    # def tableView(table_view, viewForHeaderInSection:section)
-    #   UILabel.alloc.init.tap do |view|
-    #     view.backgroundColor = UIColor.clearColor
-    #     view.textColor = BW.rgb_color(239, 69, 67)
-    #     view.textAlignment = NSTextAlignmentCenter
-    #     view.text = section_at_index(section)[:title]
-    #   end
-    # end
   end
 end
