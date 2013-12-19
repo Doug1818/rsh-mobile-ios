@@ -46,9 +46,9 @@ module Screen
 
           if @small_steps.count == 1
             small_step_name = @small_steps.first[:name]
-            @small_step_name_label.text = "Did you #{ small_step_name.downcase }?"
+            @small_step_name_label.text = "Did you do your #{ small_step_name.downcase } for today?"
           elsif @small_steps.count > 1
-            @small_step_name_label.text = "Did you do all of your small steps today?"
+            @small_step_name_label.text = "Did you do your steps today?"
           else
             @small_step_name_label.text = "No small steps for today." # Should never see this, because they should only be able to get to a day with at least 1 small step.
           end
