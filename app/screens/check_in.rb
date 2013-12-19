@@ -44,11 +44,13 @@ module Screen
           @week = json_data[:week].first
           @small_steps = @week[:small_steps]
 
-          if @small_steps.count > 0
+          if @small_steps.count == 1
             small_step_name = @small_steps.first[:name]
             @small_step_name_label.text = "Did you #{ small_step_name.downcase }?"
+          elsif @small_steps.count > 1
+            @small_step_name_label.text = "Did you do all of your small steps today?"
           else
-            @small_step_name_label.text = "You're all checked in!"
+            @small_step_name_label.text = "No small steps for today." # Should never see this, because they should only be able to get to a day with at least 1 small step.
           end
 
         elsif response.status_code.to_s =~ /40\d/
@@ -60,10 +62,7 @@ module Screen
     end
 
     def not_sure_action
-      alert = UIAlertView.alloc.init
-      alert.message = "TODO: Handle not sure event"
-      alert.addButtonWithTitle "OK"
-      alert.show
+      App.alert("TODO: Handle not sure event")
     end
 
     def answer_no
@@ -75,40 +74,23 @@ module Screen
     end
 
     def process_check_in(status)
-      @small_step = @small_steps.first
-
-      if @small_step.has_key? :id
-        puts "Answering #{ status == 0 ? "No" : "Yes" } for #{ @small_step[:id] }"
-
+      if @small_steps.count > 0
         data = {
           authentication_token: App::Persistence[:authentication_token],
-          small_step_id: @small_step[:id],
+          small_steps: @small_steps,
           week_id: @week[:id],
           date: @date,
           status: status
         }
         BW::HTTP.post("#{Globals::API_ENDPOINT}/check_ins", { payload: data }) do |response|
           if response.ok?
-            load_next_small_step
+            App.alert("Successfully checked in")
            elsif response.status_code.to_s =~ /40\d/
             App.alert("There was an error")
           else
             App.alert(response.error_message)
           end
         end
-      end
-    end
-
-    def load_next_small_step
-      @small_steps.shift
-
-      if @small_steps.count > 0
-        small_step_name = @small_steps.first[:name]
-        @small_step_name_label.text = "Did you #{ small_step_name.downcase }?"
-      else
-        @small_step_name_label.text = "You're all checked in!"
-        @yes_button.enabled = false
-        @no_button.enabled = false
       end
     end
   end
