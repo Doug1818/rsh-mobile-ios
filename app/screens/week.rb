@@ -13,6 +13,7 @@ module Screen
       # view.subviews.each &:removeFromSuperview
 
       layout(self.view, :main_view) do
+        # @data = get_weeks
         week_table
         subview(UIView, :program_nav) do
           @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
@@ -31,13 +32,11 @@ module Screen
         @month_btn.when_tapped do
           puts "TAPPED MONTH BUTTON"
         end
-
       end
     end
 
     def week_table
-      @data = ("A".."Z").to_a
-
+      WeekData.get_weeks(self)
       table_view = UITableView.alloc.initWithFrame(self.view.bounds)
       # table_view = UITableView.alloc.initWithFrame(CGRect.new([0, 64], [self.view.bounds.size.width, 500]))
       table_view.dataSource = self
@@ -64,7 +63,7 @@ module Screen
       else
         cell.textLabel.textColor = UIColor.blueColor
       end
-      cell.textLabel.text = @data[indexPath.row]
+      # cell.textLabel.text = @data[indexPath.row]
 
       cell
     end
@@ -73,7 +72,7 @@ module Screen
     def tableView(tableView, didSelectRowAtIndexPath:indexPath)
       tableView.deselectRowAtIndexPath(indexPath, animated: true)
       alert = UIAlertView.alloc.init
-      alert.message = "#{@data[indexPath.row]} tapped!"
+      # alert.message = "#{@data[indexPath.row]} tapped!"
       alert.addButtonWithTitle "OK"
       alert.show
     end
@@ -82,5 +81,11 @@ module Screen
     def cell_identifier
       @cell_identifier ||= 'CELL_IDENTIFIER'
     end
+
+
+    def load_data(data)
+      @data ||= data
+    end
+
   end
 end

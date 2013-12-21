@@ -37,7 +37,7 @@ module Screen
         authentication_token: App::Persistence[:authentication_token],
         date: date
       }
-      BW::HTTP.get("#{Globals::API_ENDPOINT}/weeks", { payload: data }) do |response|
+      BW::HTTP.get("#{Globals::API_ENDPOINT}/week/by_date", { payload: data }) do |response|
         if response.ok?
           json_data = BW::JSON.parse(response.body.to_str)[:data]
 

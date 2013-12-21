@@ -6,4 +6,4 @@ gem 'teacup'
 gem 'bubble-wrap'
 gem 'motion-cocoapods', '~> 1.4.0'
 gem 'formotion'
-gem 'sugarcube', require: 'sugarcube-nsdate'
+gem 'sugarcube', require: ['sugarcube', 'sugarcube-nsdate']
