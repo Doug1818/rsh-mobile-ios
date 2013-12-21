@@ -1,5 +1,5 @@
 module Screen
-  class Login < PM::Screen
+  class LoginScreen < PM::Screen
     title ''
 
     TAGS = { title: 0, instructions_label: 1, authentication_token: 2 }

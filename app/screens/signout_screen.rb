@@ -1,4 +1,4 @@
-module Screen
+module ScreenScreen
   class Signout < UIViewController
     include ProMotion::ScreenModule
 

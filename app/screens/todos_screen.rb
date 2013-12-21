@@ -1,5 +1,5 @@
 module Screen
-  class Todos < PM::GroupedTableScreen
+  class TodosScreen < PM::GroupedTableScreen
     title 'To Dos'
     def will_appear
       mm_drawerController.title = title

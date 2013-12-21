@@ -1,5 +1,5 @@
 module Screen
- class CheckIn < PM::Screen
+ class CheckInScreen < PM::Screen
 
     title ''
 
