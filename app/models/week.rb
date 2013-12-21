@@ -21,7 +21,7 @@ class Week
           Week.from_json(w)
         }
 
-        block.call(true,weeks)
+        block.call(true, weeks)
       else
         block.call(false, nil)
       end
