@@ -13,8 +13,8 @@ module Screen
       # view.subviews.each &:removeFromSuperview
 
       layout(self.view, :main_view) do
-        # @data = get_weeks
         week_table
+
         subview(UIView, :program_nav) do
           @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
           @week_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :week_btn)
@@ -36,13 +36,21 @@ module Screen
     end
 
     def week_table
-      WeekData.get_weeks(self)
-      table_view = UITableView.alloc.initWithFrame(self.view.bounds)
-      # table_view = UITableView.alloc.initWithFrame(CGRect.new([0, 64], [self.view.bounds.size.width, 500]))
-      table_view.dataSource = self
-      table_view.delegate = self
+      @data ||= []
 
-      self.view.addSubview(table_view)
+      @table_view = UITableView.alloc.initWithFrame(self.view.bounds)
+      @table_view.dataSource = self
+      self.view.addSubview(@table_view)
+      # @table_view.delegate = self
+
+      Week.get_weeks do |success, weeks|
+        if success
+          @data = weeks
+          @table_view.reloadData
+        else
+          App.alert("oops")
+        end
+      end
     end
 
     def tableView(tableView, numberOfRowsInSection: section)
@@ -63,7 +71,10 @@ module Screen
       else
         cell.textLabel.textColor = UIColor.blueColor
       end
-      # cell.textLabel.text = @data[indexPath.row]
+
+
+      week = @data[indexPath.row]
+      cell.textLabel.text = week.start_date.to_s
 
       cell
     end
@@ -81,11 +92,5 @@ module Screen
     def cell_identifier
       @cell_identifier ||= 'CELL_IDENTIFIER'
     end
-
-
-    def load_data(data)
-      @data ||= data
-    end
-
   end
 end
