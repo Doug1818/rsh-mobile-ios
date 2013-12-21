@@ -21,7 +21,7 @@ class RootScreen < MMDrawerController
 
     # App::Persistence.delete(:authentication_token)
 
-    self.leftDrawerViewController   = Screen::Menu.new(nav_bar: false)
+    self.leftDrawerViewController   = Screen::MenuScreen.new(nav_bar: false)
     self.rightDrawerViewController  = nil
 
     self.centerViewController = App::Persistence[:authentication_token] ? week_screen : login_screen
@@ -39,38 +39,38 @@ class RootScreen < MMDrawerController
   end
 
   def week_screen
-    @week_screen ||= Screen::Week.new
+    @week_screen ||= Screen::WeekScreen.new
   end
 
   def day_screen
-    @day_screen ||= Screen::Day.new
+    @day_screen ||= Screen::DayScreen.new
   end
 
   def check_in_screen
-    @check_in_screen ||= Screen::CheckIn.new
+    @check_in_screen ||= Screen::CheckInScreen.new
   end
 
   def profile_screen
-    @profile_screen ||= Screen::Profile.new
+    @profile_screen ||= Screen::ProfileScreen.new
   end
 
   def todos_screen
-    @todos_screen ||= Screen::Todos.new
+    @todos_screen ||= Screen::TodosScreen.new
   end
 
   def supporters_screen
-    @supporters_screen ||= Screen::Supporters.new
+    @supporters_screen ||= Screen::SupportersScreen.new
   end
 
   def signout_screen
-    @signout_screen ||= Screen::Signout.new
+    @signout_screen ||= Screen::SignoutScreen.new
   end
 
   def login_screen
-    @login_screen ||= Screen::Login.new
+    @login_screen ||= Screen::LoginScreen.new
   end
 
   def help_screen
-    @help_screen ||= Screen::Help.new
+    @help_screen ||= Screen::HelpScreen.new
   end
 end

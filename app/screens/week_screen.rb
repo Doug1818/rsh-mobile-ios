@@ -1,5 +1,5 @@
 module Screen
-  class Week < PM::Screen
+  class WeekScreen < PM::Screen
 
     title 'This Week'
 

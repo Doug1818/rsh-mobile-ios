@@ -1,6 +1,6 @@
 module Screen
-  class Help < PM::GroupedTableScreen
-    title 'Help'
+  class SupportersScreen < PM::GroupedTableScreen
+    title 'Supporters'
     def will_appear
       mm_drawerController.title = title
     end

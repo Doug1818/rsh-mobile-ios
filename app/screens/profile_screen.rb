@@ -1,5 +1,5 @@
 module Screen
- class Profile < PM::Screen
+ class ProfileScreen < PM::Screen
 
     title 'Profile'
 

@@ -1,5 +1,5 @@
 module Screen
-  class Menu < PM::TableScreen
+  class MenuScreen < PM::TableScreen
     stylesheet :menu_styles
 
     def table_data

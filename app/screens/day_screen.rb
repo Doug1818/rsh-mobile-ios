@@ -1,5 +1,5 @@
 module Screen
- class Day < PM::Screen
+ class DayScreen < PM::Screen
 
     title ''
 
@@ -9,7 +9,7 @@ module Screen
     end
 
     def viewDidLoad
-     
+
     end
   end
 end
