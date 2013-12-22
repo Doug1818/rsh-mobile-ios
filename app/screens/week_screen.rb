@@ -54,7 +54,7 @@ module Screen
     end
 
     def tableView(tableView, numberOfRowsInSection: section)
-      @data.count
+      @data.collect {|w| w.days}.flatten.count
     end
 
     # When the view is first loaded, the cells don't exist,
@@ -72,9 +72,15 @@ module Screen
         cell.textLabel.textColor = UIColor.blueColor
       end
 
+      week = @data.collect
+      days = week.collect {|w| w.days}.flatten
+      day = days.flatten[indexPath.row]
 
-      week = @data[indexPath.row]
-      cell.textLabel.text = week.start_date.to_s
+      date = day['date']
+      day_number = day['day_number']
+      check_in_status = day['check_in_status']
+
+      cell.textLabel.text = "#{ date }: #{ day_number }: #{ check_in_status }"
 
       cell
     end
