@@ -42,12 +42,13 @@ module Screen
 
       @table_view = UITableView.alloc.initWithFrame(self.view.bounds)
       @table_view.dataSource = self
+
       self.view.addSubview(@table_view)
       # @table_view.delegate = self
 
-      Week.get_week do |success, week|
+      Week.get_weeks do |success, weeks|
         if success
-          @data = week
+          @data = weeks
           @table_view.reloadData
         else
           App.alert("oops")
@@ -83,6 +84,16 @@ module Screen
       cell.day_number_label.text = day_number.to_s
       cell.date_label.text = date.to_s
 
+      cell.check_in_image_view.image = case check_in_status
+      when 0
+        UIImage.imageNamed('check-in-no.png')
+      when 1
+        UIImage.imageNamed('check-in-yes.png')
+      else
+        UIImage.imageNamed('check-in-no.png') # Use the same image as NO for now until the others have been created
+      end
+
+
       cell
     end
 
@@ -105,6 +116,7 @@ module Screen
  
     attr_accessor :date_label
     attr_accessor :day_number_label
+    attr_accessor :check_in_image_view
    
     def createLabels
    
@@ -115,9 +127,12 @@ module Screen
       @day_number_label = UILabel.alloc.init
       @day_number_label.textAlignment = UITextAlignmentLeft
       @day_number_label.font = UIFont.boldSystemFontOfSize(14)
-   
+
+      @check_in_image_view = UIImageView.new
+
       self.contentView.addSubview(@date_label)
       self.contentView.addSubview(@day_number_label)
+      self.contentView.addSubview(@check_in_image_view)
    
       self
     end
@@ -127,9 +142,12 @@ module Screen
    
       contentRect = self.contentView.bounds
       boundsX = contentRect.origin.x
-   
+
+      height = self.contentView.height
+
       @date_label.frame = CGRectMake(boundsX+25, 5, 200, 15)
       @day_number_label.frame = CGRectMake(boundsX+25, 15, 100, 25)
+      @check_in_image_view.frame = CGRectMake(boundsX+240, 0, 79.56, height)
    
     end
    
