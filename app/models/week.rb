@@ -12,16 +12,19 @@ class Week
     new(start_date: json['start_date'], days: json['days'])
   end
 
-  def self.get_weeks(&block)
-    data = { authentication_token: App::Persistence[:authentication_token] }
+  def self.get_week(&block)
+    data = { 
+      authentication_token: App::Persistence[:authentication_token],
+      date: NSDate.today
+    }
     BW::HTTP.get("#{Globals::API_ENDPOINT}/weeks", { payload: data }) do |response|
       if response.ok?
         json_data = BW::JSON.parse(response.body.to_str)[:data]
-        weeks = json_data["weeks"].map {|w|
+        week = json_data["week"].map {|w|
           Week.from_json(w)
         }
 
-        block.call(true, weeks)
+        block.call(true, week)
       else
         block.call(false, nil)
       end

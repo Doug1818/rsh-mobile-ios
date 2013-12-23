@@ -45,9 +45,9 @@ module Screen
       self.view.addSubview(@table_view)
       # @table_view.delegate = self
 
-      Week.get_weeks do |success, weeks|
+      Week.get_week do |success, week|
         if success
-          @data = weeks
+          @data = week
           @table_view.reloadData
         else
           App.alert("oops")
