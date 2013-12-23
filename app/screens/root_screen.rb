@@ -39,6 +39,10 @@ class RootScreen < MMDrawerController
   end
 
   def week_screen
+    @month_screen ||= Screen::MonthScreen.new
+  end
+
+  def week_screen
     @week_screen ||= Screen::WeekScreen.new
   end
 

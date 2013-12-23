@@ -1,7 +1,7 @@
 module Screen
   class WeekScreen < PM::Screen
 
-    title 'This Week'
+    # title ''
 
     stylesheet :week_styles
     include Teacup::TableViewDelegate
@@ -9,7 +9,7 @@ module Screen
     def viewWillAppear(animated)
       super
 
-      mm_drawerController.title = title
+      # mm_drawerController.title = title
       # view.subviews.each &:removeFromSuperview
 
       layout(self.view, :main_view) do
@@ -22,15 +22,15 @@ module Screen
         end
 
         @day_btn.when_tapped do
-          puts "TAPPED DAY BUTTON"
+          open DayScreen
         end
 
         @week_btn.when_tapped do
-          puts "TAPPED WEEK BUTTON"
+          # open WeekScreen
         end
 
         @month_btn.when_tapped do
-          puts "TAPPED MONTH BUTTON"
+          open MonthScreen
         end
       end
     end
