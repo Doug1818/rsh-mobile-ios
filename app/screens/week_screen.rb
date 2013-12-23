@@ -5,6 +5,8 @@ module Screen
 
     @@cell_identifier = nil
 
+    @selected_date = nil
+
     stylesheet :week_styles
     include Teacup::TableViewDelegate
 
@@ -44,7 +46,7 @@ module Screen
       @table_view.dataSource = self
 
       self.view.addSubview(@table_view)
-      # @table_view.delegate = self
+      @table_view.delegate = self
 
       Week.get_weeks do |success, weeks|
         if success
@@ -70,7 +72,7 @@ module Screen
         cell
       end
 
-      week = @data.collect
+      week = @data
       days = week.collect {|w| w.days}.flatten
       day = days.flatten[indexPath.row]
 
@@ -105,12 +107,27 @@ module Screen
     end
 
     # Example of tapping a cell
-    def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    def tableView(tableView, didSelectRowAtIndexPath: indexPath)
       tableView.deselectRowAtIndexPath(indexPath, animated: true)
-      alert = UIAlertView.alloc.init
-      alert.message = "#{@data[indexPath.row]} tapped!"
-      alert.addButtonWithTitle "OK"
-      alert.show
+      days = @data.collect {|w| w.days}.flatten
+      day = days.flatten[indexPath.row]
+
+      date_formatter = NSDateFormatter.alloc.init
+      date_formatter.dateFormat = "yyyy-MM-dd"
+      date = date_formatter.dateFromString day[:full_date]
+
+      App::Persistence.delete(:selected_date)
+      App::Persistence[:selected_date] = date
+
+      check_in_status = day[:check_in_status]
+
+      if day[:today_or_yesterday]
+        if check_in_status == 0
+          open CheckInScreen.new(nav_bar: true)
+        else
+          open DayScreen.new(nav_bar: true)
+        end
+      end
     end
 
 

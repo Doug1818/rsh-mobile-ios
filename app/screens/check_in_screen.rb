@@ -5,6 +5,7 @@ module Screen
 
     TAGS = {day_label: 2, small_step_name_label: 3, no_button: 4, yes_button: 5, not_sure_button: 6}
 
+
     def loadView
       views = NSBundle.mainBundle.loadNibNamed "check_in_view", owner:self, options:nil
       self.view = views[0]
@@ -24,7 +25,7 @@ module Screen
       @not_sure_button = view.viewWithTag TAGS[:not_sure_button]
       @not_sure_button.addTarget(self, action: "not_sure_action", forControlEvents: UIControlEventTouchUpInside)
 
-      @date = NSDate.today
+      @date = App::Persistence[:selected_date] || NSDate.today
       date_string_for_label = @date.string_with_format('MMM d')
 
       @day_label.text = date_string_for_label
@@ -44,11 +45,13 @@ module Screen
           @week = json_data[:week].first
           @small_steps = @week[:small_steps]
 
+          today_or_yesterday = (date == NSDate.today) ? 'today': 'yesterday'
+
           if @small_steps.count == 1
             small_step_name = @small_steps.first[:name]
-            @small_step_name_label.text = "Did you do your #{ small_step_name.downcase } for today?"
+            @small_step_name_label.text = "Did you do your #{ small_step_name.downcase } for #{ today_or_yesterday }?"
           elsif @small_steps.count > 1
-            @small_step_name_label.text = "Did you do your steps today?"
+            @small_step_name_label.text = "Did you do your steps #{ today_or_yesterday }?"
           else
             @small_step_name_label.text = "No small steps for today." # Should never see this, because they should only be able to get to a day with at least 1 small step.
           end
