@@ -86,13 +86,20 @@ module Screen
 
       cell.check_in_image_view.image = case check_in_status
       when 0
-        UIImage.imageNamed('check-in-no.png')
+        if day['is_future']
+          UIImage.imageNamed('check-in-future.png')
+        else
+          nil
+        end
       when 1
+        UIImage.imageNamed('check-in-mixed.png')
+      when 2
         UIImage.imageNamed('check-in-yes.png')
+      when 3
+        UIImage.imageNamed('check-in-no.png')
       else
-        UIImage.imageNamed('check-in-no.png') # Use the same image as NO for now until the others have been created
+        nil
       end
-
 
       cell
     end
