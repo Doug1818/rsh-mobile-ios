@@ -26,7 +26,9 @@ module Screen
         end
 
         @day_btn.when_tapped do
-          puts "TAPPED DAY BUTTON"
+          # puts "TAPPED DAY BUTTON"
+          App::Persistence[:selected_date] = NSDate.today 
+          open DayScreen.new(nav_bar: true)
         end
 
         @week_btn.when_tapped do
