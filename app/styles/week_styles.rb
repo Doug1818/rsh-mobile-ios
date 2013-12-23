@@ -11,20 +11,6 @@ Teacup::Stylesheet.new :week_styles do
                        UIViewAutoresizingFlexibleRightMargin |
                        UIViewAutoresizingFlexibleTopMargin)
 
-  style :week_view,
-    frame: [[0, 0], ["100%", "100%"]],
-    backgroundColor: UIColor.greenColor,
-    autoresizingMask: (UIViewAutoresizingFlexibleLeftMargin |
-                       UIViewAutoresizingFlexibleRightMargin |
-                       UIViewAutoresizingFlexibleTopMargin)
-
-  style :day_info_for_week,
-    center_x: '50%',
-    center_y: '10%',
-    width: '100%',
-    height: 50,
-    backgroundColor: UIColor.redColor
-
   style :day_btn,
     center_x: '50% - 52',
     center_y: '50%',

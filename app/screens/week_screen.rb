@@ -3,6 +3,10 @@ module Screen
 
     # title ''
 
+    @@cell_identifier = nil
+
+    @selected_date = nil
+
     stylesheet :week_styles
     include Teacup::TableViewDelegate
 
@@ -22,7 +26,8 @@ module Screen
         end
 
         @day_btn.when_tapped do
-          open DayScreen
+          App::Persistence[:selected_date] = NSDate.today
+          open DayScreen.new(nav_bar: true)
         end
 
         @week_btn.when_tapped do
@@ -40,8 +45,9 @@ module Screen
 
       @table_view = UITableView.alloc.initWithFrame(self.view.bounds)
       @table_view.dataSource = self
+
       self.view.addSubview(@table_view)
-      # @table_view.delegate = self
+      @table_view.delegate = self
 
       Week.get_weeks do |success, weeks|
         if success
@@ -54,43 +60,121 @@ module Screen
     end
 
     def tableView(tableView, numberOfRowsInSection: section)
-      @data.count
+      @data.collect {|w| w.days}.flatten.count
     end
 
-    # When the view is first loaded, the cells don't exist,
-    # so we create these cells and set their color to red.
-    # When scrolling, new cells are automatically created before
-    # this method is called; in this case we're setting the color to blue.
-    # At the end, regardless of how the cell was created, we set the text.
+    CELLID = 'cell_identifier'
     def tableView(tableView, cellForRowAtIndexPath: indexPath)
-      cell = tableView.dequeueReusableCellWithIdentifier(cell_identifier)
 
-      unless cell
-        cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleValue1, reuseIdentifier:cell_identifier)
-        cell.textLabel.textColor = UIColor.redColor
-      else
-        cell.textLabel.textColor = UIColor.blueColor
+      cell = tableView.dequeueReusableCellWithIdentifier(CELLID) || begin
+        cell = DayCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
+
+        cell.createLabels
+        cell
       end
 
+      week = @data
+      days = week.collect {|w| w.days}.flatten
+      day = days.flatten[indexPath.row]
 
-      week = @data[indexPath.row]
-      cell.textLabel.text = week.start_date.to_s
+      date = day['date']
+      day_number = day['day_number']
+      check_in_status = day['check_in_status']
+
+      cell.date_label.textColor = day['is_future'] ? BW.rgb_color(154,167,164) : BW.rgb_color(113,113,117)
+      cell.day_number_label.textColor = day['is_future'] ? BW.rgb_color(250,214,155) : BW.rgb_color(255,160,0)
+
+      cell.day_number_label.text = day_number.to_s
+      cell.date_label.text = date.to_s
+
+      cell.check_in_image_view.image = case check_in_status
+      when 0
+        if day['is_future']
+          UIImage.imageNamed('check-in-future.png')
+        else
+          nil
+        end
+      when 1
+        UIImage.imageNamed('check-in-mixed.png')
+      when 2
+        UIImage.imageNamed('check-in-yes.png')
+      when 3
+        UIImage.imageNamed('check-in-no.png')
+      else
+        nil
+      end
 
       cell
     end
 
     # Example of tapping a cell
-    def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    def tableView(tableView, didSelectRowAtIndexPath: indexPath)
       tableView.deselectRowAtIndexPath(indexPath, animated: true)
-      alert = UIAlertView.alloc.init
-      # alert.message = "#{@data[indexPath.row]} tapped!"
-      alert.addButtonWithTitle "OK"
-      alert.show
+      days = @data.collect {|w| w.days}.flatten
+      day = days.flatten[indexPath.row]
+
+      date_formatter = NSDateFormatter.alloc.init
+      date_formatter.dateFormat = "yyyy-MM-dd"
+      date = date_formatter.dateFromString day[:full_date]
+
+      App::Persistence.delete(:selected_date)
+      App::Persistence[:selected_date] = date
+
+      check_in_status = day[:check_in_status]
+
+      if day[:today_or_yesterday]
+        if check_in_status == 0
+          open CheckInScreen.new(nav_bar: true)
+        else
+          open DayScreen.new(nav_bar: true)
+        end
+      end
     end
 
 
     def cell_identifier
-      @cell_identifier ||= 'CELL_IDENTIFIER'
+      @@cell_identifier ||= 'CELL_IDENTIFIER'
     end
+  end
+
+  class DayCell < UITableViewCell
+
+    attr_accessor :date_label
+    attr_accessor :day_number_label
+    attr_accessor :check_in_image_view
+
+    def createLabels
+
+      @date_label = UILabel.alloc.init
+      @date_label.textAlignment = UITextAlignmentLeft
+      @date_label.font = UIFont.boldSystemFontOfSize(10)
+
+      @day_number_label = UILabel.alloc.init
+      @day_number_label.textAlignment = UITextAlignmentLeft
+      @day_number_label.font = UIFont.boldSystemFontOfSize(14)
+
+      @check_in_image_view = UIImageView.new
+
+      self.contentView.addSubview(@date_label)
+      self.contentView.addSubview(@day_number_label)
+      self.contentView.addSubview(@check_in_image_view)
+
+      self
+    end
+
+    def layoutSubviews
+      super
+
+      contentRect = self.contentView.bounds
+      boundsX = contentRect.origin.x
+
+      height = self.contentView.height
+
+      @date_label.frame = CGRectMake(boundsX+25, 5, 200, 15)
+      @day_number_label.frame = CGRectMake(boundsX+25, 15, 100, 25)
+      @check_in_image_view.frame = CGRectMake(boundsX+240, 0, 79.56, height)
+
+    end
+
   end
 end
