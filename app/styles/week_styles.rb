@@ -5,8 +5,8 @@ Teacup::Stylesheet.new :week_styles do
     # backgroundColor: "#CCCCCC".to_color
 
   style :program_nav,
-    frame: [[0, "100% - 30"], ["100%", 30]],
-    backgroundColor: UIColor.blueColor,
+    frame: [[0, "100% - 78"], ["100%", 78]],
+    backgroundColor: "#f1f2f2".to_color,
     autoresizingMask: (UIViewAutoresizingFlexibleLeftMargin |
                        UIViewAutoresizingFlexibleRightMargin |
                        UIViewAutoresizingFlexibleTopMargin)
@@ -26,23 +26,23 @@ Teacup::Stylesheet.new :week_styles do
     backgroundColor: UIColor.redColor
 
   style :day_btn,
-    center_x: '50% - 30',
+    center_x: '50% - 52',
     center_y: '50%',
-    width: 22,
-    height: 22,
-    backgroundColor: UIColor.redColor
+    width: 36,
+    height: 36,
+    backgroundImage: UIImage.imageNamed("day-view-btn")
 
   style :week_btn,
     center_x: '50%',
     center_y: '50%',
-    width: 22,
-    height: 22,
-    backgroundColor: UIColor.yellowColor
+    width: 36,
+    height: 36,
+    backgroundImage: UIImage.imageNamed("week-view-btn")
 
   style :month_btn,
-    center_x: '50% + 30',
+    center_x: '50% + 52',
     center_y: '50%',
-    width: 22,
-    height: 22,
-    backgroundColor: UIColor.purpleColor
+    width: 36,
+    height: 36,
+    backgroundImage: UIImage.imageNamed("month-view-btn")
 end
