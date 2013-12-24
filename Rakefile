@@ -8,6 +8,7 @@ Bundler.require
 require 'bubble-wrap/http'
 require 'bubble-wrap/camera'
 require 'sugarcube'
+require 'teacup'
 
 Motion::Project::App.setup do |app|
   app.name = 'rshdevelopment'

@@ -1,41 +1,47 @@
 module Screen
   class WeekScreen < PM::Screen
 
-    # title ''
-
-    @@cell_identifier = nil
-
-    @selected_date = nil
-
     stylesheet :week_styles
     include Teacup::TableViewDelegate
 
-    def viewWillAppear(animated)
+    @@cell_identifier = nil
+    @selected_date = nil
+
+    def on_load
+      self.title = 'Week'
+    end
+
+    def will_appear
       super
 
-      # mm_drawerController.title = title
-      # view.subviews.each &:removeFromSuperview
+      @view_is_set_up ||= begin
+        mm_drawerController.title = title
 
-      layout(self.view, :main_view) do
-        week_table
+        view.subviews.each &:removeFromSuperview
+        layout(view, :main_view) do |main_view|
+          week_table
 
-        subview(UIView, :program_nav) do
-          @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
-          @week_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :week_btn)
-          @month_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :month_btn)
-        end
+          subview(UIView, :program_nav) do
+            @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
+            @week_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :week_btn)
+            @month_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :month_btn)
+          end
 
-        @day_btn.when_tapped do
-          App::Persistence[:selected_date] = NSDate.today
-          open DayScreen.new(nav_bar: true)
-        end
+          @day_btn.when_tapped do
+            App::Persistence[:selected_date] = NSDate.today
+            screen = mm_drawerController.send(:day_screen)
+            mm_drawerController.centerViewController = screen
+          end
 
-        @week_btn.when_tapped do
-          # open WeekScreen
-        end
+          @week_btn.when_tapped do
+            screen = mm_drawerController.send(:week_screen)
+            mm_drawerController.centerViewController = screen
+          end
 
-        @month_btn.when_tapped do
-          open MonthScreen
+          @month_btn.when_tapped do
+            screen = mm_drawerController.send(:month_screen)
+            mm_drawerController.centerViewController = screen
+          end
         end
       end
     end
@@ -43,10 +49,8 @@ module Screen
     def week_table
       @data ||= []
 
-      @table_view = UITableView.alloc.initWithFrame(self.view.bounds)
+      @table_view = subview UITableView.alloc.initWithFrame(self.view.bounds)
       @table_view.dataSource = self
-
-      self.view.addSubview(@table_view)
       @table_view.delegate = self
 
       Week.get_weeks do |success, weeks|
