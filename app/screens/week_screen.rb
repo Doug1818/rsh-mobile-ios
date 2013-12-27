@@ -1,42 +1,47 @@
 module Screen
   class WeekScreen < PM::Screen
 
-    title 'This Week'
-
-    @@cell_identifier = nil
-
-    @selected_date = nil
-
     stylesheet :week_styles
     include Teacup::TableViewDelegate
 
-    def viewWillAppear(animated)
+    @@cell_identifier = nil
+    @selected_date = nil
+
+    def on_load
+      self.title = 'Week'
+    end
+
+    def will_appear
       super
 
-      mm_drawerController.title = title
-      # view.subviews.each &:removeFromSuperview
+      @view_is_set_up ||= begin
+        mm_drawerController.title = title
 
-      layout(self.view, :main_view) do
-        week_table
+        view.subviews.each &:removeFromSuperview
+        layout(view, :main_view) do |main_view|
+          week_table
 
-        subview(UIView, :program_nav) do
-          @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
-          @week_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :week_btn)
-          @month_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :month_btn)
-        end
+          subview(UIView, :program_nav) do
+            @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
+            @week_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :week_btn)
+            @month_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :month_btn)
+          end
 
-        @day_btn.when_tapped do
-          # puts "TAPPED DAY BUTTON"
-          App::Persistence[:selected_date] = NSDate.today 
-          open DayScreen.new(nav_bar: true)
-        end
+          @day_btn.when_tapped do
+            App::Persistence[:selected_date] = NSDate.today
+            screen = mm_drawerController.send(:day_screen)
+            mm_drawerController.centerViewController = screen
+          end
 
-        @week_btn.when_tapped do
-          puts "TAPPED WEEK BUTTON"
-        end
+          @week_btn.when_tapped do
+            screen = mm_drawerController.send(:week_screen)
+            mm_drawerController.centerViewController = screen
+          end
 
-        @month_btn.when_tapped do
-          puts "TAPPED MONTH BUTTON"
+          @month_btn.when_tapped do
+            screen = mm_drawerController.send(:month_screen)
+            mm_drawerController.centerViewController = screen
+          end
         end
       end
     end
@@ -44,10 +49,8 @@ module Screen
     def week_table
       @data ||= []
 
-      @table_view = UITableView.alloc.initWithFrame(self.view.bounds)
+      @table_view = subview UITableView.alloc.initWithFrame(self.view.bounds)
       @table_view.dataSource = self
-
-      self.view.addSubview(@table_view)
       @table_view.delegate = self
 
       Week.get_weeks do |success, weeks|
@@ -69,7 +72,7 @@ module Screen
 
       cell = tableView.dequeueReusableCellWithIdentifier(CELLID) || begin
         cell = DayCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
- 
+
         cell.createLabels
         cell
       end
@@ -83,7 +86,7 @@ module Screen
       check_in_status = day['check_in_status']
 
       cell.date_label.textColor = day['is_future'] ? BW.rgb_color(154,167,164) : BW.rgb_color(113,113,117)
-      cell.day_number_label.textColor = day['is_future'] ? BW.rgb_color(250,214,155) : BW.rgb_color(255,160,0) 
+      cell.day_number_label.textColor = day['is_future'] ? BW.rgb_color(250,214,155) : BW.rgb_color(255,160,0)
 
       cell.day_number_label.text = day_number.to_s
       cell.date_label.text = date.to_s
@@ -139,17 +142,17 @@ module Screen
   end
 
   class DayCell < UITableViewCell
- 
+
     attr_accessor :date_label
     attr_accessor :day_number_label
     attr_accessor :check_in_image_view
-   
+
     def createLabels
-   
+
       @date_label = UILabel.alloc.init
       @date_label.textAlignment = UITextAlignmentLeft
       @date_label.font = UIFont.boldSystemFontOfSize(10)
-   
+
       @day_number_label = UILabel.alloc.init
       @day_number_label.textAlignment = UITextAlignmentLeft
       @day_number_label.font = UIFont.boldSystemFontOfSize(14)
@@ -159,13 +162,13 @@ module Screen
       self.contentView.addSubview(@date_label)
       self.contentView.addSubview(@day_number_label)
       self.contentView.addSubview(@check_in_image_view)
-   
+
       self
     end
-   
+
     def layoutSubviews
       super
-   
+
       contentRect = self.contentView.bounds
       boundsX = contentRect.origin.x
 
@@ -174,8 +177,8 @@ module Screen
       @date_label.frame = CGRectMake(boundsX+25, 5, 200, 15)
       @day_number_label.frame = CGRectMake(boundsX+25, 15, 100, 25)
       @check_in_image_view.frame = CGRectMake(boundsX+240, 0, 79.56, height)
-   
+
     end
-   
+
   end
 end

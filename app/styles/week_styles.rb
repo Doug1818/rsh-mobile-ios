@@ -1,8 +1,7 @@
 Teacup::Stylesheet.new :week_styles do
   style :main_view,
     frame: [[0,TOP_BELOW_MM_NAV], ["100%", "100% - #{TOP_BELOW_MM_NAV}"]]
-    # backgroundColor: "#ffa721".to_color
-    # backgroundColor: "#CCCCCC".to_color
+    # frame: [[0,65], ["300", "300"]]
 
   style :program_nav,
     frame: [[0, "100% - 78"], ["100%", 78]],

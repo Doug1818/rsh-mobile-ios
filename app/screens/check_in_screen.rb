@@ -1,35 +1,39 @@
 module Screen
  class CheckInScreen < PM::Screen
+    TAGS = { day_label: 2, small_step_name_label: 3, no_button: 4, yes_button: 5, not_sure_button: 6 }
 
-    title ''
-
-    TAGS = {day_label: 2, small_step_name_label: 3, no_button: 4, yes_button: 5, not_sure_button: 6}
-
-
-    def loadView
-      views = NSBundle.mainBundle.loadNibNamed "check_in_view", owner:self, options:nil
-      self.view = views[0]
+    # def loadView
+    def on_load
+      self.title = ''
+      @views = NSBundle.mainBundle.loadNibNamed "check_in_view", owner:self, options:nil
     end
 
-    def viewDidLoad
-      @day_label = view.viewWithTag TAGS[:day_label]
-      @small_step_name_label = view.viewWithTag TAGS[:small_step_name_label]
-      @small_step_name_label.sizeToFit
+    def will_appear
+      @view_is_set_up ||= begin
+        mm_drawerController.title = title
 
-      @no_button = view.viewWithTag TAGS[:no_button]
-      @no_button.addTarget(self, action: "answer_no", forControlEvents: UIControlEventTouchUpInside)
+        view.subviews.each &:removeFromSuperview
+        self.view = @views[0]
 
-      @yes_button = view.viewWithTag TAGS[:yes_button]
-      @yes_button.addTarget(self, action: "answer_yes", forControlEvents: UIControlEventTouchUpInside)
+        @day_label = view.viewWithTag TAGS[:day_label]
+        @small_step_name_label = view.viewWithTag TAGS[:small_step_name_label]
+        @small_step_name_label.sizeToFit
 
-      @not_sure_button = view.viewWithTag TAGS[:not_sure_button]
-      @not_sure_button.addTarget(self, action: "not_sure_action", forControlEvents: UIControlEventTouchUpInside)
+        @no_button = view.viewWithTag TAGS[:no_button]
+        @no_button.addTarget(self, action: "answer_no", forControlEvents: UIControlEventTouchUpInside)
 
-      @date = App::Persistence[:selected_date] || NSDate.today
-      date_string_for_label = @date.string_with_format('MMM d')
+        @yes_button = view.viewWithTag TAGS[:yes_button]
+        @yes_button.addTarget(self, action: "answer_yes", forControlEvents: UIControlEventTouchUpInside)
 
-      @day_label.text = date_string_for_label
-      get_small_steps(@date)
+        @not_sure_button = view.viewWithTag TAGS[:not_sure_button]
+        @not_sure_button.addTarget(self, action: "not_sure_action", forControlEvents: UIControlEventTouchUpInside)
+
+        @date = App::Persistence[:selected_date] || NSDate.today
+        date_string_for_label = @date.string_with_format('MMM d')
+
+        @day_label.text = date_string_for_label
+        get_small_steps(@date)
+      end
     end
 
     def get_small_steps(date)

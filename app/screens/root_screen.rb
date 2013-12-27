@@ -1,7 +1,7 @@
 class RootScreen < MMDrawerController
   # You can inherit a screen from any UIViewController if you include the ScreenModule
   # Just make sure to implement the Obj-C methods in cocoatouch/view_controller.rb.
-  include ProMotion::ScreenModule
+  include PM::ScreenModule
 
   title 'Schedule'
 
@@ -24,7 +24,7 @@ class RootScreen < MMDrawerController
     self.leftDrawerViewController   = Screen::MenuScreen.new(nav_bar: false)
     self.rightDrawerViewController  = nil
 
-    self.centerViewController = App::Persistence[:authentication_token] ? week_screen : login_screen
+    self.centerViewController = App::Persistence[:authentication_token] ? day_screen : login_screen
 
     leftDrawerButton = MMDrawerBarButtonItem.alloc.initWithTarget self, action:"show_menu:"
     navigationItem.setLeftBarButtonItem leftDrawerButton, animated:true
@@ -36,6 +36,10 @@ class RootScreen < MMDrawerController
 
   def show_menu(sender)
     toggleDrawerSide MMDrawerSideLeft, animated:true, completion: nil
+  end
+
+  def month_screen
+    @month_screen ||= Screen::MonthScreen.new
   end
 
   def week_screen

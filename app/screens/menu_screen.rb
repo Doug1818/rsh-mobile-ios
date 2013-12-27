@@ -6,10 +6,8 @@ module Screen
       member_menu = [{
         cells: [
           { title: "Profile",   action: :show_screen, arguments: { screen_name: :profile_screen   }},
-          { title: "To Dos",   action: :show_screen, arguments: { screen_name: :todos_screen   }},
           { title: "Program",   action: :show_screen, arguments: { screen_name: :week_screen   }},
           { title: "Check In",   action: :show_screen, arguments: { screen_name: :check_in_screen   }},
-          { title: "Supporters",   action: :show_screen, arguments: { screen_name: :supporters_screen   }},
           { title: "Sign Out",   action: :show_screen, arguments: { screen_name: :signout_screen   }},
         ]
       }]
@@ -17,7 +15,6 @@ module Screen
       guest_menu = [{
         cells: [
           { title: "Login",   action: :show_screen, arguments: { screen_name: :login_screen   }},
-          { title: "Help",   action: :show_screen, arguments: { screen_name: :help_screen   }},
         ]
       }]
 
