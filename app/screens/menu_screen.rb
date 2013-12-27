@@ -18,7 +18,7 @@ module Screen
         ]
       }]
 
-      App::Persistence[:authentication_token] ? member_menu : guest_menu
+      App::Persistence[:program_authentication_token] ? member_menu : guest_menu
     end
 
     def root_screen

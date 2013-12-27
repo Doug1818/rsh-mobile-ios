@@ -19,12 +19,10 @@ class RootScreen < MMDrawerController
   def on_create(args={})
     super
 
-    # App::Persistence.delete(:authentication_token)
-
     self.leftDrawerViewController   = Screen::MenuScreen.new(nav_bar: false)
     self.rightDrawerViewController  = nil
 
-    self.centerViewController = App::Persistence[:authentication_token] ? day_screen : login_screen
+    self.centerViewController = App::Persistence[:program_authentication_token] ? day_screen : login_screen
 
     leftDrawerButton = MMDrawerBarButtonItem.alloc.initWithTarget self, action:"show_menu:"
     navigationItem.setLeftBarButtonItem leftDrawerButton, animated:true

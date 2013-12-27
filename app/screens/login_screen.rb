@@ -15,18 +15,18 @@ module Screen
     end
 
     def textFieldShouldReturn(textField)
-      data = { authentication_token: textField.text }
 
-      BW::HTTP.post("#{Globals::API_ENDPOINT}/sessions", { payload: data }) do |response|
-        if response.ok?
-          response = BW::JSON.parse(response.body.to_str)
-          App::Persistence[:authentication_token] = response[:data][:program][:authentication_token]
+      Program.authenticate_program(textField.text) do |success, program|
+        if success
+          @program = program
+
+          App::Persistence[:program_authentication_token] = @program.authentication_token
+          App::Persistence[:user_email] = @program.user.email
+          App::Persistence[:user_id] = @program.user.id
 
           open RootScreen
-        elsif response.status_code.to_s =~ /40\d/
-          App.alert("We did not recognize that code. Please try again.")
         else
-          App.alert(response.error_message)
+          App.alert("We did not recognize that code. Please try again.")
         end
       end
     end
