@@ -22,10 +22,6 @@ class User
       last_name: json['last_name'])
   end
 
-  def self.subscribe_to_push_channels(user)
-
-  end
-
   # def update(data, &block)
   #   data.merge( { authentication_token: App::Persistence[:program_authentication_token]} )
 
