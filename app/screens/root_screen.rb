@@ -56,23 +56,11 @@ class RootScreen < MMDrawerController
     @profile_screen ||= Screen::ProfileScreen.new
   end
 
-  def todos_screen
-    @todos_screen ||= Screen::TodosScreen.new
-  end
-
-  def supporters_screen
-    @supporters_screen ||= Screen::SupportersScreen.new
-  end
-
   def signout_screen
     @signout_screen ||= Screen::SignoutScreen.new
   end
 
   def login_screen
     @login_screen ||= Screen::LoginScreen.new
-  end
-
-  def help_screen
-    @help_screen ||= Screen::HelpScreen.new
   end
 end

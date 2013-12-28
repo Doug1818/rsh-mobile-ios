@@ -56,5 +56,6 @@ Motion::Project::App.setup do |app|
 
   app.pods do
     pod 'MMDrawerController', '~> 0.4.0'
+    pod 'MNCalendarView', '~> 0.0.1'
   end
 end

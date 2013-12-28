@@ -15,6 +15,11 @@ module Screen
         view.subviews.each &:removeFromSuperview
 
         layout(self.view, :main_view) do
+
+          @calendar_view = subview(MNCalendarView.alloc.initWithFrame(self.view.bounds), :calendar)
+          @calendar_view.selectedDate = NSDate.today
+          @calendar_view.delegate = self
+
           subview(UIView, :program_nav) do
             @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
             @week_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :week_btn)

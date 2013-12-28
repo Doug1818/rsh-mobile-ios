@@ -1,10 +1,10 @@
 module Screen
   class LoginScreen < PM::Screen
-    # stylesheet :login_styles
+    stylesheet :login_styles
     TAGS = { title: 0, instructions_label: 1, authentication_token_field: 2 }
 
     def on_load
-      self.title = 'Login'
+      self.title = ''
       @views = NSBundle.mainBundle.loadNibNamed "login", owner:self, options:nil
     end
 
