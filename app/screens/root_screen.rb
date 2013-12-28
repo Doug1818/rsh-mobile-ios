@@ -21,7 +21,6 @@ class RootScreen < MMDrawerController
 
     self.leftDrawerViewController   = Screen::MenuScreen.new(nav_bar: false)
     self.rightDrawerViewController  = nil
-
     self.centerViewController = App::Persistence[:program_authentication_token] ? day_screen : login_screen
 
     leftDrawerButton = MMDrawerBarButtonItem.alloc.initWithTarget self, action:"show_menu:"

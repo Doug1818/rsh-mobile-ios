@@ -14,12 +14,14 @@ module Screen
       @authentication_token.delegate = self
     end
 
+    # form submission
     def textFieldShouldReturn(textField)
 
       Program.authenticate_program(textField.text) do |success, program|
         if success
           @program = program
 
+          # TODO clean this up. Ideally, we could persist the entire @program object in one call.
           App::Persistence[:program_authentication_token] = @program.authentication_token
           App::Persistence[:user_email] = @program.user.email
           App::Persistence[:user_id] = @program.user.id

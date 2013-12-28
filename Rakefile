@@ -15,7 +15,7 @@ Motion::Project::App.setup do |app|
   app.identifier = 'com.rsh.rshdevelopment'
   app.seed_id = 'Q9HSG7LP5Y'
   app.codesign_certificate = 'iPhone Developer: Adam Rubin (59S96JTU24)'
-  app.provisioning_profile = 'provisioning/Barbershop_Labs_provisioning_profile.mobileprovision'
+  app.provisioning_profile = 'provisioning/rsh_provisioning.mobileprovision'
 
   app.entitlements['application-identifier'] = app.seed_id + '.' + app.identifier
   app.entitlements['keychain-access-groups'] = [
@@ -24,10 +24,8 @@ Motion::Project::App.setup do |app|
   app.entitlements['aps-environment'] = 'development'
   app.entitlements['get-task-allow'] = true
 
-
   app.interface_orientations = [:portrait]
   app.device_family = [:iphone]
-
 
   app.libs << '/usr/lib/libz.1.1.3.dylib'
   app.libs << '/usr/lib/libsqlite3.dylib'
@@ -51,8 +49,6 @@ Motion::Project::App.setup do |app|
   app.vendor_project('vendor/Parse.framework', :static,
     :products => ['Parse'],
     :headers_dir => 'Headers')
-
-
 
   app.testflight.sdk = 'vendor/TestFlightSDK2.1.3'
   app.testflight.api_token = '2da34e79be5541474fd9216203c82054_MTUyNzY3MjIwMTMtMTItMTkgMTY6MDY6MTEuOTczOTI5'
