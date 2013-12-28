@@ -19,12 +19,11 @@ module Screen
 
       Program.authenticate_program(textField.text) do |success, program|
         if success
-          @program = program
+          program.persist_data
+          program.user.persist_data
 
-          # TODO clean this up. Ideally, we could persist the entire @program object in one call.
-          App::Persistence[:program_authentication_token] = @program.authentication_token
-          App::Persistence[:user_email] = @program.user.email
-          App::Persistence[:user_id] = @program.user.id
+          PFPush.subscribeToChannelInBackground("all_users")
+          PFPush.subscribeToChannelInBackground("user_#{App::Persistence[:user_id]}") if App::Persistence[:user_id]
 
           open RootScreen
         else

@@ -7,8 +7,14 @@ class Program
     end
   end
 
+  def persist_data
+    App::Persistence[:program_authentication_token] = self.authentication_token if self.authentication_token
+  end
+
   def self.from_json(json)
-    new(authentication_token: json[:program]['authentication_token'], user: User.from_json(json[:user]))
+    new(
+      authentication_token: json[:program]['authentication_token'],
+      user: User.from_json(json[:user]))
   end
 
 

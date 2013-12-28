@@ -1,8 +1,9 @@
 class AppDelegate < PM::Delegate
   status_bar true, animation: :none
 
+  # If we want to display the notification once the app is launched, or while the app is open, use this
   def on_push_notification(notification, launched)
-    App.alert("#{notification}")
+    # App.alert("NOTIFICATION IS: #{notification}")
   end
 
   def on_load(app, options)
@@ -18,6 +19,8 @@ class AppDelegate < PM::Delegate
 
   def on_push_registration(token, error)
     PFPush.storeDeviceToken(token)
-    PFPush.subscribeToChannelInBackground("test")
+
+    PFPush.subscribeToChannelInBackground("all_users")
+    PFPush.subscribeToChannelInBackground("user_#{App::Persistence[:user_id]}") if App::Persistence[:user_id]
   end
 end
