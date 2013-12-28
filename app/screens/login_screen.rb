@@ -1,17 +1,25 @@
 module Screen
   class LoginScreen < PM::Screen
-    title ''
+    # stylesheet :login_styles
+    TAGS = { title: 0, instructions_label: 1, authentication_token_field: 2 }
 
-    TAGS = { title: 0, instructions_label: 1, authentication_token: 2 }
-
-    def loadView
-      views = NSBundle.mainBundle.loadNibNamed "login", owner:self, options:nil
-      self.view = views[0]
+    def on_load
+      self.title = 'Login'
+      @views = NSBundle.mainBundle.loadNibNamed "login", owner:self, options:nil
     end
 
-    def viewDidLoad
-      @authentication_token = view.viewWithTag TAGS[:authentication_token]
-      @authentication_token.delegate = self
+    def will_appear
+      super
+
+      @view_is_set_up ||= begin
+        mm_drawerController.title = title
+
+        view.subviews.each &:removeFromSuperview
+        self.view = @views[0]
+
+        @authentication_token_field = view.viewWithTag TAGS[:authentication_token_field]
+        @authentication_token_field.delegate = self
+      end
     end
 
     # form submission
@@ -22,6 +30,7 @@ module Screen
           program.persist_data
           program.user.persist_data
 
+          # In case they're not subscribed yet...
           PFPush.subscribeToChannelInBackground("all_users")
           PFPush.subscribeToChannelInBackground("user_#{App::Persistence[:user_id]}") if App::Persistence[:user_id]
 
