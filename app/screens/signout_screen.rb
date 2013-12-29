@@ -1,5 +1,5 @@
-module ScreenScreen
-  class Signout < UIViewController
+module Screen
+  class SignoutScreen < UIViewController
     include ProMotion::ScreenModule
 
     def viewDidLoad
