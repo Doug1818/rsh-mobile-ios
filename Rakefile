@@ -7,6 +7,7 @@ Bundler.require
 
 require 'bubble-wrap/http'
 require 'bubble-wrap/camera'
+require 'bubble-wrap/reactor'
 require 'sugarcube'
 require 'teacup'
 

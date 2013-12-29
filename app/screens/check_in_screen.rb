@@ -95,7 +95,8 @@ module Screen
         }
         BW::HTTP.post("#{Globals::API_ENDPOINT}/check_ins", { payload: data }) do |response|
           if response.ok?
-            App.alert("Successfully checked in")
+            screen = mm_drawerController.send(:thank_you_screen)
+            mm_drawerController.centerViewController = screen
            elsif response.status_code.to_s =~ /40\d/
             App.alert("There was an error")
           else
