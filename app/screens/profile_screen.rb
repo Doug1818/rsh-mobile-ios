@@ -14,7 +14,7 @@ module Screen
       profile_email = view.viewWithTag TAGS[:profile_email]
       profile_name = view.viewWithTag TAGS[:profile_name]
 
-      data = {authentication_token: App::Persistence[:authentication_token]}
+      data = {authentication_token: App::Persistence[:program_authentication_token]}
 
       BW::HTTP.get("#{Globals::API_ENDPOINT}/users", { payload: data }) do |response|
         if response.ok?

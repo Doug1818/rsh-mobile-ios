@@ -43,7 +43,7 @@ module Screen
     def get_small_steps(date)
 
       data = {
-        authentication_token: App::Persistence[:authentication_token],
+        authentication_token: App::Persistence[:program_authentication_token],
         date: date
       }
       BW::HTTP.get("#{Globals::API_ENDPOINT}/week/by_date", { payload: data }) do |response|
@@ -87,7 +87,7 @@ module Screen
     def process_check_in(status)
       if @small_steps.count > 0
         data = {
-          authentication_token: App::Persistence[:authentication_token],
+          authentication_token: App::Persistence[:program_authentication_token],
           small_steps: @small_steps,
           week_id: @week[:id],
           date: @date,

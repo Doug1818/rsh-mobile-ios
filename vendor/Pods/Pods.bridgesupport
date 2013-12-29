@@ -1,5 +1,8 @@
 <?xml version='1.0'?>
 <signatures version='1.0'>
+<constant const='true' declared_type='NSString*' name='MNCalendarHeaderViewIdentifier' type='@'/>
+<constant const='true' declared_type='NSString*' name='MNCalendarViewDayCellIdentifier' type='@'/>
+<constant const='true' declared_type='NSString*' name='MNCalendarViewWeekdayCellIdentifier' type='@'/>
 <enum name='MMCloseDrawerGestureModeAll' value='254'/>
 <enum name='MMCloseDrawerGestureModeBezelPanningCenterView' value='8'/>
 <enum name='MMCloseDrawerGestureModeCustom' value='128'/>
@@ -21,6 +24,19 @@
 <enum name='MMOpenDrawerGestureModeNone' value='0'/>
 <enum name='MMOpenDrawerGestureModePanningCenterView' value='4'/>
 <enum name='MMOpenDrawerGestureModePanningNavigationBar' value='2'/>
+<enum name='MN_DAY' value='86400'/>
+<enum name='MN_HOUR' value='3600'/>
+<enum name='MN_MINUTE' value='60.f'/>
+<enum name='MN_WEEK' value='604800'/>
+<enum name='MN_YEAR' value='31536000'/>
+<function name='MNContextDrawLine'>
+<arg declared_type='CGContextRef' name='c' type='^{CGContext=}'/>
+<arg declared_type='CGPoint' name='start' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+<arg declared_type='CGPoint' name='end' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+<arg declared_type='CGColorRef' name='color' type='^{CGColor=}'/>
+<arg declared_type='CGFloat' name='lineWidth' type='f' type64='d'/>
+<retval declared_type='void' type='v'/>
+</function>
 <class name='MMDrawerBarButtonItem'>
 <method selector='initWithTarget:action:'>
 <arg declared_type='id' index='0' name='target' type='@'/>
@@ -339,6 +355,222 @@
 </retval>
 </method>
 </class>
+<class name='MNCalendarHeaderView'>
+<method selector='date'>
+<retval declared_type='NSDate*' type='@'/>
+</method>
+<method selector='setDate:'>
+<arg declared_type='NSDate*' index='0' name='date' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setTitleLabel:'>
+<arg declared_type='UILabel*' index='0' name='titleLabel' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='titleLabel'>
+<retval declared_type='UILabel*' type='@'/>
+</method>
+</class>
+<class name='MNCalendarView'>
+<method selector='calendar'>
+<retval declared_type='NSCalendar*' type='@'/>
+</method>
+<method selector='collectionView'>
+<retval declared_type='UICollectionView*' type='@'/>
+</method>
+<method selector='dayCellClass'>
+<retval declared_type='Class' type='#'/>
+</method>
+<method selector='delegate'>
+<retval declared_type='id' type='@'/>
+</method>
+<method selector='fromDate'>
+<retval declared_type='NSDate*' type='@'/>
+</method>
+<method selector='headerViewClass'>
+<retval declared_type='Class' type='#'/>
+</method>
+<method selector='reloadData'>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='selectedDate'>
+<retval declared_type='NSDate*' type='@'/>
+</method>
+<method selector='separatorColor'>
+<retval declared_type='UIColor*' type='@'/>
+</method>
+<method selector='setCalendar:'>
+<arg declared_type='NSCalendar*' index='0' name='calendar' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setCollectionView:'>
+<arg declared_type='UICollectionView*' index='0' name='collectionView' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setDayCellClass:'>
+<arg declared_type='Class' index='0' name='dayCellClass' type='#'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setDelegate:'>
+<arg declared_type='id' index='0' name='delegate' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setFromDate:'>
+<arg declared_type='NSDate*' index='0' name='fromDate' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setHeaderViewClass:'>
+<arg declared_type='Class' index='0' name='headerViewClass' type='#'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setSelectedDate:'>
+<arg declared_type='NSDate*' index='0' name='selectedDate' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setSeparatorColor:'>
+<arg declared_type='UIColor*' index='0' name='separatorColor' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setToDate:'>
+<arg declared_type='NSDate*' index='0' name='toDate' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setWeekdayCellClass:'>
+<arg declared_type='Class' index='0' name='weekdayCellClass' type='#'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='toDate'>
+<retval declared_type='NSDate*' type='@'/>
+</method>
+<method selector='weekdayCellClass'>
+<retval declared_type='Class' type='#'/>
+</method>
+</class>
+<class name='MNCalendarViewCell'>
+<method selector='calendar'>
+<retval declared_type='NSCalendar*' type='@'/>
+</method>
+<method selector='isEnabled'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='separatorColor'>
+<retval declared_type='UIColor*' type='@'/>
+</method>
+<method selector='setCalendar:'>
+<arg declared_type='NSCalendar*' index='0' name='calendar' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setEnabled:'>
+<arg declared_type='BOOL' index='0' name='enabled' type='B'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setSeparatorColor:'>
+<arg declared_type='UIColor*' index='0' name='separatorColor' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setTitleLabel:'>
+<arg declared_type='UILabel*' index='0' name='titleLabel' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='titleLabel'>
+<retval declared_type='UILabel*' type='@'/>
+</method>
+</class>
+<class name='MNCalendarViewDayCell'>
+<method selector='date'>
+<retval declared_type='NSDate*' type='@'/>
+</method>
+<method selector='month'>
+<retval declared_type='NSDate*' type='@'/>
+</method>
+<method selector='setDate:'>
+<arg declared_type='NSDate*' index='0' name='date' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setDate:month:calendar:'>
+<arg declared_type='NSDate*' index='0' name='date' type='@'/>
+<arg declared_type='NSDate*' index='1' name='month' type='@'/>
+<arg declared_type='NSCalendar*' index='2' name='calendar' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setMonth:'>
+<arg declared_type='NSDate*' index='0' name='month' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+</class>
+<class name='MNCalendarViewWeekdayCell'>
+<method selector='setWeekday:'>
+<arg declared_type='NSUInteger' index='0' name='weekday' type='I' type64='Q'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='weekday'>
+<retval declared_type='NSUInteger' type='I' type64='Q'/>
+</method>
+</class>
+<class name='MNFastDateEnumeration'>
+<method selector='calendar'>
+<retval declared_type='NSCalendar*' type='@'/>
+</method>
+<method selector='fromDate'>
+<retval declared_type='NSDate*' type='@'/>
+</method>
+<method selector='initWithFromDate:toDate:calendar:unit:'>
+<arg declared_type='NSDate*' index='0' name='fromDate' type='@'/>
+<arg declared_type='NSDate*' index='1' name='toDate' type='@'/>
+<arg declared_type='NSCalendar*' index='2' name='calendar' type='@'/>
+<arg declared_type='NSCalendarUnit' index='3' name='unit' type='I' type64='Q'/>
+<retval declared_type='id' type='@'/>
+</method>
+<method selector='setCalendar:'>
+<arg declared_type='NSCalendar*' index='0' name='calendar' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setFromDate:'>
+<arg declared_type='NSDate*' index='0' name='fromDate' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setToDate:'>
+<arg declared_type='NSDate*' index='0' name='toDate' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='toDate'>
+<retval declared_type='NSDate*' type='@'/>
+</method>
+<method selector='unit'>
+<retval declared_type='NSCalendarUnit' type='I' type64='Q'/>
+</method>
+</class>
+<class name='NSDate'>
+<method selector='mn_beginningOfDay:'>
+<arg declared_type='NSCalendar*' index='0' name='calendar' type='@'/>
+<retval declared_type='id' type='@'/>
+</method>
+<method selector='mn_dateWithDay:calendar:'>
+<arg declared_type='NSUInteger' index='0' name='day' type='I' type64='Q'/>
+<arg declared_type='NSCalendar*' index='1' name='calendar' type='@'/>
+<retval declared_type='id' type='@'/>
+</method>
+<method selector='mn_firstDateOfMonth:'>
+<arg declared_type='NSCalendar*' index='0' name='calendar' type='@'/>
+<retval declared_type='id' type='@'/>
+</method>
+<method selector='mn_lastDateOfMonth:'>
+<arg declared_type='NSCalendar*' index='0' name='calendar' type='@'/>
+<retval declared_type='id' type='@'/>
+</method>
+</class>
+<class name='NSObject'>
+<method selector='calendarView:didSelectDate:'>
+<arg declared_type='MNCalendarView*' index='0' name='calendarView' type='@'/>
+<arg declared_type='NSDate*' index='1' name='date' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='calendarView:shouldSelectDate:'>
+<arg declared_type='MNCalendarView*' index='0' name='calendarView' type='@'/>
+<arg declared_type='NSDate*' index='1' name='date' type='@'/>
+<retval declared_type='BOOL' type='B'/>
+</method>
+</class>
 <class name='UIViewController'>
 <method selector='mm_drawerController'>
 <retval declared_type='MMDrawerController*' type='@'/>
@@ -351,4 +583,16 @@
 <retval declared_type='void' type='v'/>
 </method>
 </class>
+<informal_protocol name='MNCalendarViewDelegate'>
+<method selector='calendarView:didSelectDate:' type='v16@0:4@8@12' type64='v32@0:8@16@24'>
+<arg declared_type='MNCalendarView*' index='0' name='calendarView' type='@'/>
+<arg declared_type='NSDate*' index='1' name='date' type='@'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='calendarView:shouldSelectDate:' type='B16@0:4@8@12' type64='B32@0:8@16@24'>
+<arg declared_type='MNCalendarView*' index='0' name='calendarView' type='@'/>
+<arg declared_type='NSDate*' index='1' name='date' type='@'/>
+<retval declared_type='BOOL' type='B'/>
+</method>
+</informal_protocol>
 </signatures>

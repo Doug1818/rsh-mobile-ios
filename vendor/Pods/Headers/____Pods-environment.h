@@ -36,3 +36,9 @@
 #define COCOAPODS_VERSION_MINOR_MMDrawerController_Subclass 4
 #define COCOAPODS_VERSION_PATCH_MMDrawerController_Subclass 0
 
+// MNCalendarView
+#define COCOAPODS_POD_AVAILABLE_MNCalendarView
+#define COCOAPODS_VERSION_MAJOR_MNCalendarView 0
+#define COCOAPODS_VERSION_MINOR_MNCalendarView 0
+#define COCOAPODS_VERSION_PATCH_MNCalendarView 1
+

@@ -13,8 +13,8 @@ class Week
   end
 
   def self.get_weeks(&block)
-    
-    data = { authentication_token: App::Persistence[:authentication_token] }
+
+    data = { authentication_token: App::Persistence[:program_authentication_token] }
     BW::HTTP.get("#{Globals::API_ENDPOINT}/weeks", { payload: data }) do |response|
       if response.ok?
         json_data = BW::JSON.parse(response.body.to_str)[:data]

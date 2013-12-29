@@ -19,12 +19,9 @@ class RootScreen < MMDrawerController
   def on_create(args={})
     super
 
-    # App::Persistence.delete(:authentication_token)
-
     self.leftDrawerViewController   = Screen::MenuScreen.new(nav_bar: false)
     self.rightDrawerViewController  = nil
-
-    self.centerViewController = App::Persistence[:authentication_token] ? day_screen : login_screen
+    self.centerViewController = App::Persistence[:program_authentication_token] ? day_screen : login_screen
 
     leftDrawerButton = MMDrawerBarButtonItem.alloc.initWithTarget self, action:"show_menu:"
     navigationItem.setLeftBarButtonItem leftDrawerButton, animated:true
@@ -58,23 +55,11 @@ class RootScreen < MMDrawerController
     @profile_screen ||= Screen::ProfileScreen.new
   end
 
-  def todos_screen
-    @todos_screen ||= Screen::TodosScreen.new
-  end
-
-  def supporters_screen
-    @supporters_screen ||= Screen::SupportersScreen.new
-  end
-
   def signout_screen
     @signout_screen ||= Screen::SignoutScreen.new
   end
 
   def login_screen
     @login_screen ||= Screen::LoginScreen.new
-  end
-
-  def help_screen
-    @help_screen ||= Screen::HelpScreen.new
   end
 end
