@@ -70,7 +70,7 @@ module Screen
 
     def get_program_data
       data = {
-        authentication_token: App::Persistence[:authentication_token],
+        authentication_token: App::Persistence[:program_authentication_token],
         date: @date
       }
       BW::HTTP.get("#{Globals::API_ENDPOINT}/programs", { payload: data }) do |response|
