@@ -5,7 +5,6 @@ module Screen
     include Teacup::TableViewDelegate
 
     @@cell_identifier = nil
-    @selected_date = nil
 
     def on_load
       self.title = 'Week'
@@ -28,7 +27,6 @@ module Screen
           end
 
           @day_btn.when_tapped do
-            App::Persistence[:selected_date] = NSDate.today
             screen = mm_drawerController.send(:day_screen)
             mm_drawerController.centerViewController = screen
           end
@@ -121,16 +119,15 @@ module Screen
       date_formatter.dateFormat = "yyyy-MM-dd"
       date = date_formatter.dateFromString day[:full_date]
 
-      App::Persistence.delete(:selected_date)
-      App::Persistence[:selected_date] = date
-
       check_in_status = day[:check_in_status]
 
       if day[:today_or_yesterday]
         if check_in_status == 0
-          open CheckInScreen.new(nav_bar: true)
+          screen = CheckInScreen.new(nav_bar: true, date: date)
+          mm_drawerController.centerViewController = screen
         else
-          open DayScreen.new(nav_bar: true)
+          screen = DayScreen.new(nav_bar: true, date: date)
+          mm_drawerController.centerViewController = screen
         end
       end
     end

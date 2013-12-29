@@ -1,10 +1,14 @@
 module Screen
  class CheckInScreen < PM::Screen
+
+    attr_accessor :date
+
     TAGS = { day_label: 2, small_step_name_label: 3, no_button: 4, yes_button: 5, not_sure_button: 6 }
 
     # def loadView
     def on_load
       self.title = ''
+      self.date
       @views = NSBundle.mainBundle.loadNibNamed "check_in_view", owner:self, options:nil
     end
 
@@ -28,7 +32,7 @@ module Screen
         @not_sure_button = view.viewWithTag TAGS[:not_sure_button]
         @not_sure_button.addTarget(self, action: "not_sure_action", forControlEvents: UIControlEventTouchUpInside)
 
-        @date = App::Persistence[:selected_date] || NSDate.today
+        @date = self.date || NSDate.today
         date_string_for_label = @date.string_with_format('MMM d')
 
         @day_label.text = date_string_for_label

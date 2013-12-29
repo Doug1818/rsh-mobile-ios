@@ -51,7 +51,6 @@ class RootScreen < MMDrawerController
   end
 
   def check_in_screen
-    App::Persistence.delete(:selected_date)
     @check_in_screen ||= Screen::CheckInScreen.new
   end
 

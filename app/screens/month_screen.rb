@@ -22,7 +22,6 @@ module Screen
           end
 
           @day_btn.when_tapped do
-            App::Persistence[:selected_date] = NSDate.today
             screen = mm_drawerController.send(:day_screen)
             mm_drawerController.centerViewController = screen
           end
