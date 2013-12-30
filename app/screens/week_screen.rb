@@ -7,7 +7,7 @@ module Screen
     @@cell_identifier = nil
 
     def on_load
-      self.title = 'Week'
+      self.title = ''
     end
 
     def will_appear

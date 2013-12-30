@@ -4,7 +4,7 @@ module Screen
     stylesheet :month_styles
 
     def on_load
-      self.title = 'Month'
+      self.title = ''
     end
 
     def will_appear

@@ -3,7 +3,7 @@ class RootScreen < MMDrawerController
   # Just make sure to implement the Obj-C methods in cocoatouch/view_controller.rb.
   include PM::ScreenModule
 
-  title 'Schedule'
+  title ''
 
   def self.new(args = {})
     alloc.init.tap do |root_screen|
@@ -33,7 +33,7 @@ class RootScreen < MMDrawerController
         @program = json_data[:program]
 
         # If they haven't checked in yet and there are steps today, take them to the check in screen
-        # Otherwise take them to the week screen 
+        # Otherwise take them to the week screen
         if @program[:check_in_status] == 0 and @program[:small_steps].count > 0
           self.centerViewController = App::Persistence[:program_authentication_token] ? check_in_screen : login_screen
         else

@@ -1,15 +1,15 @@
 module Screen
  class ProfileScreen < PM::Screen
 
-    title 'Profile'
-
+    stylesheet :profile_styles
     TAGS = { profile_name: 2, profile_email: 3, profile_image: 4 }
 
-    def loadView
+    def on_load
+      self.title = ''
       @views = NSBundle.mainBundle.loadNibNamed "profile", owner:self, options:nil
     end
 
-    def viewDidLoad
+    def will_appear
 
       @scroll = UIScrollView.alloc.initWithFrame(@views[0].bounds)
       @scroll.contentSize = CGSizeMake(@scroll.frame.size.width, content_height(@scroll) + 600)
@@ -22,7 +22,6 @@ module Screen
       profile_name = view.viewWithTag TAGS[:profile_name]
 
       data = {authentication_token: App::Persistence[:program_authentication_token]}
-
       BW::HTTP.get("#{Globals::API_ENDPOINT}/users", { payload: data }) do |response|
         if response.ok?
           json_data = BW::JSON.parse(response.body.to_str)[:data]
@@ -42,7 +41,18 @@ module Screen
     def chooseProfileImage(sender)
       BW::Device.camera.any.picture(media_types: [:image]) do |result|
         image_view = UIImageView.alloc.initWithImage(result[:original_image])
-        puts "IMAGE VIEW IS: #{image_view}"
+        image = UIImageJPEGRepresentation(image_view.image, 9);
+        encodedData = [image].pack("m0")
+
+        data = {
+          authentication_token: App::Persistence[:program_authentication_token],
+          avatar: encodedData
+        }
+        BW::HTTP.put("#{Globals::API_ENDPOINT}/users/#{App::Persistence[:user_id]}", {payload: data}) do |response|
+          if response.ok?
+            App.alert("OK!")
+          end
+        end
       end
     end
   end
