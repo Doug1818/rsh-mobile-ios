@@ -42,14 +42,11 @@ Motion::Project::App.setup do |app|
     'Security',
     'Social',
     'StoreKit',
-    'SystemConfiguration',
-    'QuartzCore']
+    'SystemConfiguration']
 
 
   app.vendor_project('vendor/FacebookSDK.framework', :static, :products => ['FacebookSDK'], :headers_dir => 'Headers')
-  app.vendor_project('vendor/Parse.framework', :static,
-    :products => ['Parse'],
-    :headers_dir => 'Headers')
+  app.vendor_project('vendor/Parse.framework', :static, :products => ['Parse'], :headers_dir => 'Headers')
 
   app.testflight.sdk = 'vendor/TestFlightSDK2.1.3'
   app.testflight.api_token = '2da34e79be5541474fd9216203c82054_MTUyNzY3MjIwMTMtMTItMTkgMTY6MDY6MTEuOTczOTI5'

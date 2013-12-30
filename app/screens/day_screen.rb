@@ -28,7 +28,7 @@ module Screen
             @month_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :month_btn)
           end
 
-          @check_in_status = subview(UIView, :check_in_status) do 
+          @check_in_status = subview(UIView, :check_in_status) do
             @check_in_status_image = subview(UIImageView.alloc.init, :check_in_status_image)
           end
 
@@ -56,12 +56,12 @@ module Screen
         else
           ""
         end
-        
+
         @small_steps_label = view.viewWithTag TAGS[:small_steps_label]
         @small_steps_label.sizeToFit
 
         # @notes_label = view.viewWithTag TAGS[:notes_label] - TODO
-        
+
         get_program_data
       end
     end
@@ -70,7 +70,7 @@ module Screen
 
     def get_program_data
       data = {
-        authentication_token: App::Persistence[:authentication_token],
+        authentication_token: App::Persistence[:program_authentication_token],
         date: @date
       }
       BW::HTTP.get("#{Globals::API_ENDPOINT}/programs", { payload: data }) do |response|
@@ -86,7 +86,7 @@ module Screen
             @check_in_status_image.image = UIImage.imageNamed("check-in-no")
 
             # Allow the user to tap the check in status to go to the check in view
-            @check_in_status.when_tapped do 
+            @check_in_status.when_tapped do
               screen = mm_drawerController.send(:check_in_screen)
               mm_drawerController.centerViewController = screen
             end

@@ -11,11 +11,14 @@ PODS:
     - MMDrawerController/Core
   - MMDrawerController/Subclass (0.4.0):
     - MMDrawerController/Core
+  - MNCalendarView (0.0.1)
 
 DEPENDENCIES:
   - MMDrawerController (~> 0.4.0)
+  - MNCalendarView (~> 0.0.1)
 
 SPEC CHECKSUMS:
   MMDrawerController: 44baaee6b79487b4681eb61597fb790586909c0c
+  MNCalendarView: 418d04817ff7130a4ad5ae7eeb945cedd91e91a9
 
 COCOAPODS: 0.28.0
