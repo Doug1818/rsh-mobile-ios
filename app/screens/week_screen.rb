@@ -6,6 +6,10 @@ module Screen
 
     @@cell_identifier = nil
 
+    def tableView(table_view, heightForRowAtIndexPath:index_path)
+      75
+    end
+
     def on_load
       self.title = ''
     end
@@ -143,14 +147,13 @@ module Screen
     attr_accessor :check_in_image_view
 
     def createLabels
-
       @date_label = UILabel.alloc.init
       @date_label.textAlignment = UITextAlignmentLeft
-      @date_label.font = UIFont.boldSystemFontOfSize(10)
+      @date_label.font = UIFont.boldSystemFontOfSize(13)
 
       @day_number_label = UILabel.alloc.init
       @day_number_label.textAlignment = UITextAlignmentLeft
-      @day_number_label.font = UIFont.boldSystemFontOfSize(14)
+      @day_number_label.font = UIFont.boldSystemFontOfSize(22)
 
       @check_in_image_view = UIImageView.new
 
