@@ -52,6 +52,11 @@ Motion::Project::App.setup do |app|
   app.testflight.api_token = '2da34e79be5541474fd9216203c82054_MTUyNzY3MjIwMTMtMTItMTkgMTY6MDY6MTEuOTczOTI5'
   app.testflight.team_token = '82084d2a2c8dacf5b8233dd66e362052_MzE2MDI1MjAxMy0xMi0xOSAxNzoyNDoyOS45MTk1NTY'
 
+  # app.info_plist["UIStatusBarStyle"] = "UIStatusBarStyleBlackOpaque"
+  app.info_plist['UIViewControllerBasedStatusBarAppearance'] = false
+  app.info_plist['UIStatusBarStyle'] = "UIStatusBarStyleDefault"
+
+
   app.pods do
     pod 'MMDrawerController', '~> 0.4.0'
     pod 'MNCalendarView', '~> 0.0.1'

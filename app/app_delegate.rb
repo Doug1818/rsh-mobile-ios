@@ -1,5 +1,5 @@
 class AppDelegate < PM::Delegate
-  status_bar false, animation: :none
+  status_bar true, animation: :none
 
   # If we want to display the notification once the app is launched, or while the app is open, use this
   def on_push_notification(notification, launched)

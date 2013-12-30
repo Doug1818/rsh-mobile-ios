@@ -4,15 +4,13 @@ Teacup::Appearance.new do
   style UINavigationBar,
     barTintColor: "#ffd114".to_color,
     titleTextAttributes: {
-      UITextAttributeFont => UIFont.fontWithName('Trebuchet MS', size:24),
       UITextAttributeTextColor => UIColor.whiteColor
     }
 
-  style UIBarButtonItem, when_contained_in: UINavigationBar,
-    tintColor: UIColor.blackColor
+  # style UIBarButtonItem, when_contained_in: UINavigationBar,
+  #   tintColor: UIColor.blackColor
 
-  # UINavigationBar.appearanceWhenContainedIn(UIToolbar, UIPopoverController, nil).setColor(UIColor.blackColor)
-  style UIBarButtonItem, when_contained_in: [UIToolbar, UIPopoverController],
-    tintColor: UIColor.blackColor
+  # style UIBarButtonItem, when_contained_in: [UIToolbar, UIPopoverController],
+  #   tintColor: UIColor.blackColor
 
 end
