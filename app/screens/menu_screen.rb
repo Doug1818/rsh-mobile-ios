@@ -7,7 +7,6 @@ module Screen
         cells: [
           { title: "Profile",   action: :show_screen, arguments: { screen_name: :profile_screen   }},
           { title: "Program",   action: :show_screen, arguments: { screen_name: :week_screen   }},
-          { title: "Check In",   action: :show_screen, arguments: { screen_name: :check_in_screen   }},
           { title: "Sign Out",   action: :show_screen, arguments: { screen_name: :signout_screen   }},
         ]
       }]

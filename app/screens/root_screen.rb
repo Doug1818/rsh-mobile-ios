@@ -21,7 +21,30 @@ class RootScreen < MMDrawerController
 
     self.leftDrawerViewController   = Screen::MenuScreen.new(nav_bar: false)
     self.rightDrawerViewController  = nil
-    self.centerViewController = App::Persistence[:program_authentication_token] ? day_screen : login_screen
+
+    data = {
+      authentication_token: App::Persistence[:program_authentication_token],
+      date: NSDate.today
+    }
+    BW::HTTP.get("#{Globals::API_ENDPOINT}/programs", { payload: data }) do |response|
+      if response.ok?
+        json_data = BW::JSON.parse(response.body.to_str)[:data]
+
+        @program = json_data[:program]
+
+        # If they haven't checked in yet and there are steps today, take them to the check in screen
+        # Otherwise take them to the week screen 
+        if @program[:check_in_status] == 0 and @program[:small_steps].count > 0
+          self.centerViewController = App::Persistence[:program_authentication_token] ? check_in_screen : login_screen
+        else
+          self.centerViewController = App::Persistence[:program_authentication_token] ? week_screen : login_screen
+        end
+      elsif response.status_code.to_s =~ /40\d/
+        self.centerViewController = App::Persistence[:program_authentication_token] ? week_screen : login_screen
+      else
+        self.centerViewController = App::Persistence[:program_authentication_token] ? week_screen : login_screen
+      end
+    end
 
     leftDrawerButton = MMDrawerBarButtonItem.alloc.initWithTarget self, action:"show_menu:"
     navigationItem.setLeftBarButtonItem leftDrawerButton, animated:true
