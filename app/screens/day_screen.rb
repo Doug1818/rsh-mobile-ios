@@ -90,12 +90,15 @@ module Screen
               screen = mm_drawerController.send(:check_in_screen)
               mm_drawerController.centerViewController = screen
             end
+          when 1
+            @check_in_status.backgroundColor = "#6d6e71".to_color
+            @check_in_status_image.image = UIImage.imageNamed('check-in-mixed-alt')
           when 2
             @check_in_status.backgroundColor = "#ffa720".to_color
             @check_in_status_image.image = UIImage.imageNamed('check-in-yes-alt')
           when 3
             @check_in_status.backgroundColor = "#6d6e71".to_color
-            @check_in_status_image.image = UIImage.imageNamed("check-in-no")
+            @check_in_status_image.image = UIImage.imageNamed("check-in-no-alt")
           else
           end
 

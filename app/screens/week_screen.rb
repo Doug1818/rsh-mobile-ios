@@ -174,7 +174,7 @@ module Screen
 
       @date_label.frame = CGRectMake(boundsX+25, 5, 200, 15)
       @day_number_label.frame = CGRectMake(boundsX+25, 15, 100, 25)
-      @check_in_image_view.frame = CGRectMake(boundsX+240, 0, 79.56, height)
+      @check_in_image_view.frame = CGRectMake(boundsX+190, 0, 135.75, height)
 
     end
 
