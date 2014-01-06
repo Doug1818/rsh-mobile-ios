@@ -24,8 +24,10 @@ module Screen
 
     # form submission
     def textFieldShouldReturn(textField)
+      NSLog("here in signin")
 
       Program.authenticate_program(textField.text) do |success, program|
+        NSLog("DONE WITH AUTHENTICATE PROGRAM")
         if success
           program.persist_data
           program.user.persist_data

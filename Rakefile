@@ -25,7 +25,6 @@ Motion::Project::App.setup do |app|
 
   # app.provisioning_profile = 'provisioning/rshstepsdistribution.mobileprovision'
 
-
   app.entitlements['application-identifier'] = app.seed_id + '.' + app.identifier
   app.entitlements['keychain-access-groups'] = [
     app.seed_id + '.' + app.identifier
@@ -39,6 +38,7 @@ Motion::Project::App.setup do |app|
 
   app.interface_orientations = [:portrait]
   app.device_family = [:iphone]
+  app.icons = ['Icon.png', 'Icon-200.png', 'Icon-72.png', 'Icon-72@2x.png', 'Icon-120.png', 'Icon-200.png', 'Icon-200@2x.png']
 
   app.libs << '/usr/lib/libz.1.1.3.dylib'
   app.libs << '/usr/lib/libsqlite3.dylib'
