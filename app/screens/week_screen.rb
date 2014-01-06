@@ -6,8 +6,12 @@ module Screen
 
     @@cell_identifier = nil
 
+    def tableView(table_view, heightForRowAtIndexPath:index_path)
+      75
+    end
+
     def on_load
-      self.title = 'Week'
+      self.title = ''
     end
 
     def will_appear
@@ -150,14 +154,13 @@ module Screen
     attr_accessor :check_in_image_view
 
     def createLabels
-
       @date_label = UILabel.alloc.init
       @date_label.textAlignment = UITextAlignmentLeft
-      @date_label.font = UIFont.boldSystemFontOfSize(10)
+      @date_label.font = UIFont.boldSystemFontOfSize(13)
 
       @day_number_label = UILabel.alloc.init
       @day_number_label.textAlignment = UITextAlignmentLeft
-      @day_number_label.font = UIFont.boldSystemFontOfSize(14)
+      @day_number_label.font = UIFont.boldSystemFontOfSize(22)
 
       @check_in_image_view = UIImageView.new
 
@@ -178,7 +181,7 @@ module Screen
 
       @date_label.frame = CGRectMake(boundsX+25, 5, 200, 15)
       @day_number_label.frame = CGRectMake(boundsX+25, 15, 100, 25)
-      @check_in_image_view.frame = CGRectMake(boundsX+240, 0, 79.56, height)
+      @check_in_image_view.frame = CGRectMake(boundsX+190, 0, 135.75, height)
 
     end
 

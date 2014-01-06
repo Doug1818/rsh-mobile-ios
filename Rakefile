@@ -12,18 +12,30 @@ require 'sugarcube'
 require 'teacup'
 
 Motion::Project::App.setup do |app|
-  app.name = 'rshdevelopment'
-  app.identifier = 'com.rsh.rshdevelopment'
-  app.seed_id = 'Q9HSG7LP5Y'
-  app.codesign_certificate = 'iPhone Developer: Adam Rubin (59S96JTU24)'
-  app.provisioning_profile = 'provisioning/rsh_provisioning.mobileprovision'
+  app.name = 'Steps'
+  app.version = '1.0'
+  app.identifier = 'com.rightsidehealth.steps'
+  app.seed_id = 'NFEKE4R4AL'
+
+  # app.codesign_certificate = 'iPhone Developer: Douglas Raicek (673GL6Z534)'
+  # app.provisioning_profile = 'provisioning/rshstepsdevelopment.mobileprovision'
+
+  app.codesign_certificate = 'iPhone Distribution: Douglas Raicek (NFEKE4R4AL)'
+  app.provisioning_profile = 'provisioning/rshstepadhoc.mobileprovision'
+
+  # app.provisioning_profile = 'provisioning/rshstepsdistribution.mobileprovision'
+
 
   app.entitlements['application-identifier'] = app.seed_id + '.' + app.identifier
   app.entitlements['keychain-access-groups'] = [
     app.seed_id + '.' + app.identifier
   ]
-  app.entitlements['aps-environment'] = 'development'
-  app.entitlements['get-task-allow'] = true
+
+  # app.entitlements['aps-environment'] = 'development'
+  # app.entitlements['get-task-allow'] = true
+
+  app.entitlements['aps-environment'] = 'production'
+  app.entitlements['get-task-allow'] = false
 
   app.interface_orientations = [:portrait]
   app.device_family = [:iphone]
@@ -42,18 +54,20 @@ Motion::Project::App.setup do |app|
     'Security',
     'Social',
     'StoreKit',
-    'SystemConfiguration',
-    'QuartzCore']
+    'SystemConfiguration']
 
 
   app.vendor_project('vendor/FacebookSDK.framework', :static, :products => ['FacebookSDK'], :headers_dir => 'Headers')
-  app.vendor_project('vendor/Parse.framework', :static,
-    :products => ['Parse'],
-    :headers_dir => 'Headers')
+  app.vendor_project('vendor/Parse.framework', :static, :products => ['Parse'], :headers_dir => 'Headers')
 
   app.testflight.sdk = 'vendor/TestFlightSDK2.1.3'
   app.testflight.api_token = '2da34e79be5541474fd9216203c82054_MTUyNzY3MjIwMTMtMTItMTkgMTY6MDY6MTEuOTczOTI5'
   app.testflight.team_token = '82084d2a2c8dacf5b8233dd66e362052_MzE2MDI1MjAxMy0xMi0xOSAxNzoyNDoyOS45MTk1NTY'
+
+  # app.info_plist["UIStatusBarStyle"] = "UIStatusBarStyleBlackOpaque"
+  app.info_plist['UIViewControllerBasedStatusBarAppearance'] = false
+  app.info_plist['UIStatusBarStyle'] = "UIStatusBarStyleDefault"
+
 
   app.pods do
     pod 'MMDrawerController', '~> 0.4.0'

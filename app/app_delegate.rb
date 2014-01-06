@@ -7,7 +7,9 @@ class AppDelegate < PM::Delegate
   end
 
   def on_load(app, options)
-    Parse.setApplicationId("BWeoNOvfNYguBpxpzsv6PY7qbXEZtOIWDeiPrPBx", clientKey:"JD5CG55qYa6GoFEcv7SgvgPGJdFQfvOExlifIl40")
+    Teacup::Appearance.apply
+
+    Parse.setApplicationId("ZQbu9JMhoTRa42q6etZ3tf8slARx47rMJNkBPreg", clientKey:"lBmlQZgPZdOtCqhXEyVAyE2TKPugmKEqeAw6OmGw")
     register_for_push_notifications :badge, :sound, :alert, :newsstand
 
     open_screen RootScreen.new(nav_bar: true)

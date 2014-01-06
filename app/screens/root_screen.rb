@@ -1,9 +1,7 @@
 class RootScreen < MMDrawerController
-  # You can inherit a screen from any UIViewController if you include the ScreenModule
-  # Just make sure to implement the Obj-C methods in cocoatouch/view_controller.rb.
   include PM::ScreenModule
 
-  title 'Schedule'
+  title ''
 
   def self.new(args = {})
     alloc.init.tap do |root_screen|

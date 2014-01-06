@@ -28,7 +28,7 @@ module Screen
             @month_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :month_btn)
           end
 
-          @check_in_status = subview(UIView, :check_in_status) do 
+          @check_in_status = subview(UIView, :check_in_status) do
             @check_in_status_image = subview(UIImageView.alloc.init, :check_in_status_image)
           end
 
@@ -56,7 +56,7 @@ module Screen
         else
           "Steps for #{ @date.string_with_format('MMMM d, YYYY') }"
         end
-        
+
         @small_steps_label = view.viewWithTag TAGS[:small_steps_label]
         @small_steps_label.sizeToFit
 
@@ -80,25 +80,26 @@ module Screen
           @program = json_data[:program]
 
           # Set the check in status at the top
-          if @program.has_key?('check_in_status')
-            case @program['check_in_status']
-            when 0
-              @check_in_status.backgroundColor = "#6d6e71".to_color
-              @check_in_status_image.image = UIImage.imageNamed("check-in-no")
+          case @program['check_in_status']
+          when 0
+            @check_in_status.backgroundColor = "#6d6e71".to_color
+            @check_in_status_image.image = UIImage.imageNamed("check-in-no")
 
-              # Allow the user to tap the check in status to go to the check in view
-              @check_in_status.when_tapped do 
-                screen = mm_drawerController.send(:check_in_screen)
-                mm_drawerController.centerViewController = screen
-              end
-            when 2
-              @check_in_status.backgroundColor = "#ffa720".to_color
-              @check_in_status_image.image = UIImage.imageNamed('check-in-yes-alt')
-            when 3
-              @check_in_status.backgroundColor = "#6d6e71".to_color
-              @check_in_status_image.image = UIImage.imageNamed("check-in-no")
-            else
+            # Allow the user to tap the check in status to go to the check in view
+            @check_in_status.when_tapped do 
+              screen = mm_drawerController.send(:check_in_screen)
+              mm_drawerController.centerViewController = screen
             end
+          when 1
+            @check_in_status.backgroundColor = "#6d6e71".to_color
+            @check_in_status_image.image = UIImage.imageNamed('check-in-mixed-alt')
+          when 2
+            @check_in_status.backgroundColor = "#ffa720".to_color
+            @check_in_status_image.image = UIImage.imageNamed('check-in-yes-alt')
+          when 3
+            @check_in_status.backgroundColor = "#6d6e71".to_color
+            @check_in_status_image.image = UIImage.imageNamed("check-in-no-alt")
+          else
           end
 
           # List the small steps for the day
