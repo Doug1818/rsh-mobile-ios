@@ -17,12 +17,15 @@ Motion::Project::App.setup do |app|
   app.identifier = 'com.rightsidehealth.steps'
   app.seed_id = 'NFEKE4R4AL'
 
-  # app.codesign_certificate = 'iPhone Developer: Douglas Raicek (673GL6Z534)'
-  # app.provisioning_profile = 'provisioning/rshstepsdevelopment.mobileprovision'
+  # Development
+  app.codesign_certificate = 'iPhone Developer: Douglas Raicek (673GL6Z534)'
+  app.provisioning_profile = 'provisioning/rshstepsdevelopment.mobileprovision'
 
-  app.codesign_certificate = 'iPhone Distribution: Douglas Raicek (NFEKE4R4AL)'
-  app.provisioning_profile = 'provisioning/rshstepadhoc.mobileprovision'
+  # AdHoc Distribution
+  # app.codesign_certificate = 'iPhone Distribution: Douglas Raicek (NFEKE4R4AL)'
+  # app.provisioning_profile = 'provisioning/rshstepadhoc.mobileprovision'
 
+  # Submit to App Store
   # app.provisioning_profile = 'provisioning/rshstepsdistribution.mobileprovision'
 
   app.entitlements['application-identifier'] = app.seed_id + '.' + app.identifier
@@ -30,11 +33,13 @@ Motion::Project::App.setup do |app|
     app.seed_id + '.' + app.identifier
   ]
 
-  # app.entitlements['aps-environment'] = 'development'
-  # app.entitlements['get-task-allow'] = true
+  # Development
+  app.entitlements['aps-environment'] = 'development'
+  app.entitlements['get-task-allow'] = true
 
-  app.entitlements['aps-environment'] = 'production'
-  app.entitlements['get-task-allow'] = false
+  # Production / Submit To App Store
+  # app.entitlements['aps-environment'] = 'production'
+  # app.entitlements['get-task-allow'] = false
 
   app.interface_orientations = [:portrait]
   app.device_family = [:iphone]
