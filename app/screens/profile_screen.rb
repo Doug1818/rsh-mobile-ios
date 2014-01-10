@@ -2,7 +2,7 @@ module Screen
  class ProfileScreen < PM::Screen
 
     stylesheet :profile_styles
-    TAGS = { profile_name: 2, profile_email: 3, profile_image: 4 }
+    TAGS = { profile_name: 2, profile_email: 3, profile_image: 4, profile_phone: 5, profile_timezone: 6 }
 
     def on_load
       self.title = ''
@@ -20,37 +20,48 @@ module Screen
 
       profile_email = view.viewWithTag TAGS[:profile_email]
       profile_name = view.viewWithTag TAGS[:profile_name]
+      profile_phone = view.viewWithTag TAGS[:profile_phone]
+      @profile_image = view.viewWithTag TAGS[:profile_image]
 
-      data = {authentication_token: App::Persistence[:program_authentication_token]}
-      BW::HTTP.get("#{Globals::API_ENDPOINT}/users", { payload: data }) do |response|
-        if response.ok?
-          json_data = BW::JSON.parse(response.body.to_str)[:data]
-          profile_email.text = json_data[:user][:email]
-          profile_name.text = "#{ json_data[:user][:first_name] } #{ json_data[:user][:last_name] }"
-        elsif response.status_code.to_s =~ /40\d/
-          App.alert("There was an error")
+
+      User.get_profile do |success, user|
+        if success
+          profile_email.text = user.email
+          profile_name.text = "#{ user.first_name } #{ user.last_name }"
+          profile_phone.text = user.phone
+          unless user.avatar.nil?
+            image_url = user.avatar
+            image_data = NSData.alloc.initWithContentsOfURL(NSURL.URLWithString(image_url))
+            @profile_image.setBackgroundImage(UIImage.imageWithData(image_data), forState: UIControlStateNormal)
+          end
         else
-          App.alert(response.error_message)
+          App.alert("oops")
         end
       end
-
-      profile_image = view.viewWithTag TAGS[:profile_image]
-      profile_image.addTarget self, action: 'chooseProfileImage:', forControlEvents:UIControlEventTouchUpInside
+      
+      @profile_image.addTarget self, action: 'chooseProfileImage:', forControlEvents:UIControlEventTouchUpInside
     end
 
     def chooseProfileImage(sender)
       BW::Device.camera.any.picture(media_types: [:image]) do |result|
         image_view = UIImageView.alloc.initWithImage(result[:original_image])
         image = UIImageJPEGRepresentation(image_view.image, 9);
-        encodedData = [image].pack("m0")
 
-        data = {
-          authentication_token: App::Persistence[:program_authentication_token],
-          avatar: encodedData
-        }
-        BW::HTTP.put("#{Globals::API_ENDPOINT}/users/#{App::Persistence[:user_id]}", {payload: data}) do |response|
-          if response.ok?
-            App.alert("OK!")
+        if image   
+          encodedData = [image].pack("m0")
+
+          data = {
+            authentication_token: App::Persistence[:program_authentication_token],
+            avatar: encodedData
+          }
+          BW::HTTP.put("#{Globals::API_ENDPOINT}/users/#{App::Persistence[:user_id]}", {payload: data}) do |response|
+            if response.ok?
+              json_data = BW::JSON.parse(response.body.to_str)[:data]
+              user = json_data[:user]
+              image_url = user[:avatar][:large][:url]
+              image_data = NSData.alloc.initWithContentsOfURL(NSURL.URLWithString(image_url))
+              @profile_image.setBackgroundImage(UIImage.imageWithData(image_data), forState: UIControlStateNormal)
+            end
           end
         end
       end
