@@ -81,22 +81,16 @@ module Screen
       days  = week.collect {|w| w.days}.flatten
       day   = days.flatten[indexPath.row]
 
-      date              = day['date']
-      day_number        = day['day_number']
-      check_in_status   = day['check_in_status']
-      is_future         = day['is_future']
-      requires_check_in = day['requires_check_in']
+      day_number = day['day_number']
+      date       = day['date']
 
-      show_day = (not is_future and (requires_check_in or check_in_status != 0))
-
-      cell.date_label.textColor = show_day ? BW.rgb_color(113,113,117) : BW.rgb_color(154,167,164)
-      cell.day_number_label.textColor = show_day ? BW.rgb_color(255,160,0) : BW.rgb_color(250,214,155)
-
+      cell.date_label.textColor = active_cell_on_day(day) ? BW.rgb_color(113,113,117) : BW.rgb_color(154,167,164)
+      cell.day_number_label.textColor = active_cell_on_day(day) ? BW.rgb_color(255,160,0) : BW.rgb_color(250,214,155)
 
       cell.day_number_label.text = day_number.to_s
       cell.date_label.text = date.to_s
 
-      cell.check_in_image_view.image = case check_in_status
+      cell.check_in_image_view.image = case day['check_in_status']
       when 0
         UIImage.imageNamed('check-in-future.png')
       when 1
@@ -118,20 +112,16 @@ module Screen
       days = @data.collect {|w| w.days}.flatten
       day = days.flatten[indexPath.row]
 
-      check_in_status   = day['check_in_status']
-      is_future         = day['is_future']
-      requires_check_in = day['requires_check_in']
+      date = day['date']
 
-      tappable_day = (not is_future and (requires_check_in or check_in_status != 0))
-
-      if tappable_day
+      if active_cell_on_day(day)
         date_formatter = NSDateFormatter.alloc.init
         date_formatter.dateFormat = "yyyy-MM-dd"
         date = date_formatter.dateFromString day['full_date']
 
-        check_in_status = day['check_in_status']
+        needs_check_in = day['needs_check_in']
 
-        if check_in_status == 0 and (date == NSDate.today or date == NSDate.today.delta(days:-1))
+        if needs_check_in and (date == NSDate.today or date == NSDate.today.delta(days:-1))
           screen = CheckInScreen.new(nav_bar: true, date: date)
           mm_drawerController.centerViewController = screen
         else
@@ -141,6 +131,13 @@ module Screen
       end
     end
 
+    def active_cell_on_day(day)
+      if day['is_future']
+        false
+      else
+        day['needs_check_in'] or day['check_in_status']
+      end
+    end
 
     def cell_identifier
       @@cell_identifier ||= 'CELL_IDENTIFIER'

@@ -32,7 +32,8 @@ class RootScreen < MMDrawerController
 
         # If they haven't checked in yet and there are steps today, take them to the check in screen
         # Otherwise take them to the week screen 
-        if @program[:check_in_status] == 0 and @program[:requires_one_or_more_check_ins]
+
+        if @program[:requires_one_or_more_check_ins]
           self.centerViewController = App::Persistence[:program_authentication_token] ? check_in_screen : login_screen
         else
           self.centerViewController = App::Persistence[:program_authentication_token] ? week_screen : login_screen
