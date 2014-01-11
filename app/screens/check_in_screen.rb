@@ -49,19 +49,18 @@ module Screen
       BW::HTTP.get("#{Globals::API_ENDPOINT}/week/by_date", { payload: data }) do |response|
         if response.ok?
           json_data = BW::JSON.parse(response.body.to_str)[:data]
-
-          @week = json_data[:week].first
+          @week = json_data[:week]
           @small_steps = @week[:small_steps]
 
           today_or_yesterday = (date == NSDate.today) ? 'today': 'yesterday'
 
           if @small_steps.count == 1
-            small_step_name = @small_steps.first[:name]
+            small_step_name = @small_steps.first['name']
             @small_step_name_label.text = "Did you do your #{ small_step_name.downcase } for #{ today_or_yesterday }?"
           elsif @small_steps.count > 1
             @small_step_name_label.text = "Did you do your steps #{ today_or_yesterday }?"
           else
-            @small_step_name_label.text = "No small steps for today." # Should never see this, because they should only be able to get to a day with at least 1 small step.
+            @small_step_name_label.text = "No small steps for #{ today_or_yesterday }."
           end
 
         elsif response.status_code.to_s =~ /40\d/
@@ -85,10 +84,11 @@ module Screen
     end
 
     def process_check_in(status)
+
       if @small_steps.count > 0
+
         data = {
           authentication_token: App::Persistence[:program_authentication_token],
-          small_steps: @small_steps,
           week_id: @week[:id],
           date: @date,
           status: status
