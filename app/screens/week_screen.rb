@@ -55,8 +55,15 @@ module Screen
 
       Week.get_weeks do |success, weeks|
         if success
-          @data = weeks
+          @data = weeks    
           @table_view.reloadData
+
+          # Scroll to the current day
+          days = @data.collect { |w| w.days }.flatten.collect {|day| day[:full_date] }
+          now = NSDate.new
+          today = now.string_with_format(:ymd)
+          index = NSIndexPath.indexPathForRow(days.index(today), inSection:0)
+          @table_view.scrollToRowAtIndexPath(index, atScrollPosition: UITableViewScrollPositionTop, animated: true)
         else
           App.alert("oops")
         end
