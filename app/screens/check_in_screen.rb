@@ -140,7 +140,7 @@ module Screen
 
         check_in = @week[:check_in_id]
 
-        BW::HTTP.post("#{Globals::API_ENDPOINT}/check_ins/update/#{ check_in }", { payload: data }) do |response|
+        BW::HTTP.put("#{Globals::API_ENDPOINT}/check_ins/#{ check_in }", { payload: data }) do |response|
           if response.ok?
             screen = mm_drawerController.send(:thank_you_screen)
             mm_drawerController.centerViewController = screen
