@@ -113,7 +113,6 @@ module Screen
       cell
     end
 
-    # Example of tapping a cell
     def tableView(tableView, didSelectRowAtIndexPath: indexPath)
       tableView.deselectRowAtIndexPath(indexPath, animated: true)
       days = @data.collect {|w| w.days}.flatten

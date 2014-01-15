@@ -7,6 +7,7 @@ module Screen
       member_menu = [{
         cells: [
           { title: "Profile", backgroundColor: "#6d6e71".to_color, textColor: UIColor.whiteColor, action: :show_screen, arguments: { screen_name: :profile_screen   }},
+          { title: "Excuses", backgroundColor: "#6d6e71".to_color, textColor: UIColor.whiteColor, action: :show_screen, arguments: { screen_name: :excuse_screen   }},
           { title: "Program", backgroundColor: "#6d6e71".to_color, textColor: UIColor.whiteColor, action: :show_screen, arguments: { screen_name: :week_screen   }},
           { title: "Sign Out", backgroundColor: "#6d6e71".to_color, textColor: UIColor.whiteColor, action: :show_screen, arguments: { screen_name: :signout_screen   }},
         ]

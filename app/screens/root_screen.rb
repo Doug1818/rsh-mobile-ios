@@ -18,7 +18,6 @@ class RootScreen < MMDrawerController
     super
 
     self.leftDrawerViewController   = Screen::MenuScreen.new(nav_bar: false)
-    self.rightDrawerViewController  = nil
 
     data = {
       authentication_token: App::Persistence[:program_authentication_token],
@@ -55,6 +54,10 @@ class RootScreen < MMDrawerController
 
   def show_menu(sender)
     toggleDrawerSide MMDrawerSideLeft, animated:true, completion: nil
+  end
+
+  def excuse_screen
+    @excuse_screen ||= Screen::ExcuseScreen.new
   end
 
   def month_screen

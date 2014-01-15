@@ -3,14 +3,16 @@ module Screen
 
     attr_accessor :date
     attr_accessor :is_update
+    attr_accessor :week
 
-    TAGS = { day_label: 2, small_step_name_label: 3, no_button: 4, yes_button: 5, cancel_button: 6 }
+    TAGS = { day_label: 2, small_step_name_label: 3, no_button: 4, yes_button: 5, cancel_button: 6, excuse_button: 7 }
 
     # def loadView
     def on_load
       self.title = ''
       self.date
       self.is_update
+      self.week = nil
 
       @views = NSBundle.mainBundle.loadNibNamed "check_in_view", owner:self, options:nil
     end
@@ -32,6 +34,9 @@ module Screen
         @yes_button = view.viewWithTag TAGS[:yes_button]
         @yes_button.addTarget(self, action: "answer_yes", forControlEvents: UIControlEventTouchUpInside)
 
+        @excuse_button = view.viewWithTag TAGS[:excuse_button]
+        @excuse_button.addTarget(self, action: "open_excuses", forControlEvents: UIControlEventTouchUpInside)
+
         @date = self.date || NSDate.today
         date_string_for_label = @date.string_with_format('MMM d')
 
@@ -44,39 +49,25 @@ module Screen
         end
 
         @day_label.text = date_string_for_label
-        get_small_steps(@date)
-      end
-    end
+        Week.get_small_steps(@date, @is_update) do |success, week|
+          if success
+            @week = week
 
-    def get_small_steps(date)
-
-      data = {
-        authentication_token: App::Persistence[:program_authentication_token],
-        date: date,
-        is_update: @is_update
-      }
-
-      BW::HTTP.get("#{Globals::API_ENDPOINT}/week/small_steps_for_day", { payload: data }) do |response|
-        if response.ok?
-          json_data = BW::JSON.parse(response.body.to_str)[:data]
-          @week = json_data[:week]
-          @small_steps = @week[:small_steps]
-
-          today_or_yesterday = (date == NSDate.today) ? 'today': 'yesterday'
-
-          if @small_steps.count == 1
-            small_step_name = @small_steps.first['name']
-            @small_step_name_label.text = "Did you do your #{ small_step_name.downcase } for #{ today_or_yesterday }?"
-          elsif @small_steps.count > 1
-            @small_step_name_label.text = "Did you do your steps #{ today_or_yesterday }?"
+            small_steps = week[:small_steps]
+            today_or_yesterday = (date == NSDate.today) ? 'today': 'yesterday'
+          
+            if small_steps.count == 1
+              small_step_name = small_steps.first['name']
+              @small_step_name_label.setTitle("Did you do your #{ small_step_name.downcase } for #{ today_or_yesterday }?", forState: UIControlStateNormal)
+            elsif small_steps.count > 1
+              @small_step_name_label.setTitle("Did you do your steps #{ today_or_yesterday }?", forState: UIControlStateNormal)
+            else
+              @small_step_name_label.setTitle("No steps for #{ today_or_yesterday }.", forState: UIControlStateNormal)
+            end
           else
-            @small_step_name_label.text = "No steps for #{ today_or_yesterday }."
+            App.alert("There was an error.")
+            NSLog("Date: #{ @date }: Error getting small steps.")
           end
-
-        elsif response.status_code.to_s =~ /40\d/
-          App.alert("There was an error")
-        else
-          App.alert(response.error_message)
         end
       end
     end
@@ -87,70 +78,54 @@ module Screen
     end
 
     def answer_no
-      if @is_update
-        update_check_in(0)
-      else
-        create_check_in(0)
-      end
+      do_answer(0)
     end
 
     def answer_yes
-      if @is_update
-        update_check_in(1)
-      else
-        create_check_in(1)
-      end
+      do_answer(1)
     end
 
-    def create_check_in(status)
+    def do_answer(status)
 
-      if @small_steps.count > 0
+      if @week[:small_steps].count > 0
 
         data = {
-          authentication_token: App::Persistence[:program_authentication_token],
           week_id: @week[:id],
           date: @date,
           status: status,
-          small_steps: @small_steps
+          small_steps: @week[:small_steps]
         }
 
-        BW::HTTP.post("#{Globals::API_ENDPOINT}/check_ins", { payload: data }) do |response|
-          if response.ok?
-            screen = mm_drawerController.send(:thank_you_screen)
-            mm_drawerController.centerViewController = screen
-           elsif response.status_code.to_s =~ /40\d/
-            App.alert("There was an error")
-          else
-            App.alert(response.error_message)
+        unless @is_update
+          CheckIn.create(data) do |success|
+            if success
+              screen = mm_drawerController.send(:thank_you_screen)
+              mm_drawerController.centerViewController = screen
+            else
+              App.alert("There was an error")
+              NSLog("Error creating check in")
+            end
+          end
+        else
+          check_in = @week[:check_in_id]
+
+          CheckIn.update(data, check_in) do |success|
+            if success
+              screen = mm_drawerController.send(:thank_you_screen)
+              mm_drawerController.centerViewController = screen
+            else
+              App.alert("There was an error")
+              NSLog("Error updating check in")
+            end
           end
         end
       end
     end
 
-    def update_check_in(status)
-
-      if @small_steps.count > 0
-        data = {
-          authentication_token: App::Persistence[:program_authentication_token],
-          week_id: @week[:id],
-          date: @date,
-          status: status,
-          small_steps: @small_steps
-        }
-
-        check_in = @week[:check_in_id]
-
-        BW::HTTP.put("#{Globals::API_ENDPOINT}/check_ins/#{ check_in }", { payload: data }) do |response|
-          if response.ok?
-            screen = mm_drawerController.send(:thank_you_screen)
-            mm_drawerController.centerViewController = screen
-           elsif response.status_code.to_s =~ /40\d/
-            App.alert("There was an error")
-          else
-            App.alert(response.error_message)
-          end
-        end
-      end
+    def open_excuses
+      screen = ExcuseScreen.new(nav_bar: false, date: @date, week: @week, is_update: @is_update)
+      mm_drawerController.rightDrawerViewController = screen
+      mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
     end
   end
 end

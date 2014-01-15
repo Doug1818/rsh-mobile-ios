@@ -28,4 +28,23 @@ class Week
       end
     end
   end
+
+  def self.get_small_steps(date, is_update = false, &block)
+
+    data = {
+      authentication_token: App::Persistence[:program_authentication_token],
+      date: date,
+      is_update: is_update
+    }
+
+    BW::HTTP.get("#{Globals::API_ENDPOINT}/week/small_steps_for_day", { payload: data }) do |response|
+      if response.ok?
+        json_data = BW::JSON.parse(response.body.to_str)[:data]
+        @week = json_data[:week]
+        block.call(true, @week)
+      else
+        block.call(false, nil)
+      end
+    end
+  end
 end
