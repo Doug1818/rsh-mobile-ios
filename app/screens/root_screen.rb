@@ -76,6 +76,10 @@ class RootScreen < MMDrawerController
     @check_in_screen ||= Screen::CheckInScreen.new
   end
 
+  def single_check_in_details_screen
+    @single_check_in_details_screen ||= Screen::SingleCheckInDetailsScreen.new
+  end
+
   def profile_screen
     @profile_screen ||= Screen::ProfileScreen.new
   end

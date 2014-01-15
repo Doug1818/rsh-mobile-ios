@@ -1,18 +1,16 @@
 module Screen
  class CheckInScreen < PM::Screen
 
-    attr_accessor :date
-    attr_accessor :is_update
-    attr_accessor :week
+    attr_accessor :date, :is_update, :comments
 
-    TAGS = { day_label: 2, small_step_name_label: 3, no_button: 4, yes_button: 5, cancel_button: 6, excuse_button: 7 }
+    TAGS = { day_label: 2, small_step_name_button: 3, no_button: 4, yes_button: 5, cancel_button: 6, excuse_button: 7 }
 
     # def loadView
     def on_load
       self.title = ''
       self.date
       self.is_update
-      self.week = nil
+      self.comments
 
       @views = NSBundle.mainBundle.loadNibNamed "check_in_view", owner:self, options:nil
     end
@@ -25,8 +23,9 @@ module Screen
         self.view = @views[0]
 
         @day_label = view.viewWithTag TAGS[:day_label]
-        @small_step_name_label = view.viewWithTag TAGS[:small_step_name_label]
-        @small_step_name_label.sizeToFit
+
+        @small_step_name_button = view.viewWithTag TAGS[:small_step_name_button]
+        @small_step_name_button.sizeToFit
 
         @no_button = view.viewWithTag TAGS[:no_button]
         @no_button.addTarget(self, action: "answer_no", forControlEvents: UIControlEventTouchUpInside)
@@ -41,6 +40,8 @@ module Screen
         date_string_for_label = @date.string_with_format('MMM d')
 
         @is_update = self.is_update || false
+
+        @comments = self.comments || nil
 
         if @is_update
           @cancel_button = view.viewWithTag TAGS[:cancel_button]
@@ -58,11 +59,12 @@ module Screen
           
             if small_steps.count == 1
               small_step_name = small_steps.first['name']
-              @small_step_name_label.setTitle("Did you do your #{ small_step_name.downcase } for #{ today_or_yesterday }?", forState: UIControlStateNormal)
+              @small_step_name_button.setTitle("Did you do your #{ small_step_name.downcase } for #{ today_or_yesterday }?", forState: UIControlStateNormal)
+              @small_step_name_button.addTarget(self, action: "open_single_check_in_details", forControlEvents: UIControlEventTouchUpInside)
             elsif small_steps.count > 1
-              @small_step_name_label.setTitle("Did you do your steps #{ today_or_yesterday }?", forState: UIControlStateNormal)
+              @small_step_name_button.setTitle("Did you do your steps #{ today_or_yesterday }?", forState: UIControlStateNormal)
             else
-              @small_step_name_label.setTitle("No steps for #{ today_or_yesterday }.", forState: UIControlStateNormal)
+              @small_step_name_button.setTitle("No steps for #{ today_or_yesterday }.", forState: UIControlStateNormal)
             end
           else
             App.alert("There was an error.")
@@ -93,7 +95,8 @@ module Screen
           week_id: @week[:id],
           date: @date,
           status: status,
-          small_steps: @week[:small_steps]
+          small_steps: @week[:small_steps],
+          comments: @comments
         }
 
         unless @is_update
@@ -124,6 +127,12 @@ module Screen
 
     def open_excuses
       screen = ExcuseScreen.new(nav_bar: false, date: @date, week: @week, is_update: @is_update)
+      mm_drawerController.rightDrawerViewController = screen
+      mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
+    end
+
+    def open_single_check_in_details
+      screen = SingleCheckInDetailsScreen.new(nav_bar: false, small_step: @week['small_steps'].first, date: @date, is_update: @is_update)
       mm_drawerController.rightDrawerViewController = screen
       mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
     end
