@@ -163,7 +163,7 @@ module Screen
 
     def createNameLabel(name)
       @name_label = UILabel.alloc.init
-      @name_label.textAlignment = UITextAlignmentRight
+      @name_label.textAlignment = UITextAlignmentLeft
       @name_label.font = UIFont.boldSystemFontOfSize(20)
       @name_label.color = UIColor.orangeColor
       @name_label.text = name
