@@ -132,7 +132,7 @@ module Screen
     end
 
     def open_single_check_in_details
-      screen = SingleCheckInDetailsScreen.new(nav_bar: false, small_step: @week['small_steps'].first, date: @date, is_update: @is_update)
+      screen = SingleCheckInDetailsScreen.new(nav_bar: false, small_step: @week['small_steps'].first, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
       mm_drawerController.rightDrawerViewController = screen
       mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
     end
