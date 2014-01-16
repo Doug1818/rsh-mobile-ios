@@ -1,7 +1,6 @@
 module Screen
  class ProfileScreen < PM::Screen
 
-    stylesheet :profile_styles
     TAGS = { container_view: 1, profile_name: 2, profile_email: 3, profile_image: 4, profile_phone_field: 5, profile_timezone_field: 6 }
 
     def on_load
