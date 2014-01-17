@@ -19,14 +19,16 @@ module Screen
 
       super
 
+      view.subviews.each &:removeFromSuperview
+
       @scroll = UIScrollView.alloc.initWithFrame(@views[0].bounds)
       @scroll.contentSize = CGSizeMake(1, content_height(@scroll) + 600)
       @scroll.backgroundColor = UIColor.whiteColor
-      self.view  = @scroll
 
       add_to self.view, @views[0]
 
       @container = view.viewWithTag TAGS[:container_view]
+      @container.backgroundColor = UIColor.whiteColor
 
       @small_step_name_label = view.viewWithTag TAGS[:small_step_name_label]
       @small_step_name_label.sizeToFit

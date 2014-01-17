@@ -63,6 +63,7 @@ module Screen
               @small_step_name_button.addTarget(self, action: "open_single_check_in_details", forControlEvents: UIControlEventTouchUpInside)
             elsif small_steps.count > 1
               @small_step_name_button.setTitle("Did you do your steps #{ today_or_yesterday }?", forState: UIControlStateNormal)
+              @small_step_name_button.addTarget(self, action: "open_multiple_check_in_details", forControlEvents: UIControlEventTouchUpInside)
             else
               @small_step_name_button.setTitle("No steps for #{ today_or_yesterday }.", forState: UIControlStateNormal)
             end
@@ -133,6 +134,12 @@ module Screen
 
     def open_single_check_in_details
       screen = SingleCheckInDetailsScreen.new(nav_bar: false, small_step: @week['small_steps'].first, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
+      mm_drawerController.rightDrawerViewController = screen
+      mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
+    end
+
+    def open_multiple_check_in_details
+      screen = MultipleCheckInDetailsScreen.new(nav_bar: false, week: @week, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
       mm_drawerController.rightDrawerViewController = screen
       mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
     end
