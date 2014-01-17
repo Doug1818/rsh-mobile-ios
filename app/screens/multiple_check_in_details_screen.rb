@@ -95,7 +95,11 @@ module Screen
           @last_attachment = @attachment_var
         end
 
-        comment_top = @last_attachment.height + @last_attachment.frame.origin.y
+        unless @last_attachment.nil?
+          comment_top = @last_attachment.height + @last_attachment.frame.origin.y
+        else
+          comment_top = @attachments_label.height + @attachments_label.frame.origin.y + 60
+        end
 
         @comments_label = subview(UILabel, :comments_label)
         @comments_label.top = comment_top
