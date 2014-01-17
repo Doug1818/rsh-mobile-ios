@@ -71,6 +71,7 @@ module Screen
           end
         end
 
+        @last_attachment = nil
         attachment_data.each_with_index do |attachment, index|
           instance_variable_set("@attachment_label_#{ index }", "attachment_#{ index }")
 
@@ -91,7 +92,17 @@ module Screen
             url = attachment[:url]
             UIApplication.sharedApplication.openURL(NSURL.URLWithString(url))
           end
+          @last_attachment = @attachment_var
         end
+
+        comment_top = @last_attachment.height + @last_attachment.frame.origin.y
+
+        @comments_label = subview(UILabel, :comments_label)
+        @comments_label.top = comment_top
+
+        @comments_view = subview(UITextView.alloc.initWithFrame(CGRectMake(20, comment_top + 80, 250, 100)), :comments_view)
+        @comments_view.layer.borderWidth = 1.0
+        @comments_view.delegate = self
       end
       subview(UIView, :multiple_check_in_details_nav) do
         @done_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :done_btn)
@@ -165,6 +176,55 @@ module Screen
       tableView.reloadData
     end
 
+    def textView(textView, shouldChangeTextInRange: range, replacementText: text)
+
+      if text == "\n"
+        textView.resignFirstResponder
+        false
+      else
+        true
+      end
+    end
+
+    def textViewDidBeginEditing(textView)
+      # if we've already shifted the view up, don't do it again
+      return if @offset
+
+      # grab our current frame and modify it so it's visible
+      container_frame = @scroll_view.frame
+      container_frame.origin.y -= 100
+
+      # animate the replacement of the current frame with the new one
+      UIView.animateWithDuration(0.3,
+        animations: lambda {
+          @scroll_view.frame = container_frame
+        },
+        completion: lambda { |finished|
+          @offset = true
+        }
+      )
+      @done_btn.enabled = false
+    end
+
+    def textViewDidEndEditing(textView)
+      @comments = textView.text
+
+      container_frame = @scroll_view.frame
+      container_frame.origin.y += 100
+
+      UIView.animateWithDuration(0.3,
+        animations: lambda {
+          @scroll_view.frame = container_frame
+        },
+        completion: lambda { |finished|
+          @offset = false
+        }
+      )
+
+      @done_btn.enabled = true
+
+    end
+
     def updateSmallStepStatuses(small_step, status)
       case status
       when 'no'
@@ -197,15 +257,29 @@ module Screen
         week_id: @week[:id],
         date: @date,
         status: status,
-        small_steps: small_steps
+        small_steps: small_steps,
+        comments: @comments
       }
 
-      CheckIn.create(data) do |success|
-        if success
-          NSLog("Created check in with status #{ status }")
-        else
-          App.alert("There was an error")
-          NSLog("Error creating check in with status #{ status }")
+      unless @is_update
+        CheckIn.create(data) do |success|
+          if success
+            NSLog("Created check in with status #{ status }")
+          else
+            App.alert("There was an error")
+            NSLog("Error creating check in with status #{ status }")
+          end
+        end
+      else
+        check_in = @week[:check_in_id]
+        puts "CHECK IN: #{ check_in }"
+        CheckIn.update(data, check_in) do |success|
+          if success
+            NSLog("Created check in with status #{ status }")
+          else
+            App.alert("There was an error")
+            NSLog("Error creating check in with status #{ status }")
+          end
         end
       end
     end

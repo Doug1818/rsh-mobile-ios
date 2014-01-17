@@ -43,6 +43,9 @@ Teacup::Stylesheet.new :multiple_check_in_details_styles do
     color: '#7B7C7F'.to_color,
     font: UIFont.systemFontOfSize(12)
 
+  style :attachments_view, extends: :flexible_margins,
+    frame: [[0, 0], ["100%", "100%"]]
+
   style :attachments_label, extends: [:side_bar_label, :flexible_margins],
     text: "Attachments"
 
@@ -52,6 +55,15 @@ Teacup::Stylesheet.new :multiple_check_in_details_styles do
   style :multiple_check_in_details_nav, extends: :flexible_margins,
     frame: [[0, "100% - 58.5"], ["100%", 58.5]],
     backgroundColor: UIColor.whiteColor
+
+  style :comments_label, extends: :side_bar_label,
+    text: "Comments"
+    
+  style :comments_view,
+    left: 20,
+    autoresizingMask: (UIViewAutoresizingFlexibleLeftMargin |
+                       UIViewAutoresizingFlexibleRightMargin |
+                       UIViewAutoresizingFlexibleTopMargin)
 
   style :done_btn,
     center_x: '50%',
