@@ -62,8 +62,13 @@ module Screen
           days = @data.collect { |w| w.days }.flatten.collect {|day| day[:full_date] }
           now = NSDate.new
           today = now.string_with_format(:ymd)
-          index = NSIndexPath.indexPathForRow(days.index(today), inSection:0)
-          @table_view.scrollToRowAtIndexPath(index, atScrollPosition: UITableViewScrollPositionTop, animated: true)
+
+          begin
+            index = NSIndexPath.indexPathForRow(days.index(today), inSection:0)
+            @table_view.scrollToRowAtIndexPath(index, atScrollPosition: UITableViewScrollPositionTop, animated: true)
+          rescue TypeError => e 
+            # Date doesn't exist (probably before start date)
+          end
         else
           App.alert("oops")
         end

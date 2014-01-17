@@ -32,10 +32,20 @@ class RootScreen < MMDrawerController
         # If they haven't checked in yet and there are steps today, take them to the check in screen
         # Otherwise take them to the week screen 
 
-        if @program[:requires_one_or_more_check_ins]
-          self.centerViewController = App::Persistence[:program_authentication_token] ? check_in_screen : login_screen
+        if @program.empty? || @program.has_key?(:program_start_date)
+          screen = if App::Persistence[:program_authentication_token]
+            program_start_date = @program[:program_start_date] || nil
+            Screen::BeforeProgramStartScreen.new(nav_bar: true, date: program_start_date)
+          else
+            login_screen
+          end
+          self.centerViewController = screen
         else
-          self.centerViewController = App::Persistence[:program_authentication_token] ? week_screen : login_screen
+          if @program[:requires_one_or_more_check_ins]
+            self.centerViewController = App::Persistence[:program_authentication_token] ? check_in_screen : login_screen
+          else
+            self.centerViewController = App::Persistence[:program_authentication_token] ? week_screen : login_screen
+          end
         end
       elsif response.status_code.to_s =~ /40\d/
         self.centerViewController = App::Persistence[:program_authentication_token] ? week_screen : login_screen
@@ -94,6 +104,10 @@ class RootScreen < MMDrawerController
 
   def login_screen
     @login_screen ||= Screen::LoginScreen.new
+  end
+
+  def before_program_start_screen
+    @before_program_start_screen ||= Screen::BeforeProgramStartScreen.new
   end
 
   def thank_you_screen
