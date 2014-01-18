@@ -20,13 +20,13 @@ Motion::Project::App.setup do |app|
   # Development
   app.codesign_certificate = 'iPhone Developer: Douglas Raicek (58P5EA25ET)'
   app.provisioning_profile = 'provisioning/developmentprovisioning.mobileprovision'
-  ENV['PARSE_APPLICATION_KEY'] = "ZQbu9JMhoTRa42q6etZ3tf8slARx47rMJNkBPreg"
-  ENV['PARSE_CLIENT_KEY'] = "lBmlQZgPZdOtCqhXEyVAyE2TKPugmKEqeAw6OmGw"
+  ENV['PARSE_APPLICATION_KEY'] = "0I8WCIxThhO07OAIeqKDFwAq0rHRXnHxY5auF6KG"
+  ENV['PARSE_CLIENT_KEY'] = "QRAhXyWISyBpJmckbiY49a1XtjwlCKhAj2PzMoFR"
 
   # Distribution / Production
   # app.provisioning_profile = 'provisioning/distributionprovisioning.mobileprovision'
-  # ENV['PARSE_APPLICATION_KEY'] = "ZQbu9JMhoTRa42q6etZ3tf8slARx47rMJNkBPreg"
-  # ENV['PARSE_CLIENT_KEY'] = "lBmlQZgPZdOtCqhXEyVAyE2TKPugmKEqeAw6OmGw"
+  # ENV['PARSE_APPLICATION_KEY'] = "m7UOgUNoihu3JP3Zn9WcShFORaxkoanuTybOWDx8"
+  # ENV['PARSE_CLIENT_KEY'] = "dpQ2WWwn2TXjN5pYbCL5laAZSjdd4dfn48LdFx68"
 
   app.entitlements['application-identifier'] = app.seed_id + '.' + app.identifier
   app.entitlements['keychain-access-groups'] = [
