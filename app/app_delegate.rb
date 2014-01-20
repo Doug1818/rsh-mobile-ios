@@ -9,7 +9,9 @@ class AppDelegate < PM::Delegate
   def on_load(app, options)
     Teacup::Appearance.apply
 
-    Parse.setApplicationId(ENV['PARSE_APPLICATION_KEY'], clientKey: ENV['PARSE_CLIENT_KEY'])
+    Parse.setApplicationId(
+      NSBundle.mainBundle.objectForInfoDictionaryKey('PARSE_APPLICATION_KEY'),
+      clientKey: NSBundle.mainBundle.objectForInfoDictionaryKey('PARSE_CLIENT_KEY'))
     register_for_push_notifications :badge, :sound, :alert, :newsstand
 
     open_screen RootScreen.new(nav_bar: true)
