@@ -50,16 +50,16 @@ module Screen
           App.alert("oops")
         end
       end
-      
+
       @profile_image.addTarget self, action: 'chooseProfileImage:', forControlEvents:UIControlEventTouchUpInside
     end
 
     def chooseProfileImage(sender)
       BW::Device.camera.any.picture(media_types: [:image]) do |result|
         image_view = UIImageView.alloc.initWithImage(result[:original_image])
-        image = UIImageJPEGRepresentation(image_view.image, 1);
+        image = UIImageJPEGRepresentation(image_view.image, 0.0);
 
-        if image   
+        if image
           encodedData = [image].pack("m0")
 
           data = { user: { image_data: encodedData }}
