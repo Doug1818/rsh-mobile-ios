@@ -18,7 +18,7 @@
                             <rect key="frame" x="0.0" y="34" width="280" height="100"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <attributedString key="attributedText">
-                                <fragment content="Do one round of physical therapy.">
+                                <fragment content="Data is loading...">
                                     <attributes>
                                         <color key="NSColor" red="0.40784317255020142" green="0.41176474094390869" blue="0.42352944612503052" alpha="1" colorSpace="deviceRGB"/>
                                         <font key="NSFont" size="14" name="HelveticaNeue"/>
