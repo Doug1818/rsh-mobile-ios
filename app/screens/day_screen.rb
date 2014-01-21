@@ -82,7 +82,7 @@ module Screen
           # Set the check in status at the top
           case @program['check_in_status']
           when 1
-            @check_in_status.backgroundColor = "#6d6e71".to_color
+            @check_in_status.backgroundColor = "#ffa720".to_color
             @check_in_status_image.image = UIImage.imageNamed('check-in-mixed-alt')
           when 2
             @check_in_status.backgroundColor = "#ffa720".to_color
