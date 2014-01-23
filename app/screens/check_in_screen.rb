@@ -59,7 +59,7 @@ module Screen
           
             if small_steps.count == 1
               small_step_name = small_steps.first['name']
-              @small_step_name_button.setTitle("Did you do your #{ small_step_name.downcase } for #{ today_or_yesterday }?", forState: UIControlStateNormal)
+              @small_step_name_button.setTitle("Did you #{ small_step_name.downcase } #{ today_or_yesterday }?", forState: UIControlStateNormal)
               @small_step_name_button.addTarget(self, action: "open_single_check_in_details", forControlEvents: UIControlEventTouchUpInside)
             elsif small_steps.count > 1
               @small_step_name_button.setTitle("Did you do your steps #{ today_or_yesterday }?", forState: UIControlStateNormal)
