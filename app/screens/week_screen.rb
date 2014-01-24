@@ -70,7 +70,7 @@ module Screen
             # Date doesn't exist (probably before start date)
           end
         else
-          App.alert("oops")
+          App.alert("Could not load data. Try signing out and back in.")
         end
       end
     end
