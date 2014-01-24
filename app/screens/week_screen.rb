@@ -102,17 +102,25 @@ module Screen
       cell.day_number_label.text = day_number.to_s
       cell.date_label.text = date.to_s
 
-      cell.check_in_image_view.image = case day['check_in_status']
-      when 0
-        UIImage.imageNamed('check-in-future.png')
-      when 1
-        UIImage.imageNamed('check-in-mixed.png')
-      when 2
-        UIImage.imageNamed('check-in-yes.png')
-      when 3
-        UIImage.imageNamed('check-in-no.png')
+      date_formatter = NSDateFormatter.alloc.init
+      date_formatter.dateFormat = "yyyy-MM-dd"
+      cell_date = date_formatter.dateFromString day['full_date']
+
+      if NSDate.today > cell_date.delta(days:+1)
+        cell.check_in_image_view.image = UIImage.imageNamed('missed_checkin.png')
       else
-        UIImage.imageNamed('check-in-future.png')
+        cell.check_in_image_view.image = case day['check_in_status']
+        when 0
+          UIImage.imageNamed('check-in-future.png')
+        when 1
+          UIImage.imageNamed('check-in-mixed.png')
+        when 2
+          UIImage.imageNamed('check-in-yes.png')
+        when 3
+          UIImage.imageNamed('check-in-no.png')
+        else
+          UIImage.imageNamed('check-in-future.png')
+        end
       end
 
       cell
