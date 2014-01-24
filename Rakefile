@@ -23,6 +23,11 @@ Motion::Project::App.setup do |app|
   app.info_plist['PARSE_APPLICATION_KEY'] = "0I8WCIxThhO07OAIeqKDFwAq0rHRXnHxY5auF6KG"
   app.info_plist['PARSE_CLIENT_KEY'] = "QRAhXyWISyBpJmckbiY49a1XtjwlCKhAj2PzMoFR"
 
+  # TestFlight
+  # app.codesign_certificate = 'iPhone Distribution: Right Side Technologies, Inc. (G7HZ9FYRPN)'
+  # app.provisioning_profile = 'provisioning/adhocdistributionprovisioning.mobileprovision'
+  # app.info_plist['PARSE_APPLICATION_KEY'] = "m7UOgUNoihu3JP3Zn9WcShFORaxkoanuTybOWDx8"
+  # app.info_plist['PARSE_CLIENT_KEY'] = "dpQ2WWwn2TXjN5pYbCL5laAZSjdd4dfn48LdFx68"
 
   # Distribution / Production
   # app.provisioning_profile = 'provisioning/distributionprovisioning.mobileprovision'
@@ -38,7 +43,7 @@ Motion::Project::App.setup do |app|
   app.entitlements['aps-environment'] = 'development'
   app.entitlements['get-task-allow'] = true
 
-  # Distribution / Production
+  # Distribution / Production / TestFlight
   # app.entitlements['aps-environment'] = 'production'
   # app.entitlements['get-task-allow'] = false
 
