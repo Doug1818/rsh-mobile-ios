@@ -80,21 +80,20 @@ module Screen
           @program = json_data[:program]
 
           # Set the check in status at the top
-          if NSDate.today > @date.delta(days:+1)
+          case @program['check_in_status']
+          when 1
+            @check_in_status.backgroundColor = "#ffa720".to_color
+            @check_in_status_image.image = UIImage.imageNamed('check-in-mixed-alt')
+          when 2
+            @check_in_status.backgroundColor = "#ffa720".to_color
+            @check_in_status_image.image = UIImage.imageNamed('check-in-yes-alt')
+          when 3
             @check_in_status.backgroundColor = "#6d6e71".to_color
-            @check_in_status_image.image = UIImage.imageNamed('missed_checkin_alt.png')
+            @check_in_status_image.image = UIImage.imageNamed("check-in-no-alt")
           else
-            case @program['check_in_status']
-            when 1
-              @check_in_status.backgroundColor = "#ffa720".to_color
-              @check_in_status_image.image = UIImage.imageNamed('check-in-mixed-alt')
-            when 2
-              @check_in_status.backgroundColor = "#ffa720".to_color
-              @check_in_status_image.image = UIImage.imageNamed('check-in-yes-alt')
-            when 3
+            if NSDate.today > @date.delta(days:+1)
               @check_in_status.backgroundColor = "#6d6e71".to_color
-              @check_in_status_image.image = UIImage.imageNamed("check-in-no-alt")
-            else
+              @check_in_status_image.image = UIImage.imageNamed('missed_checkin_alt.png')
             end
           end
 
@@ -104,7 +103,7 @@ module Screen
               screen = CheckInScreen.new(nav_bar: true, date: @date, is_update: true)
               mm_drawerController.centerViewController = screen
             else
-              App.alert("You can't edit this check-in because it happened more than 48 hours ago.")
+              App.alert("Check-ins can only be edited the day of or day after.")
             end
           end
 
