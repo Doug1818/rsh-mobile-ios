@@ -1,7 +1,7 @@
 module Screen
   class LoginScreen < PM::Screen
     stylesheet :login_styles
-    TAGS = { title: 0, instructions_label: 1, authentication_token_field: 2 }
+    TAGS = { title: 0, instructions_label: 1, authentication_token_field: 2, terms_label: 3, terms_text: 4 }
 
     def on_load
       self.title = ''
@@ -19,6 +19,13 @@ module Screen
 
         @authentication_token_field = view.viewWithTag TAGS[:authentication_token_field]
         @authentication_token_field.delegate = self
+
+        @terms_text = view.viewWithTag TAGS[:terms_text]
+        @terms_text.backgroundColor = "#f1f2f2".to_color
+        @terms_text.layer.cornerRadius = 11
+        # @terms_text.layer.borderWidth = 1.0
+        # @terms_text.layer.borderColor = UIColor.grayColor
+        @terms_text.delegate = self
       end
     end
 
