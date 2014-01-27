@@ -41,6 +41,15 @@ module Screen
           end
           mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
         end
+
+        # Temporary hack for drawer nav_back 
+        subview(UIView, :nav_back) do
+          @nav_back_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :nav_back_btn)
+        end
+
+        @nav_back_btn.when_tapped do
+          mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
+        end
       end
     end
 
