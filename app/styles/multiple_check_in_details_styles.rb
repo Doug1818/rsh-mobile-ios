@@ -71,19 +71,4 @@ Teacup::Stylesheet.new :multiple_check_in_details_styles do
     width: 102,
     height: 42,
     backgroundImage: UIImage.imageNamed("done-btn")
-
-  # Temporary hack for multiple_check_in_details_nav_back 
-  style :multiple_check_in_details_nav_back, extends: :flexible_margins,
-  # backgroundColor: UIColor.blackColor,
-    backgroundColor: UIColor.clearColor,
-    frame: [[0, 0], [30, "100%"]],
-    autoresizingMask: (UIViewAutoresizingFlexibleLeftMargin |
-                       UIViewAutoresizingFlexibleRightMargin |
-                       UIViewAutoresizingFlexibleTopMargin)
-
-  style :nav_back_btn,
-    # backgroundColor: UIColor.redColor,
-    backgroundColor: UIColor.clearColor,
-    width: 30,
-    height: '100%'
 end

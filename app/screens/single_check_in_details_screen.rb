@@ -4,7 +4,7 @@ module Screen
     attr_accessor :date, :small_step, :is_update, :comments
 
     TAGS = { container_view: 1, small_step_name_label: 2, small_step_frequency_label: 3, 
-              notes_text_view: 4, comments_text_view: 5, done_button: 6, attachment_scroll_view: 7, nav_back_btn: 8 }
+              notes_text_view: 4, comments_text_view: 5, done_button: 6, attachment_scroll_view: 7 }
 
     def on_load
       @date = self.date || NSDate.today
@@ -106,12 +106,6 @@ module Screen
       @done_btn.when_tapped do
         screen = CheckInScreen.new(nav_bar: true, date: @date, is_update: @is_update, comments: @comments)
         mm_drawerController.centerViewController = screen
-        mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
-      end
-
-      # Temporary hack for drawer single_check_in_details_nav_back
-      @nav_back_btn = view.viewWithTag TAGS[:nav_back_btn]
-      @nav_back_btn.when_tapped do
         mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
       end
     end

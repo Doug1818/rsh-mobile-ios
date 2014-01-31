@@ -12,6 +12,7 @@ module Screen
       self.is_update
       self.comments
 
+      mm_drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModeTapCenterView | MMCloseDrawerGestureModePanningCenterView
       @views = NSBundle.mainBundle.loadNibNamed "check_in_view", owner:self, options:nil
     end
 

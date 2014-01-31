@@ -129,15 +129,6 @@ module Screen
           mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
         end
       end
-
-      # Temporary hack for drawer multiple_check_in_details_nav_back
-      subview(UIView, :multiple_check_in_details_nav_back) do
-        @nav_back_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :nav_back_btn)
-      end
-      @nav_back_btn.when_tapped do
-          mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
-        end
-      # end hack
       @scroll_view.contentSize = CGSizeMake(@scroll_view.frame.size.width, content_height(@scroll_view) + 600)
       @scroll_view.backgroundColor = UIColor.whiteColor
     end
