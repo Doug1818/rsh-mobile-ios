@@ -3,7 +3,7 @@ module Screen
 
     attr_accessor :date, :is_update, :comments
 
-    TAGS = { day_label: 2, small_step_name_button: 3, no_button: 4, yes_button: 5, cancel_button: 6, excuse_button: 7 }
+    TAGS = { day_label: 2, small_step_name_button: 3, no_button: 4, yes_button: 5, cancel_button: 6, excuse_button: 7, chevron: 8 }
 
     # def loadView
     def on_load
@@ -26,6 +26,8 @@ module Screen
 
         @small_step_name_button = view.viewWithTag TAGS[:small_step_name_button]
         @small_step_name_button.sizeToFit
+
+        @chevron = view.viewWithTag TAGS[:chevron]
 
         @no_button = view.viewWithTag TAGS[:no_button]
         @no_button.addTarget(self, action: "answer_no", forControlEvents: UIControlEventTouchUpInside)
@@ -61,9 +63,11 @@ module Screen
               small_step_name = small_steps.first['name']
               @small_step_name_button.setTitle("Did you #{ small_step_name.downcase } #{ today_or_yesterday }?", forState: UIControlStateNormal)
               @small_step_name_button.addTarget(self, action: "open_single_check_in_details", forControlEvents: UIControlEventTouchUpInside)
+              @chevron.addTarget(self, action: "open_single_check_in_details", forControlEvents: UIControlEventTouchUpInside)
             elsif small_steps.count > 1
               @small_step_name_button.setTitle("Did you do your steps #{ today_or_yesterday }?", forState: UIControlStateNormal)
               @small_step_name_button.addTarget(self, action: "open_multiple_check_in_details", forControlEvents: UIControlEventTouchUpInside)
+              @chevron.addTarget(self, action: "open_multiple_check_in_details", forControlEvents: UIControlEventTouchUpInside)
             else
               @small_step_name_button.setTitle("No steps for #{ today_or_yesterday }.", forState: UIControlStateNormal)
             end
