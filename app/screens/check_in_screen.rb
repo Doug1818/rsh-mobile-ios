@@ -3,6 +3,7 @@ module Screen
 
     attr_accessor :date, :is_update, :comments
 
+    stylesheet :check_in_styles
     TAGS = { day_label: 2, small_step_name_button: 3, no_button: 4, yes_button: 5, cancel_button: 6, excuse_button: 7, chevron: 8 }
 
     # def loadView
@@ -31,6 +32,29 @@ module Screen
             }
           )
         end.direction = UISwipeGestureRecognizerDirectionLeft
+
+        layout(self.view, :main_view) do
+          subview(UIView, :program_nav) do
+            @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
+            @week_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :week_btn)
+            @month_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :month_btn)
+          end
+
+          @day_btn.when_tapped do
+            screen = mm_drawerController.send(:day_screen)
+            mm_drawerController.centerViewController = screen
+          end
+
+          @week_btn.when_tapped do
+            screen = mm_drawerController.send(:week_screen)
+            mm_drawerController.centerViewController = screen
+          end
+
+          @month_btn.when_tapped do
+            screen = mm_drawerController.send(:month_screen)
+            mm_drawerController.centerViewController = screen
+          end
+        end
 
         @day_label = view.viewWithTag TAGS[:day_label]
 
