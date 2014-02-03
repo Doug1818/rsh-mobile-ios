@@ -20,6 +20,15 @@ module Screen
           @calendar_view.selectedDate = NSDate.today
           @calendar_view.delegate = self
 
+          @calendar_view.when_swiped do
+            UIView.animateWithDuration(0.1,
+              animations:lambda {
+                screen = mm_drawerController.send(:week_screen)
+                mm_drawerController.centerViewController = screen
+              }
+            )
+          end
+
           subview(UIView, :program_nav) do
             @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)
             @week_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :week_btn)

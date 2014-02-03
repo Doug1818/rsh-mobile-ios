@@ -23,6 +23,15 @@ module Screen
         view.subviews.each &:removeFromSuperview
         self.view = @views[0]
 
+        self.view.when_swiped do
+          UIView.animateWithDuration(0.1,
+            animations:lambda {
+              screen = mm_drawerController.send(:week_screen)
+              mm_drawerController.centerViewController = screen
+            }
+          )
+        end.direction = UISwipeGestureRecognizerDirectionLeft
+
         @day_label = view.viewWithTag TAGS[:day_label]
 
         @small_step_name_button = view.viewWithTag TAGS[:small_step_name_button]

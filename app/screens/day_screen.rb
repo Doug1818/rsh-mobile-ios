@@ -21,6 +21,15 @@ module Screen
         view.subviews.each &:removeFromSuperview
         self.view = @views[0]
 
+        self.view.when_swiped do
+          UIView.animateWithDuration(0.1,
+            animations:lambda {
+              screen = mm_drawerController.send(:week_screen)
+              mm_drawerController.centerViewController = screen
+            }
+          )
+        end.direction = UISwipeGestureRecognizerDirectionLeft
+
         layout(self.view, :main_view) do
           subview(UIView, :program_nav) do
             @day_btn = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :day_btn)

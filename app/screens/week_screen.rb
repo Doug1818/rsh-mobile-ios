@@ -53,6 +53,24 @@ module Screen
       @table_view.dataSource = self
       @table_view.delegate = self
 
+      @table_view.when_swiped do
+        UIView.animateWithDuration(0.1,
+          animations:lambda {
+            screen = mm_drawerController.send(:check_in_screen)
+            mm_drawerController.centerViewController = screen
+          }
+        )
+      end
+
+      @table_view.when_swiped do
+        UIView.animateWithDuration(0.1,
+          animations:lambda {
+            screen = mm_drawerController.send(:month_screen)
+            mm_drawerController.centerViewController = screen
+          }
+        )
+      end.direction = UISwipeGestureRecognizerDirectionLeft
+
       Week.get_weeks do |success, weeks|
         if success
           @data = weeks    
