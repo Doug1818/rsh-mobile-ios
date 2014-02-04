@@ -8,17 +8,24 @@
 
     title "Check-in Details"
 
+    def on_load
+      @date = self.date || NSDate.today
+      @week = self.week || nil
+      @small_steps = @week['small_steps'] || nil
+      @is_update = self.is_update || false
+    end
+
     def open_step(args)
-      open StepScreen.new(nav_bar: false, step_id: args[:step_id])
+      open StepScreen.new(nav_bar: false, step: args[:step])
     end
 
     def table_data
       [{
-        cells: (0..200).map do |n|
+        cells: @small_steps.map do |step|
           {
-            title: "Step #{n}",
+            title: step[:name].capitalize,
             action: :open_step,
-            arguments: { step_id: n }
+            arguments: { step: step }
           }
         end
       }]

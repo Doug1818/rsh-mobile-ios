@@ -1,8 +1,10 @@
 class StepScreen < PM::Screen
-	attr_accessor :step_id
+	attr_accessor :step
+	# attr_accessor :date, :week, :is_update, :comments
 
 	def on_load
-		self.title = "Step #{self.step_id}"
+		@step = self.step
+		self.title = "Step #{@step[:id]}"
 	end
 
 	def will_appear
@@ -10,7 +12,7 @@ class StepScreen < PM::Screen
 			background_color: hex_color("#FFFFFF")
 		}
 		add UILabel.new, {
-			text: "Step Content",
+			text: @step[:note],
 			font: UIFont.systemFontOfSize(32),
 			left: 20,
 			top: 200,
