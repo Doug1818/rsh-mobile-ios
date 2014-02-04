@@ -70,7 +70,7 @@ module Screen
         @yes_button.addTarget(self, action: "answer_yes", forControlEvents: UIControlEventTouchUpInside)
 
         @excuse_button = view.viewWithTag TAGS[:excuse_button]
-        @excuse_button.addTarget(self, action: "open_excuses", forControlEvents: UIControlEventTouchUpInside)
+        @excuse_button.addTarget(self, action: "open_complex_check_in", forControlEvents: UIControlEventTouchUpInside)
 
         @date = self.date || NSDate.today
         date_string_for_label = @date.string_with_format('MMM d')
@@ -100,8 +100,8 @@ module Screen
               @chevron.addTarget(self, action: "open_single_check_in_details", forControlEvents: UIControlEventTouchUpInside)
             elsif small_steps.count > 1
               @small_step_name_button.setTitle("Did you do your steps #{ today_or_yesterday }?", forState: UIControlStateNormal)
-              @small_step_name_button.addTarget(self, action: "open_multiple_check_in_details", forControlEvents: UIControlEventTouchUpInside)
-              @chevron.addTarget(self, action: "open_multiple_check_in_details", forControlEvents: UIControlEventTouchUpInside)
+              @small_step_name_button.addTarget(self, action: "open_check_in_details", forControlEvents: UIControlEventTouchUpInside)
+              @chevron.addTarget(self, action: "open_check_in_details", forControlEvents: UIControlEventTouchUpInside)
             else
               @small_step_name_button.setTitle("No steps for #{ today_or_yesterday }.", forState: UIControlStateNormal)
             end
@@ -164,7 +164,20 @@ module Screen
       end
     end
 
-    def open_excuses
+    def open_check_in_details
+      open CheckInDetailsScreen.new(nav_bar: false, week: @week, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
+      # screen = CheckInDetailsScreen.new(nav_bar: false, week: @week, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
+      # mm_drawerController.rightDrawerViewController = screen
+      # mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
+    end
+
+    def open_complex_check_in
+      screen = ComplexCheckInScreen.new(nav_bar: false, week: @week, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
+      mm_drawerController.rightDrawerViewController = screen
+      mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
+    end
+
+    def open_excuses # Not being used for now
       screen = ExcuseScreen.new(nav_bar: false, date: @date, week: @week, is_update: @is_update)
       mm_drawerController.rightDrawerViewController = screen
       mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
@@ -172,12 +185,6 @@ module Screen
 
     def open_single_check_in_details
       screen = SingleCheckInDetailsScreen.new(nav_bar: false, small_step: @week['small_steps'].first, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
-      mm_drawerController.rightDrawerViewController = screen
-      mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
-    end
-
-    def open_multiple_check_in_details
-      screen = MultipleCheckInDetailsScreen.new(nav_bar: false, week: @week, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
       mm_drawerController.rightDrawerViewController = screen
       mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil
     end
