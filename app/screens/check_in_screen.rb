@@ -8,7 +8,7 @@ module Screen
 
     # def loadView
     def on_load
-      self.title = ''
+      self.title = 'Check-in'
       self.date
       self.is_update
       self.comments

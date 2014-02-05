@@ -6,7 +6,7 @@
     attr_accessor :date, :week, :is_update, :comments
     # include Teacup::TableViewDelegate
 
-    title "Check-in Details"
+    title "Steps"
 
     def on_load
       @date = self.date || NSDate.today
@@ -22,11 +22,18 @@
     def table_data
       [{
         cells: @small_steps.map do |step|
-          {
-            title: step[:name].capitalize,
-            action: :open_step,
-            arguments: { step: step }
-          }
+          if !step[:note].empty? || step[:attachments].any?
+            {
+              title: step[:name].capitalize,
+              accessory_type: UITableViewCellAccessoryDisclosureIndicator,
+              action: :open_step,
+              arguments: { step: step }
+            }
+          else
+            {
+              title: step[:name].capitalize
+            }
+          end
         end
       }]
     end
