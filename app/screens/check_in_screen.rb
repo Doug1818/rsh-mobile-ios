@@ -101,6 +101,8 @@ module Screen
               if !small_step[:note].to_s == '' || small_step[:attachments].any?
                 @small_step_name_button.addTarget(self, action: "open_step", forControlEvents: UIControlEventTouchUpInside)
                 @chevron.addTarget(self, action: "open_step", forControlEvents: UIControlEventTouchUpInside)
+              else
+                @chevron.alpha = 0
               end
             elsif small_steps.count > 1
               @small_step_name_button.setTitle("Did you do your steps #{ today_or_yesterday }?", forState: UIControlStateNormal)
