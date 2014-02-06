@@ -86,6 +86,18 @@ class RootScreen < MMDrawerController
     @check_in_screen ||= Screen::CheckInScreen.new
   end
 
+  def step_screen
+    @step_screen ||= Screen::StepScreen.new
+  end
+
+  def check_in_details_screen
+    @check_in_details_screen ||= Screen::CheckInDetailsScreen.new
+  end
+
+  def complex_check_in_screen
+    @complex_check_in_screen ||= Screen::ComplexCheckInScreen.new
+  end
+
   def single_check_in_details_screen
     @single_check_in_details_screen ||= Screen::SingleCheckInDetailsScreen.new
   end
