@@ -95,10 +95,10 @@ module Screen
             today_or_yesterday = (date == NSDate.today) ? 'today': 'yesterday'
           
             if small_steps.count == 1
-              @small_step = small_steps.first
+              small_step = small_steps.first
               small_step_name = small_step['name']
               @small_step_name_button.setTitle("Did you #{ small_step_name.downcase } #{ today_or_yesterday }?", forState: UIControlStateNormal)
-              if !step[:note].empty? || step[:attachments].any?
+              if !small_step[:note].to_s == '' || small_step[:attachments].any?
                 @small_step_name_button.addTarget(self, action: "open_step", forControlEvents: UIControlEventTouchUpInside)
                 @chevron.addTarget(self, action: "open_step", forControlEvents: UIControlEventTouchUpInside)
               end
@@ -169,8 +169,8 @@ module Screen
     end
 
     def open_step
-      small_step = @week[:small_steps].first
-      open StepScreen.new(nav_bar: false, step: small_step)
+      @small_step = @week[:small_steps].first
+      mm_drawerController.open StepScreen.new(nav_bar: true, step: @small_step)
     end
 
     def open_check_in_details

@@ -22,7 +22,7 @@ module Screen
     def table_data
       [{
         cells: @small_steps.map do |step|
-          if !step[:note].empty? || step[:attachments].any?
+          if !step[:note].to_s == '' || step[:attachments].any?
             {
               title: step[:name].capitalize,
               accessory_type: UITableViewCellAccessoryDisclosureIndicator,
