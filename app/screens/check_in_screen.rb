@@ -19,12 +19,13 @@ module Screen
 
     def will_appear
       @view_is_set_up ||= begin
-        mm_drawerController.title = title
+        # mm_drawerController.title = title
 
         view.subviews.each &:removeFromSuperview
         self.view = @views[0]
 
         self.view.when_swiped do
+          # mm_drawerController.setDrawerVisualStateBlock(MMDrawerVisualState.slideAndScaleVisualStateBlock())
           UIView.animateWithDuration(0.1,
             animations:lambda {
               screen = mm_drawerController.send(:week_screen)
@@ -94,10 +95,13 @@ module Screen
             today_or_yesterday = (date == NSDate.today) ? 'today': 'yesterday'
           
             if small_steps.count == 1
-              small_step_name = small_steps.first['name']
+              @small_step = small_steps.first
+              small_step_name = small_step['name']
               @small_step_name_button.setTitle("Did you #{ small_step_name.downcase } #{ today_or_yesterday }?", forState: UIControlStateNormal)
-              @small_step_name_button.addTarget(self, action: "open_single_check_in_details", forControlEvents: UIControlEventTouchUpInside)
-              @chevron.addTarget(self, action: "open_single_check_in_details", forControlEvents: UIControlEventTouchUpInside)
+              if !step[:note].empty? || step[:attachments].any?
+                @small_step_name_button.addTarget(self, action: "open_step", forControlEvents: UIControlEventTouchUpInside)
+                @chevron.addTarget(self, action: "open_step", forControlEvents: UIControlEventTouchUpInside)
+              end
             elsif small_steps.count > 1
               @small_step_name_button.setTitle("Did you do your steps #{ today_or_yesterday }?", forState: UIControlStateNormal)
               @small_step_name_button.addTarget(self, action: "open_check_in_details", forControlEvents: UIControlEventTouchUpInside)
@@ -164,8 +168,14 @@ module Screen
       end
     end
 
+    def open_step
+      small_step = @week[:small_steps].first
+      open StepScreen.new(nav_bar: false, step: small_step)
+    end
+
     def open_check_in_details
-      open CheckInDetailsScreen.new(nav_bar: false, week: @week, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
+      screen = CheckInDetailsScreen.new(nav_bar: true, week: @week, date: @date, is_update: @is_update)
+      mm_drawerController.open screen
       # screen = CheckInDetailsScreen.new(nav_bar: false, week: @week, date: @date, is_update: @is_update, comments: @week['check_in_comments'])
       # mm_drawerController.rightDrawerViewController = screen
       # mm_drawerController.toggleDrawerSide MMDrawerSideRight, animated:true, completion: nil

@@ -1,9 +1,9 @@
-# module Screen
+module Screen
   class CheckInDetailsScreen < PM::TableScreen
     # stylesheet :check_in_details_styles
     # TAGS = { title: 0, instructions_label: 1, authentication_token_field: 2 }
 
-    attr_accessor :date, :week, :is_update, :comments
+    attr_accessor :date, :week, :is_update
     # include Teacup::TableViewDelegate
 
     title "Steps"
@@ -16,7 +16,7 @@
     end
 
     def open_step(args)
-      open StepScreen.new(nav_bar: false, step: args[:step])
+      open StepScreen.new(nav_bar: true, step: args[:step])
     end
 
     def table_data
@@ -38,4 +38,4 @@
       }]
     end
   end
-# end
+end
