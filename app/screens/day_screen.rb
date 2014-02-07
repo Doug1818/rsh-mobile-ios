@@ -4,7 +4,7 @@ module Screen
     attr_accessor :date
 
     stylesheet :day_styles
-    TAGS = { header_label: 2, small_steps_label: 3, notes_label: 5}
+    TAGS = { header_label: 2, small_steps_label: 3, notes_title: 4, notes_text: 5}
 
     def on_load
       @date = self.date || NSDate.today
@@ -69,7 +69,11 @@ module Screen
         @small_steps_label = view.viewWithTag TAGS[:small_steps_label]
         @small_steps_label.sizeToFit
 
-        # @notes_label = view.viewWithTag TAGS[:notes_label] - TODO
+        @notes_title = view.viewWithTag TAGS[:notes_title]
+        @notes_title.sizeToFit
+        
+        @notes_text = view.viewWithTag TAGS[:notes_text]
+        @notes_text.sizeToFit
       end
       get_program_data
     end
@@ -128,6 +132,13 @@ module Screen
             @small_steps_label.text = small_step_data.join("\n")
           else
             @small_steps_label.text = "No steps for the day"
+          end
+
+          # Show client notes if they exist
+          if @program['check_in_comments'].to_s != ''
+            @notes_text.text = @program['check_in_comments']
+          else
+            @notes_title.alpha = 0
           end
 
         elsif response.status_code.to_s =~ /40\d/
