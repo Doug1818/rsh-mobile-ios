@@ -30,10 +30,10 @@
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="IWv-ED-SQI">
-                            <rect key="frame" x="0.0" y="142" width="280" height="100"/>
+                            <rect key="frame" x="0.0" y="184" width="280" height="100"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <attributedString key="attributedText">
-                                <fragment content="Data is loading...">
+                                <fragment content=" ">
                                     <attributes>
                                         <color key="NSColor" red="0.40784317255020142" green="0.41176474094390869" blue="0.42352944612503052" alpha="1" colorSpace="deviceRGB"/>
                                         <font key="NSFont" size="14" name="HelveticaNeue"/>

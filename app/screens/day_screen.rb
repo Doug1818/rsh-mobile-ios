@@ -130,13 +130,16 @@ module Screen
 
           unless small_step_data.empty?
             @small_steps_label.text = small_step_data.join("\n")
+            @small_steps_label.sizeToFit
           else
             @small_steps_label.text = "No steps for the day"
+            @small_steps_label.sizeToFit
           end
 
           # Show client notes if they exist
           if @program['check_in_comments'].to_s != ''
             @notes_text.text = @program['check_in_comments']
+            @notes_text.sizeToFit
           else
             @notes_title.alpha = 0
           end
