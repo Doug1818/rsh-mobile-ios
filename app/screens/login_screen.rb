@@ -1,7 +1,7 @@
 module Screen
   class LoginScreen < PM::Screen
     stylesheet :login_styles
-    TAGS = { title: 0, instructions_label: 1, authentication_token_field: 2, terms_label: 3, terms_text: 4 }
+    TAGS = { title: 0, instructions_label: 1, authentication_token_field: 2, terms_label: 3, terms_text: 4, username_field: 5 }
 
     def on_load
       self.title = ''
@@ -19,6 +19,10 @@ module Screen
 
         @authentication_token_field = view.viewWithTag TAGS[:authentication_token_field]
         @authentication_token_field.delegate = self
+
+        @username_field = view.viewWithTag TAGS[:username_field]
+        @username_field.keyboardType = UIKeyboardTypeEmailAddress
+        @username_field.delegate = self
 
         @terms_text = view.viewWithTag TAGS[:terms_text]
         @terms_text.backgroundColor = "#f1f2f2".to_color
@@ -45,7 +49,7 @@ module Screen
 
           open RootScreen
         else
-          App.alert("We did not recognize that code. Please try again.")
+          App.alert("Password is incorrect. Please try again.")
         end
       end
     end
