@@ -60,7 +60,11 @@ module Screen
       @table_view.when_swiped do
         UIView.animateWithDuration(0.1,
           animations:lambda {
-            screen = mm_drawerController.send(:check_in_screen)
+            if App::Persistence[:last_check_in_date] == NSDate.today
+              screen = mm_drawerController.send(:day_screen)
+            else
+              screen = mm_drawerController.send(:check_in_screen)
+            end
             mm_drawerController.centerViewController = screen
           }
         )
