@@ -42,7 +42,11 @@ module Screen
           end
 
           @day_btn.when_tapped do
-            screen = mm_drawerController.send(:day_screen)
+            if App::Persistence[:last_check_in_date] == NSDate.today
+              screen = mm_drawerController.send(:day_screen)
+            else
+              screen = mm_drawerController.send(:check_in_screen)
+            end
             mm_drawerController.centerViewController = screen
           end
 

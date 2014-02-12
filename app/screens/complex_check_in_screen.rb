@@ -272,6 +272,7 @@ module Screen
         CheckIn.create(data) do |success|
           if success
             NSLog("Created check in with status #{ status }")
+            App::Persistence[:last_check_in_date] = NSDate.today
           else
             App.alert("There was an error")
             NSLog("Error creating check in with status #{ status }")
