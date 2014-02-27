@@ -5,6 +5,20 @@ module Screen
 
     def on_load
       self.title = ''
+
+      Week.get_weeks do |success, weeks|
+        if success
+          @data = weeks
+          dictionary_data = {}
+          @data.collect { |w| w.days }.flatten.collect { |day| dictionary_data[day[:full_date]] = day[:check_in_status].to_s }
+          App::Persistence[:dictionary_data] = dictionary_data
+          App::Persistence[:start_date] = dictionary_data.keys[0]
+          NSLog(App::Persistence[:dictionary_data]["2014-02-11"])
+          NSLog(App::Persistence[:start_date])
+        else
+          App.alert("Could not load data. Try signing out and back in.")
+        end
+      end
     end
 
     def will_appear
@@ -54,7 +68,21 @@ module Screen
             mm_drawerController.centerViewController = screen
           end
         end
+
+        # Add Observer to set up links
+        notification_center = NSNotificationCenter.defaultCenter()
+        notification_center.addObserver(self, selector:"send_to_day_screen:", name:"kCalendarViewDayTapped", object:nil)
       end
+    end
+
+    def send_to_day_screen(notification)
+      info = notification.userInfo
+      NSLog(info["date"])
+      date_formatter = NSDateFormatter.alloc.init
+      date_formatter.dateFormat = "yyyy-MM-dd"
+      date = date_formatter.dateFromString info["date"]
+      screen = DayScreen.new(nav_bar: true, date: date)
+      mm_drawerController.centerViewController = screen
     end
   end
 end
