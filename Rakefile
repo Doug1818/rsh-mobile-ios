@@ -14,6 +14,7 @@ require 'teacup'
 Motion::Project::App.setup do |app|
   app.name = 'Steps'
   app.version = '1.1'
+  app.version = '1.2'
   app.identifier = 'com.rightsidehealth.steps'
   app.seed_id = 'G7HZ9FYRPN'
 
