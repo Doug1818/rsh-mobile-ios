@@ -13,24 +13,24 @@ require 'teacup'
 
 Motion::Project::App.setup do |app|
   app.name = 'Steps'
-  app.version = '1.1'
-  app.version = '1.2'
+  app.version = '1.3'
   app.identifier = 'com.rightsidehealth.steps'
   app.seed_id = 'G7HZ9FYRPN'
 
   # Development
-  app.codesign_certificate = 'iPhone Developer: Douglas Raicek (58P5EA25ET)'
-  app.provisioning_profile = 'provisioning/developmentprovisioning.mobileprovision'
-  app.info_plist['PARSE_APPLICATION_KEY'] = "0I8WCIxThhO07OAIeqKDFwAq0rHRXnHxY5auF6KG"
-  app.info_plist['PARSE_CLIENT_KEY'] = "QRAhXyWISyBpJmckbiY49a1XtjwlCKhAj2PzMoFR"
+  # app.codesign_certificate = 'iPhone Developer: Douglas Raicek (58P5EA25ET)'
+  # app.provisioning_profile = 'provisioning/developmentprovisioning.mobileprovision'
+  # app.info_plist['PARSE_APPLICATION_KEY'] = "0I8WCIxThhO07OAIeqKDFwAq0rHRXnHxY5auF6KG"
+  # app.info_plist['PARSE_CLIENT_KEY'] = "QRAhXyWISyBpJmckbiY49a1XtjwlCKhAj2PzMoFR"
 
   # TestFlight
-  # app.codesign_certificate = 'iPhone Distribution: Right Side Technologies, Inc. (G7HZ9FYRPN)'
-  # app.provisioning_profile = 'provisioning/adhocdistributionprovisioning.mobileprovision'
-  # app.info_plist['PARSE_APPLICATION_KEY'] = "m7UOgUNoihu3JP3Zn9WcShFORaxkoanuTybOWDx8"
-  # app.info_plist['PARSE_CLIENT_KEY'] = "dpQ2WWwn2TXjN5pYbCL5laAZSjdd4dfn48LdFx68"
+  app.codesign_certificate = 'iPhone Distribution: Right Side Technologies, Inc. (G7HZ9FYRPN)'
+  app.provisioning_profile = 'provisioning/adhocdistributionprovisioning.mobileprovision'
+  app.info_plist['PARSE_APPLICATION_KEY'] = "m7UOgUNoihu3JP3Zn9WcShFORaxkoanuTybOWDx8"
+  app.info_plist['PARSE_CLIENT_KEY'] = "dpQ2WWwn2TXjN5pYbCL5laAZSjdd4dfn48LdFx68"
 
   # Distribution / Production
+  # app.codesign_certificate = 'iPhone Distribution: Right Side Technologies, Inc. (G7HZ9FYRPN)'
   # app.provisioning_profile = 'provisioning/distributionprovisioning.mobileprovision'
   # app.info_plist['PARSE_APPLICATION_KEY'] = "m7UOgUNoihu3JP3Zn9WcShFORaxkoanuTybOWDx8"
   # app.info_plist['PARSE_CLIENT_KEY'] = "dpQ2WWwn2TXjN5pYbCL5laAZSjdd4dfn48LdFx68"
@@ -41,13 +41,12 @@ Motion::Project::App.setup do |app|
   ]
 
   # Development
-  app.entitlements['aps-environment'] = 'development'
-  app.entitlements['get-task-allow'] = true
+  # app.entitlements['aps-environment'] = 'development'
+  # app.entitlements['get-task-allow'] = true
 
   # Distribution / Production / TestFlight
-  # app.entitlements['aps-environment'] = 'production'
-  # app.entitlements['get-task-allow'] = false
-
+  app.entitlements['aps-environment'] = 'production'
+  app.entitlements['get-task-allow'] = false
 
 
   app.interface_orientations = [:portrait]

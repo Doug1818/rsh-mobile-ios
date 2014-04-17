@@ -80,9 +80,31 @@ module Screen
       NSLog(info["date"])
       date_formatter = NSDateFormatter.alloc.init
       date_formatter.dateFormat = "yyyy-MM-dd"
+
       date = date_formatter.dateFromString info["date"]
-      screen = DayScreen.new(nav_bar: true, date: date)
-      mm_drawerController.centerViewController = screen
+      start_date = date_formatter.dateFromString App::Persistence[:start_date]
+
+      # index = date - start_date
+
+      # week  = @data
+      # days  = week.collect {|w| w.days}.flatten
+      # day   = days.flatten[0]
+      # date_string  = day['date']
+      
+      # if active_cell_on_day(day)
+        if date <= NSDate.today && date >= start_date
+          screen = DayScreen.new(nav_bar: true, date: date)
+          mm_drawerController.centerViewController = screen
+        end
+      # end
+    end
+
+    def active_cell_on_day(day)
+      if day['is_future']
+        false
+      else
+        day['needs_check_in'] or day['check_in_status']
+      end
     end
   end
 end

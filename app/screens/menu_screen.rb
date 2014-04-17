@@ -8,6 +8,7 @@ module Screen
         cells: [
           { title: "Profile", backgroundColor: "#6d6e71".to_color, textColor: UIColor.whiteColor, action: :show_screen, arguments: { screen_name: :profile_screen   }},
           { title: "Program", backgroundColor: "#6d6e71".to_color, textColor: UIColor.whiteColor, action: :show_screen, arguments: { screen_name: :week_screen   }},
+          { title: "Support", backgroundColor: "#6d6e71".to_color, textColor: UIColor.whiteColor, action: :show_screen, arguments: { screen_name: :support_screen   }},
           { title: "Sign Out", backgroundColor: "#6d6e71".to_color, textColor: UIColor.whiteColor, action: :show_screen, arguments: { screen_name: :signout_screen   }},
         ]
       }]

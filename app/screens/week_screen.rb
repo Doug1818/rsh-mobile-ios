@@ -122,16 +122,18 @@ module Screen
       day_number = day['day_number']
       date       = day['date']
 
-      cell.date_label.textColor = active_cell_on_day(day) ? BW.rgb_color(113,113,117) : BW.rgb_color(154,167,164)
-      cell.day_number_label.textColor = active_cell_on_day(day) ? BW.rgb_color(255,160,0) : BW.rgb_color(250,214,155)
+      cell.date_label.textColor = active_cell_on_day(day) ? BW.rgb_color(255,160,0) : BW.rgb_color(250,214,155)
+      cell.day_number_label.textColor = active_cell_on_day(day) ? BW.rgb_color(113,113,117) : BW.rgb_color(154,167,164)
 
-      cell.day_number_label.text = day_number.to_s
       cell.date_label.text = date.to_s
+      cell.day_number_label.text = day_number.to_s
 
       date_formatter = NSDateFormatter.alloc.init
       date_formatter.dateFormat = "yyyy-MM-dd"
       cell_date = date_formatter.dateFromString day['full_date']
 
+      cell.date_label.text = "Today" if NSDate.today == cell_date
+      
       cell.check_in_image_view.image = case day['check_in_status']
       when 0
         UIImage.imageNamed('check-in-future.png')
@@ -142,7 +144,9 @@ module Screen
       when 3
         UIImage.imageNamed('check-in-no.png')
       else
-        if NSDate.today > cell_date.delta(days:+1)
+        if !active_cell_on_day(day)
+          UIImage.imageNamed('check-in-future.png')
+        elsif NSDate.today > cell_date.delta(days:+1)
           UIImage.imageNamed('missed_checkin.png')
         else
           UIImage.imageNamed('check-in-future.png')
@@ -173,6 +177,8 @@ module Screen
           screen = DayScreen.new(nav_bar: true, date: date)
           mm_drawerController.centerViewController = screen
         end
+      else
+        App.alert("No steps for this day.")
       end
     end
 
@@ -198,16 +204,16 @@ module Screen
     def createLabels
       @date_label = UILabel.alloc.init
       @date_label.textAlignment = UITextAlignmentLeft
-      @date_label.font = UIFont.boldSystemFontOfSize(13)
+      @date_label.font = UIFont.boldSystemFontOfSize(22)
 
       @day_number_label = UILabel.alloc.init
       @day_number_label.textAlignment = UITextAlignmentLeft
-      @day_number_label.font = UIFont.boldSystemFontOfSize(22)
+      @day_number_label.font = UIFont.boldSystemFontOfSize(13)
 
       @check_in_image_view = UIImageView.new
 
       self.contentView.addSubview(@date_label)
-      self.contentView.addSubview(@day_number_label)
+      # self.contentView.addSubview(@day_number_label)
       self.contentView.addSubview(@check_in_image_view)
 
       self
@@ -221,8 +227,8 @@ module Screen
 
       height = self.contentView.height
 
-      @date_label.frame = CGRectMake(boundsX+25, 5, 200, 15)
-      @day_number_label.frame = CGRectMake(boundsX+25, 15, 100, 25)
+      @date_label.frame = CGRectMake(boundsX+25, 10, 200, 25)
+      # @day_number_label.frame = CGRectMake(boundsX+25, 15, 100, 25)
       @check_in_image_view.frame = CGRectMake(boundsX+190, 0, 135.75, height)
 
     end

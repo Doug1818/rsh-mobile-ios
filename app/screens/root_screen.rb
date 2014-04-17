@@ -125,4 +125,8 @@ class RootScreen < MMDrawerController
   def thank_you_screen
     @thank_you_screen ||= Screen::ThankYouScreen.new
   end
+
+  def support_screen
+    @support_screen ||= Screen::SupportScreen.new
+  end
 end
