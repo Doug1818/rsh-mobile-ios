@@ -1,5 +1,5 @@
 class User
-  attr_accessor :email, :id, :first_name, :last_name, :phone, :timezone, :avatar
+  attr_accessor :email, :id, :first_name, :last_name, :phone, :timezone, :avatar, :last_sign_in_at
 
   def initialize(attrs)
     attrs.each_pair do |key, value|
@@ -15,6 +15,7 @@ class User
     App::Persistence[:user_full_name] = "#{ self.first_name } #{ self.last_name }" if self.first_name and self.last_name
     App::Persistence[:user_phone] = self.phone if self.phone
     App::Persistence[:user_timezone] = self.timezone if self.timezone
+    App::Persistence[:last_sign_in_at] = self.last_sign_in_at if self.last_sign_in_at
   end
 
   def self.from_json(json)
@@ -25,7 +26,8 @@ class User
       last_name: json['last_name'],
       avatar: json['avatar']['large']['url'],
       phone: json['phone'],
-      timezone: json['timezone'])
+      timezone: json['timezone'],
+      last_sign_in_at: json['last_sign_in_at'])
   end
 
   def self.get_profile(&block)

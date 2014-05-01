@@ -36,12 +36,23 @@ module Screen
     # form submission
     def textFieldShouldReturn(textField)
       NSLog("here in signin")
+    
 
       Program.authenticate_program(textField.text) do |success, program|
         NSLog("DONE WITH AUTHENTICATE PROGRAM")
         if success
+          
           program.persist_data
           program.user.persist_data
+          
+          data = { user: { last_sign_in_at: NSDate.date }}
+          User.update_profile(data) do |success, user|
+            if success
+              NSLog("Updated user's last_sign_in_at.")
+            else
+              NSLog("Error updating user's last_sign_in_at.")
+            end
+          end
 
           # In case they're not subscribed yet...
           PFPush.subscribeToChannelInBackground("all_users")
