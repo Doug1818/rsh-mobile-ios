@@ -24,6 +24,8 @@ class AppDelegate < PM::Delegate
   def on_push_registration(token, error)
     PFPush.storeDeviceToken(token)
 
+		App::Persistence[:parse_id] = PFInstallation.currentInstallation.installationId
+
     PFPush.subscribeToChannelInBackground("all_users")
     PFPush.subscribeToChannelInBackground("user_#{App::Persistence[:user_id]}") if App::Persistence[:user_id]
   end

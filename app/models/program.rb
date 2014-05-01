@@ -20,6 +20,8 @@ class Program
 
   def self.authenticate_program(authentication_token, &block)
     data = { authentication_token: authentication_token }
+    
+    data.merge!({ parse_id: App::Persistence[:parse_id] }) if App::Persistence[:parse_id]
 
     BW::HTTP.post("#{Globals::API_ENDPOINT}/sessions", { payload: data }) do |response|
       if response.ok?
